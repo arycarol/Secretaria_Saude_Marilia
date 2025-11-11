@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Gerenciamento de Usuários</title>
+
+    <!-- Inclui o Vue.js via CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Linka o arquivo CSS de estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Elemento principal do Vue -->
+    <div id="app" class="admin-dashboard">
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <div class="sidebar__logo-text">C+M</div>
+            </div>
+            <nav class="sidebar__nav">
+                <ul class="sidebar__menu">
+                    <li class="sidebar__item sidebar__item--group">
+                        <span class="sidebar__group-title">Funcionalidades</span>
+                    </li>
+                    <li class="sidebar__item sidebar__item--active">
+                        <a href="#" class="sidebar__link">
+                            Gerenciamento de Usuários
+                            <span class="arrow">›</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link">
+                            Liberação de Transporte e Agendamento
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link">
+                            Controle de Frotas
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link">
+                            Meu Perfil
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1 class="main-header__title">
+                    PAINEL ADMINISTRATIVO:
+                    <span class="main-header__subtitle">Gerenciamento de Usuários</span>
+                </h1>
+                <div class="main-header__actions-group">
+                    <!-- BOTÃO QUE ABRE O MODAL: Usando @click.prevent para garantir a execução apenas do Vue -->
+                    <button class="btn btn--primary btn--icon" @click.prevent="openModal">
+                        <span class="icon">+</span>
+                    </button>
+                    <div class="search-box">
+                        <input type="text" placeholder="Pesquisar" class="search-box__input" />
+                        <span class="search-box__icon">🔍</span>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <div class="user-profile__avatar">👤</div>
+                </div>
+            </header>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="column-ativo">Ativo</th>
+                            <th class="column-codigo">Código</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Data Nascimento</th>
+                            <th class="column-acoes">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop Vue para os usuários -->
+                        <tr v-for="user in users" :key="user.codigo">
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" :checked="user.ativo" @change="toggleActive(user.codigo)" />
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
+                            <td>{{ user.codigo }}</td>
+                            <td>{{ user.nome }}</td>
+                            <td><a :href="'mailto:' + user.email" class="table__link">{{ user.email }}</a></td>
+                            <td>{{ user.cpf }}</td>
+                            <td>{{ user.telefone }}</td>
+                            <td>{{ user.dataNascimento }}</td>
+                            <td>
+                                <button class="btn btn--icon btn--ghost btn-acoes">...</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-footer">
+                    <p class="table-footer__text">{{ formatarContadorRegistros(users.length) }}</p>
+                </div>
+            </div>
+        </main>
+    </div> <!-- FIM DO DIV #app -->
+
+    <!-- ESTRUTURA DO MODAL (controlada pelo Vue via isModalOpen) -->
+    <div class="modal-backdrop" v-if="isModalOpen" @click.self="closeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">CADASTRAR USUÁRIO</h2>
+            </div>
+            <div class="modal-body">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Nome</label>
+                        <div class="input-field">
+                            <span class="input-icon">👤</span>
+                            <input type="text" placeholder="Nome">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <div class="input-field">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" placeholder="Email">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>CPF</label>
+                        <div class="input-field">
+                            <span class="input-icon">💳</span>
+                            <input type="text" placeholder="CPF">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Telefone</label>
+                        <div class="input-field">
+                            <span class="input-icon">📞</span>
+                            <input type="text" placeholder="Telefone">
+                        </div>
+                    </div>
+                    <div class="input-group input-group--date">
+                        <label>Data Nasc.</label>
+                        <div class="input-field">
+                            <span class="input-icon">📅</span>
+                            <input type="text" placeholder="Data Nasc.">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <div class="input-field">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" placeholder="Senha">
+                            <span class="input-action-icon">👁️</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Confirmar Senha</label>
+                        <div class="input-field">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" placeholder="Senha">
+                            <span class="input-action-icon">👁️</span>
+                        </div>
+                    </div>
+                    <div class="input-group input-group--categoria">
+                        <label>Categoria de usuário</label>
+                        <div class="input-field">
+                            <span class="input-icon">🔎</span>
+                            <input type="text">
+                            <span class="input-action-icon input-action-icon--clear">❌</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn--modal-cancel" @click="closeModal">Cancelar</button>
+                <!-- Botão Confirmar também fecha o modal (ajuste temporário) -->
+                <button class="btn btn--primary btn--modal-confirm" @click="closeModal">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- O script.js deve vir aqui, no final do <body> -->
+    <script src="script.js"></script>
+</body>
+</html>
