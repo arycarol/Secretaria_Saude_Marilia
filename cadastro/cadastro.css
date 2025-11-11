@@ -1,0 +1,185 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f7f7f7;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+/* Seta */
+.seta {
+  position: absolute;
+  top: 8%;
+  left: 30px;
+  font-size: 40px;
+  color: #ffffff;
+  text-decoration: none;
+  z-index: 10;
+  transition: .2s;
+}
+.seta:hover { transform: scale(1.2); }
+
+/* Esquerda */
+.left-side {
+  flex: 1;
+  background: linear-gradient(to top, #9ddeff 15%, #049bff 85%);
+  border-top-right-radius: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 40px;
+}
+
+/* ---- Área da marca ---- */
+.brand {
+  display: flex;
+  flex-direction: column; /* ícone em cima da logo */
+  align-items: center;
+  text-align: center;
+  margin-top: -100px;
+}
+
+.brand .icons {
+  width: 690px; /* tamanho dos ícones */
+  margin-bottom: 10px; /* espaçamento entre ícone e logo */
+}
+
+.brand .logo {
+  width: 450px;
+  margin-left: 0; /* sem deslocamento lateral */
+}
+
+.brand .logos {
+  width: 300px;
+  margin-left: 0;
+  position: relative;
+  top: 150px;
+}
+
+.brand p {
+  font-size: 1.6rem;
+  max-width: 420px;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  text-align: left; /* texto alinhado à esquerda */
+  width: 100%;
+  padding-left: 20px;
+}
+
+/* Direita */
+.right-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
+}
+
+/* Card */
+.card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  padding: 50px;
+  border-radius: 30px;
+  box-shadow: 0 6px 25px rgba(139, 139, 139, 0.15);
+  text-align: center;
+}
+
+.card h2 {
+  color: #47b6ff;
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #47b6ff;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 13px 45px 13px 40px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background: #ffffff;
+}
+
+.input-group i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #47b6ff;
+  font-size: 17px;
+}
+
+.input-group .show {
+  right: 12px;
+  left: auto;
+  cursor: pointer;
+  color: #47b6ff;
+}
+
+/* Inputs lado a lado */
+.double-input {
+  display: flex;
+  gap: 12px;
+}
+.half { flex: 1; }
+
+/* Botão */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  background: #0099ff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: .25s;
+  margin-top: 8px;
+}
+
+.btn:hover {
+  background: #47b6ff;
+}
+
+.seta {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: inline-block;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.seta img {
+  width: 15px; /* tamanho da imagem da seta */
+  height: auto;
+  filter: brightness(0) invert(1); /* deixa branca, se for imagem escura */
+}
+
+.seta:hover {
+  transform: scale(1.2);
+}

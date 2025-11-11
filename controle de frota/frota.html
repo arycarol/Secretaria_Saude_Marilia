@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Controle de Frotas</title>
+    <!-- Importação da fonte Roboto via CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Import Font Awesome para ícones (necessário para os ícones no menu) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="frota.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app" class="app-container">
+        
+        <!-- SIDEBAR DESLIZANTE -->
+        <!-- ADICIONADO: Eventos de mouse para manter o menu aberto quando o mouse está sobre ele -->
+        <div 
+            :class="{ 'sidebar': true, 'active': isSidebarActive }"
+            @mouseover="isSidebarActive = true"
+            @mouseleave="isSidebarActive = false"
+        >
+            
+            <div class="logo">C<span class="heart">♥</span>M</div>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar" v-model="searchQuery">
+            </div>
+
+            <p class="section-title">Funcionalidades</p>
+            
+            <div class="menu">
+                <!-- ÍTENS DE NAVEGAÇÃO -->
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    <span>Gerenciamento de Usuários</span>
+                </a>
+                <a href="#" class="active">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Liberação de Transporte e Agendamento</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-truck"></i>
+                    <span>Controle de Frotas</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Meu Perfil</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- BOTÃO DE TOGGLE DO MENU (Fixo na parte inferior esquerda) -->
+        <!-- ADICIONADO: Eventos de mouse para abrir o menu quando o mouse passa sobre o botão -->
+        <button 
+            :class="{ 'menu-toggle': true, 'active': isSidebarActive }"
+            @mouseover="isSidebarActive = true"
+            @mouseleave="isSidebarActive = false">
+            <i :class="isSidebarActive ? 'fas fa-chevron-left' : 'fas fa-bars'"></i>
+        </button>
+
+        <!-- CONTEÚDO PRINCIPAL (USANDO 'shifted' para aplicar a margem quando a sidebar está ativa) -->
+        <div :class="{ 'main-content': true, 'shifted': isSidebarActive }">
+            <!-- HEADER -->
+            <div class="main-header">
+                <div class="title-area">
+                    <span class="vehicle-icon">🚗</span>
+                    <h1>Painel de <span>Controle de Frotas</span></h1>
+                </div>
+                <div class="user-profile">
+                    <span class="username">Usuário (Admin)</span>
+                    <img src="https://placehold.co/30x30/00AAFF/ffffff?text=U" alt="Avatar do Usuário" class="avatar">
+                </div>
+            </div>
+
+            <!-- CONTROLE DE ABAS SEGMENTADO -->
+            <div class="segmented-control">
+                <button :class="{ 'tab-button': true, 'active': activeTab === 'emFunc' }"
+                    @click="activeTab = 'emFunc'">Em funcionamento</button>
+                <button :class="{ 'tab-button': true, 'active': activeTab === 'manut' }"
+                    @click="activeTab = 'manut'">Quebr/Manutenção</button>
+            </div>
+
+            <div class="fleet-control-panel">
+                <div class="control-row">
+                    <button class="add-button" @click="addVehicle">+</button>
+                    <div class="search-input-group">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Pesquisar" v-model="searchQuery">
+                    </div>
+                </div>
+
+                <!-- CABEÇALHO DA TABELA (TÍTULOS AZUIS) -->
+                <div class="table-header-row">
+                    <span class="header-col status-col">Status</span>
+                    <span class="header-col renavam-col">Renavam</span>
+                    <span class="header-col ano-col">Ano</span>
+                    <span class="header-col modelo-col">Modelo</span>
+                    <span class="header-col cor-col">Cor</span>
+                    <span class="header-col combustivel-col">Combustível</span>
+                    <span class="header-col capacidade-col">Capacidade</span>
+                    <span class="header-col actions-col">...</span>
+                </div>
+
+                <!-- CORPO DA TABELA -->
+                <div class="table-body">
+                    <div v-if="filteredVehicles.length === 0" class="no-records">
+                        Nenhum registro encontrado.
+                    </div>
+                    <div v-else v-for="vehicle in filteredVehicles" :key="vehicle.placa" class="table-row">
+                        <div class="col status-col">
+                            <span class="status-dot" :class="statusClass(vehicle.status)"></span>
+                        </div>
+                        <div class="col renavam-col">{{ vehicle.renavam }}</div>
+                        <div class="col ano-col">{{ vehicle.ano }}</div>
+                        <div class="col modelo-col">{{ vehicle.modelo }}</div>
+                        <div class="col cor-col">{{ vehicle.cor }}</div>
+                        <div class="col combustivel-col">{{ vehicle.combustivel }}</div>
+                        <div class="col capacidade-col">{{ vehicle.capacidade }}</div>
+                        <div class="col placa-col-hidden">{{ vehicle.placa }}</div>
+                        <div class="col actions-col">...</div>
+                    </div>
+                </div>
+
+                <p class="record-count">{{ filteredVehicles.length }} Registros</p>
+
+                <!-- LEGENDA DE STATUS -->
+                <div class="status-legend">
+                    <span class="legend-item"><span class="status-dot status-em-func"></span> Em funcionamento</span>
+                    <span class="legend-item"><span class="status-dot status-quebrado"></span> Quebrado</span>
+                    <span class="legend-item"><span class="status-dot status-manut"></span> Manutenção</span>
+                    <span class="legend-item"><span class="status-dot status-em-uso"></span> Em uso</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DA APLICAÇÃO VUE -->
+    <script src="frota.js"></script>
+</body>
+
+</html>

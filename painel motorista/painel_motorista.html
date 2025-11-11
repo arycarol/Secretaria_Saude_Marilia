@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Motorista</title>
+  <link rel="stylesheet" href="painel_motorista.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- BOTÃO DO MENU -->
+  <button class="menu-toggle" id="menu-toggle">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">C<span class="heart">♥</span>M</div>
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Buscar">
+      </div>
+
+      <nav class="menu">
+        <p class="section-title">Funcionalidades</p>
+        <a href="#"><i class="fa-solid fa-van-shuttle"></i> Painel do Motorista</a>
+        <a href="#"><i class="fa-solid fa-user"></i> Meu Perfil</a>
+      </nav>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="content">
+      <div class="header-profile">
+        <div class="profile-image-container">
+          <img src="img/IconLog.png" alt="Foto de Perfil">
+        </div>
+        <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+      </div>
+
+      <h1 class="titulo">
+        <i class="fa-solid fa-car-side"></i>
+        PAINEL DO MOTORISTA
+      </h1>
+
+      <section class="painel-motorista">
+        <div class="topo-grid">
+          <!-- STATUS DO VEÍCULO -->
+          <div class="status-veiculo">
+            <h2>STATUS DO VEÍCULO</h2>
+            <div class="box-info">
+              <p><strong>PLACA:</strong> ABC-123</p>
+              <p><strong>MODELO:</strong> LANCER 2018</p>
+              <p><strong>COMBUSTÍVEL:</strong> GASOLINA / ÁLCOOL</p>
+            </div>
+
+            <!-- SOLICITAÇÕES -->
+            <div class="solicitacoes">
+              <h2>SOLICITAÇÕES <i class="fa-solid fa-triangle-exclamation alerta"></i></h2>
+              <div class="lista-solicitacoes"></div>
+            </div>
+          </div>
+
+          <!-- AGENDA -->
+          <div class="agenda-dia">
+            <h2>AGENDA DO DIA</h2>
+            <div class="lista-agenda"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="legenda-status">
+        <span><span class="bolinha ainda"></span> Ainda hoje</span>
+        <span><span class="bolinha agora"></span> Agora</span>
+        <span><span class="bolinha finalizado"></span> Finalizado</span>
+      </div>
+
+      <!-- MODAL -->
+      <div class="modal-confirmacao" id="modalConfirmacao">
+        <div class="modal-conteudo">
+          <i class="fa-solid fa-check"></i>
+          <p><strong>Solicitação aceita<br><span class="sucesso">com sucesso!</span></strong></p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // === CONTROLE DA SIDEBAR ===
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    let closeTimer;
+
+    const abrirMenu = () => {
+      clearTimeout(closeTimer);
+      sidebar.classList.add('active');
+      menuToggle.classList.add('active');
+    };
+
+    const iniciarFechamento = () => {
+      closeTimer = setTimeout(() => {
+        sidebar.classList.remove('active');
+        menuToggle.classList.remove('active');
+      }, 300);
+    };
+
+    menuToggle.addEventListener('mouseenter', abrirMenu);
+    sidebar.addEventListener('mouseenter', abrirMenu);
+    menuToggle.addEventListener('mouseleave', iniciarFechamento);
+    sidebar.addEventListener('mouseleave', iniciarFechamento);
+
+    // === SIMULAÇÃO DE DADOS ===
+    const modal = document.getElementById('modalConfirmacao');
+
+    let solicitacoes = [
+      { hora: "13:00", nome: "Aryane Caroline", cpf: "444.333.888.05", tipoAtendimento: "EMERGÊNCIA", local: "UPA" },
+      { hora: "16:30", nome: "Lucas Andrade", cpf: "555.222.777.11", tipoAtendimento: "CONSULTA", local: "Hospital Municipal" }
+    ];
+
+    let agenda = [
+      { hora: "08:00", nome: "Sofia Deniz", cpf: "444.333.999.05", descricao: "Consulta Médica", local: "Hospital das Clínicas", status: "agora" },
+      { hora: "14:00", nome: "Arthur Santos", cpf: "111.333.999.05", descricao: "Exame", local: "Hospital das Clínicas", status: "ainda" }
+    ];
+
+    const solicitacoesContainer = document.querySelector('.lista-solicitacoes');
+    const agendaContainer = document.querySelector('.lista-agenda');
+
+    function renderSolicitacoes() {
+      solicitacoesContainer.innerHTML = "";
+
+      if (solicitacoes.length === 0) {
+        solicitacoesContainer.innerHTML = `
+          <p class="mensagem-vazia">Nenhuma solicitação nova no momento.</p>
+        `;
+        return;
+      }
+
+      solicitacoes.forEach((s, index) => {
+        const div = document.createElement('div');
+        div.classList.add('box-info');
+        div.innerHTML = `
+          <p><strong>${s.hora} - ${s.nome} - CPF: ${s.cpf}</strong></p>
+          <p class="descricao">${s.tipoAtendimento}</p>
+          <p><strong>LOCAL:</strong> ${s.local}</p>
+          <div class="botoes">
+            <button class="btn-recusar">RECUSAR</button>
+            <button class="btn-aceitar">ACEITAR</button>
+          </div>
+        `;
+        div.querySelector('.btn-aceitar').addEventListener('click', () => aceitarSolicitacao(index));
+        solicitacoesContainer.appendChild(div);
+      });
+    }
+
+    function renderAgenda() {
+      agendaContainer.innerHTML = "";
+      agenda.forEach(a => {
+        const div = document.createElement('div');
+        div.classList.add('box-agenda');
+        div.innerHTML = `
+          <p><strong>${a.hora} - ${a.nome} - CPF: ${a.cpf}</strong></p>
+          <p class="descricao">${a.descricao}</p>
+          <p><strong>Local:</strong> ${a.local}</p>
+          <span class="status-bolinha ${a.status}"></span>
+        `;
+        agendaContainer.appendChild(div);
+      });
+    }
+
+    function aceitarSolicitacao(index) {
+      const s = solicitacoes[index];
+      agenda.push({
+        hora: s.hora,
+        nome: s.nome,
+        cpf: s.cpf,
+        descricao: s.tipoAtendimento,
+        local: s.local,
+        status: "ainda"
+      });
+      solicitacoes.splice(index, 1);
+      renderSolicitacoes();
+      renderAgenda();
+      mostrarModal();
+    }
+
+    function mostrarModal() {
+      modal.classList.add('ativo');
+      setTimeout(() => {
+        modal.classList.remove('ativo');
+      }, 2000);
+    }
+
+    renderSolicitacoes();
+    renderAgenda();
+  </script>
+
+</body>
+</html>
