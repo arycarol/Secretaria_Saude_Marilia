@@ -1,0 +1,140 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container principal dividido */
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative; /* necessário para posicionamento absoluto da seta dentro do container */
+}
+
+/* Lado esquerdo */
+.left-side {
+  flex: 1;
+  background: linear-gradient(to top, #c1eaff 20%, #00aaff 80%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  border-top-right-radius: 50px;
+}
+
+.left-side h1 {
+  font-size: 6.0rem;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.left-side h1 span {
+  color: white;
+  font-weight: bold;
+}
+
+.left-side p {
+  font-size: 2.5rem;
+  text-align: left;
+  max-width: 600px;
+}
+
+/* Lado direito */
+.right-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* centraliza vertical e horizontal */
+  background: #f7f7f7;
+}
+
+/* Card de login maior */
+.login-card {
+  background: white;
+  padding: 60px;
+  border-radius: 25px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 500px; /* aumentei o tamanho */
+  text-align: center;
+}
+
+.login-card h2 {
+  color: #0099ff;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+}
+
+.login-card p {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 1rem;
+}
+
+/* Inputs */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+/* Links */
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.links a {
+  font-size: 0.9rem;
+  color: #0099ff;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Botão */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: #0099ff;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-login:hover {
+  background: #007acc;
+}
+
+/* Seta de navegação */
+.seta {
+  position: absolute;
+  top: 5%;      /* centraliza verticalmente dentro do container */
+  left: 20px;    /* distância da borda esquerda do container */
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.seta:hover {
+  transform: translateY(-50%) scale(1.2); /* aumenta a seta ao passar o mouse */
+}
