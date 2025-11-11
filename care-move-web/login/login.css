@@ -1,0 +1,93 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f0f4f8; /* fundo cinza claro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ocupa altura toda da tela */
+}
+
+section {
+  width: 100%;
+  max-width: 500px;
+  
+}
+
+/* Caixa branca (card) */
+.card {
+  background: #fff;
+  width: 500px;     /* aumenta a largura */
+  padding: 50px;    /* aumenta o espaço interno */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 500px;
+}
+
+/* Centraliza conteúdo do form */
+.central {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título */
+.central h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Inputs */
+.central input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.central input:focus {
+  border-color: #007b9e;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 158, 0.4);
+}
+
+/* Links */
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.links a {
+  font-size: 13px;
+  text-decoration: none;
+  color: #007b9e;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Botão */
+.btn {
+  padding: 12px;
+  border: none;
+  border-radius: 20px;
+  background: #007b9e;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #005f73;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel CareMove</title>
+  <link rel="stylesheet" href="./perfil.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-text">C•M</span>
+    </div>
+
+    <div class="search-box">
+      <i class="fa fa-search"></i>
+      <input type="text" placeholder="Buscar">
+    </div>
+
+    <nav class="menu">
+      <p class="menu-title">Funcionalidades</p>
+      <ul>
+        <li>Solicitações de Transporte e Agendamento.</li>
+        <li>Meu Perfil</li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="content">
+    <header class="welcome">
+      <div class="avatar">
+        <img src="./IconLog.png" alt="Avatar">
+      </div>
+      <div class="welcome-text">
+        <h2>Olá, <span class="highlight">Aryane!</span></h2>
+        <p>Bem-vindo(a)! 😊<br>
+          Explore o app e aproveite todas as funcionalidades.
+        </p>
+      </div>
+    </header>
+
+    <section class="social-box">
+      <p>
+        Acompanhe nossas redes sociais<br>
+        <a>e descubra mais sobre nós.</a>
+      </p>
+      <a href="https://www.instagram.com/caremove.marilia/" target="_blank">
+        <div class="social-icon">
+          <i class="fa-brands fa-instagram"></i>
+        </div>
+      </a>
+
+    </section>
+
+    <section class="form-section">
+      <h3>Formulário de Edição</h3>
+      <form>
+        <div class="form-grid">
+          <div class="input-box">
+            <i class="fa fa-user"></i>
+            <input type="text" placeholder="Nome">
+          </div>
+          <div class="input-box">
+            <i class="fa fa-id-card"></i>
+            <input type="text" placeholder="CPF">
+          </div>
+
+          <div class="input-box">
+            <i class="fa fa-envelope"></i>
+            <input type="email" placeholder="Email">
+          </div>
+          <div class="input-box">
+            <i class="fa fa-phone"></i>
+            <input type="tel" placeholder="Telefone">
+          </div>
+          <div class="input-box">
+            <i class="fa fa-calendar"></i>
+            <input type="date" placeholder="Data Nasc.">
+          </div>
+
+          <div class="input-box">
+            <i class="fa fa-lock"></i>
+            <input type="password" placeholder="Nova Senha">
+            <i class="fa fa-eye toggle"></i>
+          </div>
+          <div class="input-box">
+            <i class="fa fa-lock"></i>
+            <input type="password" placeholder="Confirmar senha">
+            <i class="fa fa-eye toggle"></i>
+          </div>
+        </div>
+
+        <div class="form-buttons">
+          <button type="button" class="cancel">Cancelar</button>
+          <button type="submit" class="reset">Redefinir</button>
+        </div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <p>Desenvolvido por <span class="caremove">CareMove</span></p>
+    </footer>
+  </main>
+</body>
+</html>

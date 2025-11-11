@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f9fafa;
+  color: #222;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 260px;
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: -260px;
+  height: 100%;
+  transition: left 0.3s ease;
+  border-radius: 0 30px 30px 0;
+  z-index: 100;
+}
+.sidebar.active { left: 0; }
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00aaff;
+  margin-bottom: 25px;
+  text-align: center;
+}
+.logo .heart { color: #ff4b4b; }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 6px 10px;
+  margin-bottom: 25px;
+}
+.search-box i { color: #00aaff; margin-right: 6px; }
+.search-box input { border: none; outline: none; width: 100%; }
+
+.menu a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  margin: 10px 0;
+  transition: 0.2s;
+}
+.menu a i { color: #00aaff; }
+.menu a:hover { color: #00aaff; }
+
+.menu-toggle {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  width: 60px;
+  height: 50px;
+  border: none;
+  background: #00aaff;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 0 25px 25px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+  transition: left 0.3s ease, background 0.3s ease;
+  z-index: 999;
+}
+.menu-toggle:hover { background: #008fcc; }
+.sidebar.active ~ .menu-toggle,
+.menu-toggle.active { left: 260px; }
+
+/* ===== CONTEÚDO ===== */
+.content {
+  flex: 1;
+  padding: 40px 60px;
+  position: relative;
+  background: #f9fafa;
+}
+.sidebar.active ~ .content { margin-left: 260px; }
+
+.header-profile {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.profile-image-container {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.logout-icon {
+  color: #00aaff;
+  font-size: 24px;
+  cursor: pointer;
+}
+.logout-icon:hover { color: #ff4b4b; }
+
+.titulo {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #00aaff;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+/* ===== TOPO ===== */
+.topo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* STATUS DO VEÍCULO */
+.status-veiculo h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 15px;
+}
+.status-veiculo .box-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f4faff 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 25px rgba(0,170,255,0.1);
+  padding: 25px 40px;
+  transition: all 0.3s ease;
+}
+.status-veiculo .box-info:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 28px rgba(0,170,255,0.18);
+}
+.status-veiculo p {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+.status-veiculo strong {
+  display: block;
+  color: #00aaff;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* AGENDA DO DIA */
+.agenda-dia h2 {
+  font-size: 16px;
+  color: #00aaff;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.lista-agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.box-agenda {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  position: relative;
+}
+.box-agenda p {
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+}
+.box-agenda strong { color: #007acc; }
+.status-bolinha {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.status-bolinha.agora { background: #5ad75a; }
+.status-bolinha.ainda { background: #4a90e2; }
+
+/* SOLICITAÇÕES (ABAIXO DO STATUS) */
+.solicitacoes {
+  margin-top: 25px;
+}
+.solicitacoes h2 {
+  font-size: 16px;
+  color: #00aaff;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.lista-solicitacoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.box-info {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  position: relative;
+}
+.box-info p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
+}
+.box-info strong { color: #007acc; }
+
+.alerta {
+  color: red;
+  margin-left: 5px;
+}
+
+/* BOTÕES */
+.botoes {
+  display: flex;
+  gap: 15px;
+  margin-top: 12px;
+}
+.btn-recusar, .btn-aceitar {
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 8px 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-recusar { background: #ff2b2b; }
+.btn-recusar:hover { background: #d12020; }
+.btn-aceitar { background: #55e02b; }
+.btn-aceitar:hover { background: #41b51e; }
+
+/* MODAL DE CONFIRMAÇÃO */
+.modal-confirmacao {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 2000;
+}
+.modal-confirmacao.ativo {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-conteudo {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 40px 70px;
+  text-align: center;
+  transform: scale(0.8);
+  opacity: 0;
+  animation: aparecer 0.4s ease forwards;
+}
+@keyframes aparecer {
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-conteudo i {
+  font-size: 35px;
+  color: #00aaff;
+  margin-bottom: 15px;
+}
+.modal-conteudo p {
+  font-size: 18px;
+  color: #333;
+}
+.modal-conteudo .sucesso {
+  color: #00aaff;
+}
+
+.mensagem-vazia {
+  background: #f4faff;
+  border-radius: 15px;
+  padding: 18px 20px;
+  color: #777;
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* LEGENDA */
+.legenda-status {
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #555;
+}
+.legenda-status span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bolinha {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.bolinha.ainda { background: #4a90e2; }
+.bolinha.agora { background: #5ad75a; }
+.bolinha.finalizado { background: #000; }
