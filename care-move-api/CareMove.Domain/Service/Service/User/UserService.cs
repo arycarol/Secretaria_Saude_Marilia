@@ -19,7 +19,7 @@ public class UserService : BaseService<IUserRepository, InputCreateUser, InputUp
         if (user == null)
             return default;
 
-        typeof(OutputUser).GetProperty(nameof(OutputUser.Password))!.SetValue(user, default);
+        user.Password = "";
         return user;
     }
 
@@ -31,8 +31,8 @@ public class UserService : BaseService<IUserRepository, InputCreateUser, InputUp
             return listUser;
 
         foreach (var i in listUser)
-            typeof(OutputUser).GetProperty(nameof(OutputUser.Password))!.SetValue(i, default);
-        
+            i.Password = "";
+
         return listUser;
     }
     #endregion

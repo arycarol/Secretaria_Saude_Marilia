@@ -7,8 +7,6 @@ using CareMove.Infrastructure.Encryption;
 using CareMove.Infrastructure.Entity.Entity;
 using CareMove.Infrastructure.Repository.Base;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
 
 namespace CareMove.Infrastructure.Repository.Repository;
 
@@ -33,5 +31,16 @@ public class UserRepository : BaseRepository<User, UserDTO, OutputUser>, IUserRe
     public List<UserDTO>? GetFilterByName(string parameter)
     {
         return Convert(_dbset.Where(x => x.Name.Contains(parameter)).AsNoTracking().ToList());
+    }
+
+    public UserDTO? GetFilterByCPF(string cpf)
+    {
+        User? user = _dbset.Where(x => x.CPF.Contains(cpf)).AsNoTracking().FirstOrDefault();
+        if (user == null)
+            return null;
+
+        user.Password = EncryptionHandler.Decrypt(user.Password);
+
+        return Convert(user);
     }
 }

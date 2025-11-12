@@ -40,8 +40,8 @@ public abstract class BaseService<TRepository, TInputCreate, TInputUpdate, TInpu
             foreach (PropertyInfo inputPropertyInfo in typeof(TInputCreate).GetProperties())
             {
                 PropertyInfo? dtoPropertyInfo = typeof(TDTO).GetProperty(inputPropertyInfo.Name);
-                if (dtoPropertyInfo != null)                
-                    dtoPropertyInfo.SetValue(instance, inputPropertyInfo.GetValue(i));                
+                if (dtoPropertyInfo != null)
+                    dtoPropertyInfo.SetValue(instance, inputPropertyInfo.GetValue(i));
             }
             listCreateDTO.Add(instance);
         }

@@ -3,7 +3,7 @@
 namespace CareMove.Domain.DTO.Base;
 
 public class BaseDTO<TDTO, TOutput>
-    where TDTO: BaseDTO<TDTO, TOutput>
+    where TDTO : BaseDTO<TDTO, TOutput>
     where TOutput : BaseOutput<TOutput>
 {
     public virtual long Id { get; protected set; }

@@ -10,7 +10,7 @@ public class User : BaseEntity<User, UserDTO, OutputUser>
     public string Email { get; private set; }
     public string Telephone { get; private set; }
     public DateTime BirthDate { get; private set; }
-    public string Password { get; private set; }
+    public string Password { get; set; }
     public string UserCategory { get; private set; }
     public long VehicleId { get; private set; }
 

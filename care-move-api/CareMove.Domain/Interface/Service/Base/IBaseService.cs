@@ -15,5 +15,5 @@ public interface IBaseService<TInputCreate, TInputUpdate, TInputDelete, TOutput>
     long Update(TInputUpdate? inputUpdate);
     List<long>? UpdateMultiple(List<TInputUpdate>? listInputUpdate);
     bool Delete(TInputDelete? inputDelete);
-    bool DeleteMultiple(List<TInputDelete>? listInputDelete);    
+    bool DeleteMultiple(List<TInputDelete>? listInputDelete);
 }

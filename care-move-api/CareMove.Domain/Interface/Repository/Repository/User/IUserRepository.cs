@@ -6,4 +6,5 @@ namespace CareMove.Domain.Interface.Repository.Repository;
 public interface IUserRepository : IBaseRepository<OutputUser, UserDTO>
 {
     List<UserDTO>? GetFilterByName(string parameter);
+    UserDTO? GetFilterByCPF(string cpf);
 }

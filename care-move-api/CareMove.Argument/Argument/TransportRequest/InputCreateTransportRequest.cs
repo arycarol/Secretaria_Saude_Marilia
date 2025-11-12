@@ -11,7 +11,7 @@ public class InputCreateTransportRequest : BaseInputCreate<InputCreateTransportR
     public string TransportStatus { get; private set; }
     public string OriginLocation { get; private set; }
     public string DestinationLocation { get; private set; }
-    
+
     [JsonConstructor]
     public InputCreateTransportRequest(long userId, DateOnly date, TimeOnly hour, string transportKind, string transportStatus, string originLocation, string destinationLocation)
     {

@@ -7,6 +7,7 @@ namespace CareMove.Api.Controller.Base;
 
 [ApiController]
 [Route("api/v1/[controller]")]
+[Authorize]
 public class BaseController<TService, TInputCreate, TInputUpdate, TInputDelete, TOutput> : ControllerBase
     where TService : IBaseService<TInputCreate, TInputUpdate, TInputDelete, TOutput>
     where TInputCreate : BaseInputCreate<TInputCreate>
@@ -188,7 +189,7 @@ public class BaseController<TService, TInputCreate, TInputUpdate, TInputDelete, 
     {
         TOutput data = _service.Get(id);
 
-        if (data == null) 
+        if (data == null)
             return NotFound();
 
         return Ok(data);

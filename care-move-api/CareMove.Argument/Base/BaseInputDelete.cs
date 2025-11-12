@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CareMove.Argument;
+﻿namespace CareMove.Argument;
 
 public abstract class BaseInputDelete<TInputDelete>
     where TInputDelete : BaseInputDelete<TInputDelete>

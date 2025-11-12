@@ -1,6 +1,5 @@
 ﻿using CareMove.Argument;
 using CareMove.Domain.DTO.Base;
-using System.Formats.Tar;
 
 namespace CareMove.Infrastructure.Entity;
 
