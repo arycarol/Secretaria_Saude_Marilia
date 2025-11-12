@@ -6,6 +6,9 @@ using CareMove.Infrastructure.Context;
 using CareMove.Infrastructure.Encryption;
 using CareMove.Infrastructure.Entity.Entity;
 using CareMove.Infrastructure.Repository.Base;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace CareMove.Infrastructure.Repository.Repository;
 
@@ -26,4 +29,9 @@ public class UserRepository : BaseRepository<User, UserDTO, OutputUser>, IUserRe
     }
     #endregion
     #endregion
+
+    public List<UserDTO>? GetFilterByName(string parameter)
+    {
+        return Convert(_dbset.Where(x => x.Name.Contains(parameter)).AsNoTracking().ToList());
+    }
 }

@@ -3,4 +3,7 @@ using CareMove.Argument.Base;
 
 namespace CareMove.Domain.Interface.Service.Service;
 
-public interface IUserService : IBaseService<InputCreateUser, InputUpdateUser, InputGenericDelete, OutputUser> { }
+public interface IUserService : IBaseService<InputCreateUser, InputUpdateUser, InputGenericDelete, OutputUser>
+{
+    List<OutputUser>? GetFilterByName(string parameter);
+}

@@ -36,22 +36,12 @@ namespace CareMove.Infrastructure.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateOnly>("Date")
                         .HasMaxLength(50)
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("DestinationLocation")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("date");
 
                     b.Property<long>("DriverUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("OriginLocation")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
 
                     b.Property<long>("PacientUserId")
                         .HasColumnType("bigint");
@@ -95,14 +85,16 @@ namespace CareMove.Infrastructure.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("Date")
-                        .HasMaxLength(50)
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<string>("DestinationLocation")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
+
+                    b.Property<TimeOnly>("Hour")
+                        .HasColumnType("time(6)");
 
                     b.Property<string>("OriginLocation")
                         .IsRequired()
@@ -177,10 +169,15 @@ namespace CareMove.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<long>("VehicleId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id")
                         .HasName("id");
 
-                    b.ToTable("user", (string)null);
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("CareMove.Infrastructure.Entity.Entity.Vehicle", b =>
@@ -190,6 +187,9 @@ namespace CareMove.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ChangeDate")
                         .HasColumnType("datetime(6)");
@@ -212,6 +212,11 @@ namespace CareMove.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
+                    b.Property<string>("Renavam")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("VehicleCategory")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -228,6 +233,11 @@ namespace CareMove.Infrastructure.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("VehicleStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Year")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
@@ -272,6 +282,17 @@ namespace CareMove.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CareMove.Infrastructure.Entity.Entity.User", b =>
+                {
+                    b.HasOne("CareMove.Infrastructure.Entity.Entity.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
                 });
 #pragma warning restore 612, 618
         }

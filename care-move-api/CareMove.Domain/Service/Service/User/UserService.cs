@@ -10,4 +10,35 @@ namespace CareMove.Domain.Service.Service;
 public class UserService : BaseService<IUserRepository, InputCreateUser, InputUpdateUser, InputGenericDelete, OutputUser, UserDTO>, IUserService
 {
     public UserService(IUserRepository repository, IMapper mapper) : base(repository, mapper) { }
+
+    #region Base - Tirar senha
+    public override OutputUser? Get(long id)
+    {
+        OutputUser? user = base.Get(id);
+
+        if (user == null)
+            return default;
+
+        typeof(OutputUser).GetProperty(nameof(OutputUser.Password))!.SetValue(user, default);
+        return user;
+    }
+
+    public override List<OutputUser>? GetAll()
+    {
+        List<OutputUser>? listUser = base.GetAll();
+
+        if (listUser == null || listUser.Count == 0)
+            return listUser;
+
+        foreach (var i in listUser)
+            typeof(OutputUser).GetProperty(nameof(OutputUser.Password))!.SetValue(i, default);
+        
+        return listUser;
+    }
+    #endregion
+
+    public List<OutputUser>? GetFilterByName(string parameter)
+    {
+        return Convert(_repository.GetFilterByName(parameter));
+    }
 }

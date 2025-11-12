@@ -3,6 +3,7 @@ using CareMove.Domain.Interface.Repository.Repository;
 using CareMove.Domain.Interface.Service.Service;
 using CareMove.Domain.Service.Service;
 using CareMove.Infrastructure.Context;
+using CareMove.Infrastructure.Entity.Entity;
 using CareMove.Infrastructure.Repository.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,9 +28,15 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Repositories
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ITransportAssignmentRepository, TransportAssignmentRepository>();
+builder.Services.AddTransient<ITransportRequestRepository, TransportRequestRepository>();
+builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
 
 // Services
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITransportAssignmentService, TransportAssignmentService>();
+builder.Services.AddTransient<ITransportRequestService, TransportRequestService>();
+builder.Services.AddTransient<IVehicleService, VehicleService>();
 
 var app = builder.Build();
 

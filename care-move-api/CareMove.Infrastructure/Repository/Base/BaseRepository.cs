@@ -99,22 +99,22 @@ public abstract class BaseRepository<TEntity, TDTO, TOutput> : IBaseRepository<T
     #endregion
 
     #region Internal
-    private TDTO? Convert(TEntity? entity)
+    protected TDTO? Convert(TEntity? entity)
     {
         return _mapper.Map<TDTO>(entity);
     }
 
-    private List<TDTO>? Convert(List<TEntity>? listEntity)
+    protected List<TDTO>? Convert(List<TEntity>? listEntity)
     {
         return _mapper.Map<List<TDTO>>(listEntity);
     }
 
-    private TEntity? Convert(TDTO? dto)
+    protected TEntity? Convert(TDTO? dto)
     {
         return _mapper.Map<TEntity>(dto);
     }
 
-    private List<TEntity>? Convert(List<TDTO>? listDTO)
+    protected List<TEntity>? Convert(List<TDTO>? listDTO)
     {
         return _mapper.Map<List<TEntity>>(listDTO);
     }

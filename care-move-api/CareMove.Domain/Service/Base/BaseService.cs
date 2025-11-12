@@ -70,12 +70,12 @@ public abstract class BaseService<TRepository, TInputCreate, TInputUpdate, TInpu
     #endregion
 
     #region Get
-    public TOutput? Get(long id)
+    public virtual TOutput? Get(long id)
     {
         return Convert(_repository.Get(id));
     }
 
-    public List<TOutput>? GetAll()
+    public virtual List<TOutput>? GetAll()
     {
         return Convert(_repository.GetAll());
     }
@@ -114,22 +114,22 @@ public abstract class BaseService<TRepository, TInputCreate, TInputUpdate, TInpu
 
     #region Internal
     #region Internal
-    private TDTO? Convert(TOutput? output)
+    protected TDTO? Convert(TOutput? output)
     {
         return _mapper.Map<TDTO>(output);
     }
 
-    private List<TDTO>? Convert(List<TOutput>? listOutput)
+    protected List<TDTO>? Convert(List<TOutput>? listOutput)
     {
         return _mapper.Map<List<TDTO>>(listOutput);
     }
 
-    private TOutput? Convert(TDTO? dto)
+    protected TOutput? Convert(TDTO? dto)
     {
         return _mapper.Map<TOutput>(dto);
     }
 
-    private List<TOutput>? Convert(List<TDTO>? listDTO)
+    protected List<TOutput>? Convert(List<TDTO>? listDTO)
     {
         return _mapper.Map<List<TOutput>>(listDTO);
     }
