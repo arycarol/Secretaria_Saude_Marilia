@@ -2,6 +2,7 @@
 using CareMove.Argument.Argument;
 using CareMove.Argument.Base;
 using CareMove.Domain.Interface.Service.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareMove.Api.Controller.Controller;
@@ -19,5 +20,12 @@ public class UserController : BaseController<IUserService, InputCreateUser, Inpu
             return NotFound();
 
         return Ok(data);
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    public override IActionResult Create(InputCreateUser inputCreate)
+    {
+        return base.Create(inputCreate);
     }
 }

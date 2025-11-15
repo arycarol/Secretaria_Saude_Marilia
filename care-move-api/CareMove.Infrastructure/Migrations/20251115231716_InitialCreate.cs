@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -62,12 +63,12 @@ namespace CareMove.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Telephone = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Password = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserCategory = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    VehicleId = table.Column<long>(type: "bigint", nullable: false),
+                    VehicleId = table.Column<long>(type: "bigint", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ChangeDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
@@ -78,8 +79,7 @@ namespace CareMove.Infrastructure.Migrations
                         name: "FK_users_vehicle_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "vehicle",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

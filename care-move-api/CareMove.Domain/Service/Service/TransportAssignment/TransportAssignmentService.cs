@@ -10,4 +10,29 @@ namespace CareMove.Domain.Service.Service;
 public class TransportAssignmentService : BaseService<ITransportAssignmentRepository, InputCreateTransportAssignment, InputUpdateTransportAssignment, InputGenericDelete, OutputTransportAssignment, TransportAssignmentDTO>, ITransportAssignmentService
 {
     public TransportAssignmentService(ITransportAssignmentRepository repository, IMapper mapper) : base(repository, mapper) { }
+
+    public List<OutputTransportAssignment>? GetListOfToday()
+    {
+        return Convert(_repository.GetListOfToday());
+    }
+
+    public void Accept(long id)
+    {
+        TransportAssignmentDTO? transportAssignmentDTO = _repository.Get(id);
+        if (transportAssignmentDTO == null)
+            throw new Exception("Id inválido");
+
+        transportAssignmentDTO.TransportAssignmentStatus = "Concluido";
+        _repository.Update(transportAssignmentDTO);
+    }
+
+    public void Reject(long id)
+    {
+        TransportAssignmentDTO? transportAssignmentDTO = _repository.Get(id);
+        if (transportAssignmentDTO == null)
+            throw new Exception("Id inválido");
+
+        transportAssignmentDTO.TransportAssignmentStatus = "Negado pelo motorista";
+        _repository.Update(transportAssignmentDTO);
+    }
 }

@@ -4,7 +4,7 @@ namespace CareMove.Argument.Argument;
 
 public class InputUpdateTransportAssignment : BaseInputUpdate<InputUpdateTransportAssignment>
 {
-    public long VehicleId { get; private set; }
+    public long? VehicleId { get; private set; }
     public DateOnly Date { get; private set; }
     public long DriverUserId { get; private set; }
     public long PacientUserId { get; private set; }
@@ -12,7 +12,7 @@ public class InputUpdateTransportAssignment : BaseInputUpdate<InputUpdateTranspo
     public string TransportAssignmentStatus { get; private set; }
 
     [JsonConstructor]
-    public InputUpdateTransportAssignment(long id, long vehicleId, DateOnly date, long driverUserId, long pacientUserId, long transportRequestId, string transportAssignmentStatus) : base(id)
+    public InputUpdateTransportAssignment(long id, long? vehicleId, DateOnly date, long driverUserId, long pacientUserId, long transportRequestId, string transportAssignmentStatus) : base(id)
     {
         VehicleId = vehicleId;
         Date = date;

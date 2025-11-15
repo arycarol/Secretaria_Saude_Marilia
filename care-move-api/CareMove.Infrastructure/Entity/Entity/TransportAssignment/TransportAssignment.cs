@@ -5,7 +5,7 @@ namespace CareMove.Infrastructure.Entity.Entity;
 
 public class TransportAssignment : BaseEntity<TransportAssignment, TransportAssignmentDTO, OutputTransportAssignment>
 {
-    public long VehicleId { get; private set; }
+    public long? VehicleId { get; private set; }
     public DateOnly Date { get; private set; }
     public long DriverUserId { get; private set; }
     public long PacientUserId { get; private set; }
@@ -14,7 +14,7 @@ public class TransportAssignment : BaseEntity<TransportAssignment, TransportAssi
 
     public TransportAssignment() { }
 
-    public TransportAssignment(long vehicleId, DateOnly date, long driverUserId, long pacientUserId, long transportRequestId, string transportAssignmentStatus)
+    public TransportAssignment(long? vehicleId, DateOnly date, long driverUserId, long pacientUserId, long transportRequestId, string transportAssignmentStatus)
     {
         VehicleId = vehicleId;
         Date = date;

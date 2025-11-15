@@ -130,8 +130,8 @@ namespace CareMove.Infrastructure.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("CPF")
                         .IsRequired()
@@ -169,7 +169,7 @@ namespace CareMove.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<long>("VehicleId")
+                    b.Property<long?>("VehicleId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id")
@@ -288,9 +288,7 @@ namespace CareMove.Infrastructure.Migrations
                 {
                     b.HasOne("CareMove.Infrastructure.Entity.Entity.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VehicleId");
 
                     b.Navigation("Vehicle");
                 });

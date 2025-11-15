@@ -46,7 +46,7 @@ public abstract class BaseRepository<TEntity, TDTO, TOutput> : IBaseRepository<T
     #region Get
     public virtual List<TDTO>? GetAll()
     {
-        return Convert(_dbset.ToList());
+        return Convert(_dbset.AsNoTracking().ToList());
     }
 
     public virtual List<TDTO>? GetListByListId(List<long> listId)

@@ -9,7 +9,7 @@ public class TransportRequestDTO : BaseDTO<TransportRequestDTO, OutputTransportR
     public DateOnly Date { get; private set; }
     public TimeOnly Hour { get; private set; }
     public string TransportKind { get; private set; }
-    public string TransportStatus { get; private set; }
+    public string TransportStatus { get; set; }
     public string OriginLocation { get; private set; }
     public string DestinationLocation { get; private set; }
 

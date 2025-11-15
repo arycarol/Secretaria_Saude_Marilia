@@ -30,8 +30,7 @@ public class UserMap : IEntityTypeConfiguration<User>
         builder.Property(u => u.UserCategory)
             .HasMaxLength(50)
             .IsRequired();
-        builder.Property(u => u.VehicleId)
-            .IsRequired();
+        builder.Property(u => u.VehicleId);
 
         builder.HasOne(u => u.Vehicle)
                .WithMany()

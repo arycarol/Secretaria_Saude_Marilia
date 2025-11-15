@@ -25,12 +25,12 @@ public abstract class BaseService<TRepository, TInputCreate, TInputUpdate, TInpu
     }
 
     #region Create
-    public long Create(TInputCreate? inputCreate)
+    public virtual long Create(TInputCreate? inputCreate)
     {
         return CreateMultiple([inputCreate])?.FirstOrDefault() ?? 0;
     }
 
-    public List<long>? CreateMultiple(List<TInputCreate>? listInputCreate)
+    public virtual List<long>? CreateMultiple(List<TInputCreate>? listInputCreate)
     {
         List<TDTO> listCreateDTO = new List<TDTO>();
 
