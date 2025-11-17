@@ -1,65 +1,155 @@
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: #f0f4f8; /* fundo cinza claro */
+  background: #f7f7f7;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.seta {
+  position: absolute;
+  top: 8%;
+  left: 30px;
+  font-size: 40px;
+  color: #ffffff;
+  text-decoration: none;
+  z-index: 10;
+  transition: .2s;
+}
+.seta:hover { transform: scale(1.2); }
+
+.left-side {
+  flex: 1;
+  background: linear-gradient(to top, #9ddeff 15%, #049bff 85%);
+  border-top-right-radius: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ocupa altura toda da tela */
+  color: white;
+  padding: 40px;
 }
 
-section {
-  width: 100%;
-  max-width: 500px;
-  
-}
-
-/* Caixa branca (card) */
-.card {
-  background: #fff;
-  width: 500px;     /* aumenta a largura */
-  padding: 50px;    /* aumenta o espaço interno */
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  height: 500px;
-}
-
-/* Centraliza conteúdo do form */
-.central {
+.brand {
   display: flex;
   flex-direction: column;
-}
-
-/* Título */
-.central h1 {
+  align-items: center;
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  margin-top: -100px;
 }
 
-/* Inputs */
-.central input {
+.brand .icons {
+  width: 500px;
+  margin-bottom: 10px;
+}
+
+.brand .logo {
+  width: 450px;
+  margin-left: 0;
+}
+
+.brand .logos {
+  width: 300px;
+  margin-left: 0;
+  position: relative;
+  top: 150px;
+}
+
+.brand p {
+  font-size: 1.6rem;
+  max-width: 420px;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  text-align: left;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+  padding-left: 20px;
 }
 
-.central input:focus {
-  border-color: #007b9e;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 158, 0.4);
+.right-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f7f7;
 }
 
-/* Links */
+.card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  padding: 50px;
+  border-radius: 30px;
+  box-shadow: 0 6px 25px rgba(139, 139, 139, 0.15);
+  text-align: center;
+}
+
+.card h2 {
+  color: #47b6ff;
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #47b6ff;
+  margin-bottom: 25px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 13px 45px 13px 40px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background: #ffffff;
+}
+
+.input-group i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #47b6ff;
+  font-size: 17px;
+}
+
+.input-group .show {
+  right: 12px;
+  left: auto;
+  cursor: pointer;
+  color: #47b6ff;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  background: #0099ff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: .25s;
+  margin-top: 8px;
+}
+
+.btn:hover {
+  background: #47b6ff;
+}
+
 .links {
   display: flex;
   justify-content: space-between;
@@ -67,27 +157,30 @@ section {
 }
 
 .links a {
-  font-size: 13px;
+  font-size: 0.9rem;
+  color: #0099ff;
   text-decoration: none;
-  color: #007b9e;
 }
 
 .links a:hover {
   text-decoration: underline;
 }
 
-/* Botão */
-.btn {
-  padding: 12px;
-  border: none;
-  border-radius: 20px;
-  background: #007b9e;
-  color: #fff;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background 0.3s;
+.seta {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: inline-block;
+  z-index: 10;
+  transition: transform 0.2s ease;
 }
 
-.btn:hover {
-  background: #005f73;
+.seta img {
+  width: 15px;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+.seta:hover {
+  transform: scale(1.2);
 }

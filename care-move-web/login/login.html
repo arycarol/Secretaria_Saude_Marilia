@@ -1,32 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./login.css">
-    <title>Document</title>
-  </head>
-  <body>
-    <section>
-      <div class="card">
-        <form class="central">
-          <h1>Login</h1>
-          <label for="cpf">
-            <input type="text" placeholder="CPF" />
-          </label>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareMove - Login</title>
+  <link rel="stylesheet" href="./login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
 
-          <label for="senha">
-            <input type="password" placeholder="Senha" />
-          </label>
+<div class="container">
 
-          <div class="links">
-            <a href="#">Cadastrar-se</a>
-            <a href="#">Esqueci minha senha</a>
-          </div>
+<a href="login.html" class="seta">
+  <img src="img/seta.png" alt="Voltar">
+</a>
+  <div class="left-side">
+    <div class="brand">
+      <img src="img/icons.png" alt="icons" class="icons">
+      <img src="img/logo.png" alt="logo" class="logo">
+      <p>Mobilidade e eficiência no transporte para a saúde.</p>
+      <img src="img/unimar.png" alt="logos" class="logos">
+    </div>
+  </div>
 
-          <button type="submit" class="btn">Login</button>
-        </form>
-      </div>
-    </section>
-  </body>
+  <div class="right-side">
+    <div class="card">
+
+      <h2>Bem-vindo(a)!</h2>
+      <p>Faça login para acessar o sistema.</p>
+
+      <form>
+
+        <div class="input-group">
+          <i class="fa-solid fa-id-card"></i>
+          <input type="text" id="cpf" placeholder="CPF">
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" placeholder="Senha" id="senha">
+          <i class="fa-solid fa-eye show"></i>
+        </div>
+
+        <div class="links">
+          <a href="../cadastro/cadastro.html">Cadastrar-se</a>
+          <a href="#">Esqueci minha senha</a>
+        </div>
+
+        <button class="btn">Login</button>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="login.js"></script>
+
+</body>
 </html>
