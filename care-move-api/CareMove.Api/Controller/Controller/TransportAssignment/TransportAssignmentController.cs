@@ -44,4 +44,16 @@ public class TransportAssignmentController : BaseController<ITransportAssignment
             return BadRequest(ex.Message);
         }
     }
+
+    [NonAction]
+    public override IActionResult Create(InputCreateTransportAssignment inputCreate)
+    {
+        return base.Create(inputCreate);
+    }
+
+    [NonAction]
+    public override IActionResult CreateMultiple(List<InputCreateTransportAssignment> listInputCreate)
+    {
+        return base.CreateMultiple(listInputCreate);
+    }
 }

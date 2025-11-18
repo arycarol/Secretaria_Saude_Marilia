@@ -1,4 +1,4 @@
-using CareMove.Domain;
+ï»¿using CareMove.Domain;
 using CareMove.Domain.Interface.Repository.Repository;
 using CareMove.Domain.Interface.Service;
 using CareMove.Domain.Interface.Service.Service;
@@ -6,13 +6,11 @@ using CareMove.Domain.Service;
 using CareMove.Domain.Service.Service;
 using CareMove.Infrastructure.Context;
 using CareMove.Infrastructure.Repository.Repository;
-// --- Imports Adicionadas para JWT ---
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-// --- Fim Imports JWT ---
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +21,8 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Autenticação JWT (Bearer). " +
-                      "Insira 'Bearer' [espaço] e depois o seu token. " +
+        Description = "AutenticaÃ§Ã£o JWT (Bearer). " +
+                      "Insira 'Bearer' [espaÃ§o] e depois o seu token. " +
                       "Exemplo: 'Bearer 12345abcdef'",
         Name = "Authorization",
         In = ParameterLocation.Header,
@@ -53,8 +51,9 @@ var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 if (string.IsNullOrEmpty(secretKey))
 {
-    throw new InvalidOperationException("JwtSettings:SecretKey não está configurada no appsettings.json...");
+    throw new InvalidOperationException("JwtSettings:SecretKey nÃ£o estÃ¡ configurada no appsettings.json...");
 }
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -78,7 +77,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 36)) // versão do MySQL instalado
+        new MySqlServerVersion(new Version(8, 0, 36))
     )
 );
 
@@ -95,16 +94,27 @@ builder.Services.AddTransient<ITransportRequestService, TransportRequestService>
 builder.Services.AddTransient<IVehicleService, VehicleService>();
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Habilitar Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// ðŸš¨ CORS TEM QUE VIR AQUI
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
