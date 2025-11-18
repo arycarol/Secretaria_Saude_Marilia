@@ -1,11 +1,17 @@
-/* Importação da fonte Roboto */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* Importação da fonte Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 /* Global Reset e Fonte */
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif; 
+    box-sizing: border-box;
+    margin: 0; /* Garante que não haja margens indesejadas */
+    padding: 0; /* Garante que não haja paddings indesejados */
 }
+
 :root {
+    --sidebar-width: 260px;
+    --toggle-button-width: 60px;
     --primary-color: #00AAFF; /* Azul primário */
     --secondary-bg: #f0f2f5; /* Fundo do main content */
     --sidebar-bg: #ffffff; /* Fundo da sidebar */
@@ -13,8 +19,12 @@
     --light-text-color: #777;
     --border-color: #ddd;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    --sidebar-width: 260px; /* Variável para a largura da sidebar */
-    --toggle-button-width: 60px; /* Largura do botão de toggle */
+    /* Cores de Status ajustadas conforme o Figma */
+    --status-em-func: #6c757d; /* Cinza claro para 'Em funcionamento' */
+    --status-quebrado: #ffc107; /* Amarelo para 'Quebrado' */
+    --status-manut: #6f42c1; /* Roxo para 'Manutenção' */
+    --status-em-uso: #007bff; /* Azul para 'Em uso' */
+    --tab-inactive-color: #bdc3c7; /* Cinza claro para abas inativas */
 }
 
 body {
@@ -22,93 +32,64 @@ body {
     margin: 0;
     padding: 0;
     color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* Estrutura Principal */
 .app-container {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-/* ===== SIDEBAR DESLIZANTE - CORREÇÃO DE LAYOUT ===== */
+/* ===== SIDEBAR DESLIZANTE ===== */
 .sidebar {
     width: var(--sidebar-width);
-    max-width: var(--sidebar-width); 
+    max-width: var(--sidebar-width);
     background: #fff;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     padding: 25px 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* Cantos arredondados na borda direita, como no protótipo */
-    border-radius: 0 30px 30px 0; 
-    position: fixed; 
+    border-radius: 0 30px 30px 0;
+    position: fixed;
     top: 0;
-    /* Esconde completamente à esquerda */
-    left: calc(0px - var(--sidebar-width)); 
+    left: calc(0px - var(--sidebar-width));
     height: 100%;
-    transition: left 0.3s ease; 
+    transition: left 0.3s ease;
     z-index: 1000;
 }
 
 .sidebar.active {
-    left: 0; /* Aparece totalmente */
+    left: 0;
 }
 
+/* Logo (agora é imagem) */
 .logo {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--primary-color);
+    text-align: left;
     margin-bottom: 25px;
-    letter-spacing: 2px;
-    width: 100%;
+    padding-left: 10px;
 }
-
-.logo .heart {
-    color: #ff4b4b;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 6px 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-    width: 100%;
-}
-
-/* Ícone de busca dentro da caixa */
-.search-box i {
-    color: var(--primary-color);
-    margin-right: 6px;
-}
-
-.search-box input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
-    color: #333;
-    background-color: transparent;
+.logo-image {
+    width: 150px;
+    height: auto;
 }
 
 .section-title {
     font-size: 12px;
     color: #7f8c8d;
     margin-bottom: 10px;
-    padding-left: 0; 
+    padding-left: 0;
 }
 
 .menu {
     width: 100%;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 .menu a {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -121,6 +102,35 @@ body {
     transition: 0.2s;
 }
 
+.menu a.active {
+    color: var(--primary-color);
+    background-color: #f0f2f5;
+    font-weight: bold;
+}
+
+/* ALTERAÇÃO 1: Estilo da "Seta" (Arrow) para item ativo, removendo a bolinha */
+.menu a.active.menu-item-with-arrow {
+    background-color: #f0f2f5; /* Fundo cinza para o item ativo */
+    color: var(--primary-color); /* Texto azul */
+    font-weight: bold;
+    padding-right: 40px; /* Espaço para a seta */
+}
+
+.menu a.active.menu-item-with-arrow .arrow-icon {
+    display: block; /* Mostra a seta */
+    position: absolute;
+    right: 15px; /* Posição da seta */
+    width: 16px; /* Tamanho da seta */
+    height: 16px;
+    object-fit: contain;
+}
+
+/* Esconde a seta por padrão para outros itens e quando não está ativo */
+.menu-item-with-arrow .arrow-icon {
+    display: none;
+}
+
+
 .menu a i {
     color: var(--primary-color);
     font-size: 16px;
@@ -131,20 +141,39 @@ body {
     background-color: #f0f2f5;
 }
 
-.menu a.active {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: bold;
+/* Campo de busca da Sidebar (Mais arredondado) */
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-bg);
+    padding: 10px 15px;
+    border-radius: 20px; 
+    margin-bottom: 25px;
+    width: 100%;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.menu a.active i {
-    color: white;
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex-grow: 1;
+    font-size: 14px;
+    padding-left: 10px;
 }
+
+.search-box .search-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    object-fit: contain;
+}
+
 
 /* ===== BOTÃO DA SIDEBAR (Atrelado e na base) ===== */
 .menu-toggle {
-    position: fixed; 
-    bottom: 40px; 
+    position: fixed;
+    bottom: 40px;
     left: 0;
     width: var(--toggle-button-width);
     height: 50px;
@@ -157,7 +186,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
     transition: left 0.3s ease, background 0.3s ease;
     z-index: 999;
 }
@@ -170,43 +199,39 @@ body {
     margin: 0;
 }
 
-/* Mova o botão quando o menu estiver aberto */
 .menu-toggle.active {
-    left: var(--sidebar-width); /* Exatamente a largura da sidebar */
+    left: var(--sidebar-width);
 }
 
 
 /* Conteúdo Principal */
 .main-content {
-    /* Padding inicial grande o suficiente para não esconder o conteúdo sob a sidebar */
-    padding: 30px; 
+    padding: 30px;
     padding-left: calc(30px + var(--toggle-button-width));
     overflow-y: auto;
     width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
-    /* Adicionamos uma margem esquerda para o deslocamento do conteúdo */
     margin-left: 0;
-    transition: margin-left 0.3s ease;
+    transition: margin-left 0.3s ease, padding-left 0.3s ease;
 }
 
 /* DESLOCA O CONTEÚDO PRINCIPAL QUANDO A SIDEBAR ESTIVER ATIVA */
 .main-content.shifted {
-    /* Desloca o conteúdo pela largura da sidebar. */
     margin-left: var(--sidebar-width);
-    /* Ajusta o padding de volta ao normal */
-    padding-left: 30px; 
+    padding-left: 30px;
 }
 
 /* =======================================================
-   ESTILOS EXISTENTES (ABAS E TABELA)
-   ======================================================= */
+    ESTILOS GERAIS
+    ======================================================= */
 
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+    padding-bottom: 15px; /* Adiciona um espaço abaixo do cabeçalho */
 }
 
 .title-area {
@@ -214,88 +239,106 @@ body {
     align-items: center;
 }
 
-.vehicle-icon {
-    font-size: 24px;
+/* ALTERAÇÃO 2: Estilo do Novo Título e Ícone do Carro - MAIORES e azuis */
+.vehicle-icon-img {
+    width: 50px; /* Ícone do carro maior */
+    height: auto;
     margin-right: 15px;
-    color: var(--primary-color);
+    color: var(--primary-color); /* Se for SVG ou Font Awesome, será azul */
 }
 
 .main-header h1 {
-    font-size: 20px;
-    font-weight: normal;
+    font-size: 24px; /* Título maior */
+    font-weight: 500;
     margin: 0;
+    color: var(--primary-color); /* Ambos em azul */
+    letter-spacing: 0.5px;
+    line-height: 1.2;
 }
 
-.main-header h1 span {
-    font-weight: bold;
+.main-header h1 .title-highlight {
+    font-size: 24px; /* Mantém o mesmo tamanho para alinhamento */
+    font-weight: 700;
     color: var(--primary-color);
+    display: inline; /* Alinha na mesma linha, como no Figma */
 }
 
+/* ALTERAÇÃO 3: Botões de Sair e Perfil - MAIORES e mais para cima */
 .user-profile {
     display: flex;
     align-items: center;
+    gap: 15px;
+    margin-top: -10px; /* Move para cima */
 }
 
-.username {
-    margin-right: 10px;
-    font-size: 14px;
-}
-
-.avatar {
-    width: 30px;
-    height: 30px;
+.action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Maiores */
+    height: 40px; /* Maiores */
+    cursor: pointer;
     border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--primary-color);
+    transition: background-color 0.2s;
 }
+
+.action-icon:hover {
+    background-color: #f0f2f5;
+}
+
+.icon-back, .icon-profile {
+    width: 30px; /* Ícones maiores */
+    height: 30px; /* Ícones maiores */
+    object-fit: contain;
+}
+
+.username, .avatar {
+    display: none;
+}
+
 
 /* TABS - NOVO ESTILO SEGMENTADO */
 .segmented-control {
     display: flex;
-    background-color: #f0f0f0; 
-    border-radius: 8px;
-    padding: 4px;
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 0;
     margin-bottom: 30px;
     width: fit-content;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 .tab-button {
     padding: 8px 25px;
-    border: none;
-    background-color: transparent; 
-    color: var(--text-color);
+    border: 1px solid var(--tab-inactive-color);
+    background-color: var(--secondary-bg);
+    color: var(--tab-inactive-color);
     cursor: pointer;
     font-size: 14px;
     font-weight: normal;
-    border-radius: 6px;
+    border-radius: 10px;
     transition: all 0.2s ease-in-out;
     outline: none;
     flex-grow: 1;
     white-space: nowrap;
+    margin-right: 10px;
 }
 
 .tab-button.active {
-    background-color: var(--primary-color); 
-    color: white; 
-    font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-
-/* Painel de Controle de Frota (Tabela) */
-.fleet-control-panel {
     background-color: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
+    color: var(--primary-color);
+    font-weight: bold;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.control-row {
+/* Nova Row para Botão Adicionar e Pesquisar (FORA do painel) */
+.control-row-outside {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* Alinha à direita */
     align-items: center;
-    margin-bottom: 20px;
+    gap: 15px; /* Espaçamento entre o '+' e a busca */
+    margin-bottom: 15px;
 }
 
 .add-button {
@@ -304,7 +347,7 @@ body {
     border: none;
     width: 40px;
     height: 40px;
-    border-radius: 8px;
+    border-radius: 10px; 
     font-size: 24px;
     cursor: pointer;
     line-height: 40px;
@@ -312,106 +355,144 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: 300;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.search-input-group {
+.add-button:hover {
+    background-color: #008fcc;
+}
+
+/* Campo de Pesquisa Externa (mais esticado e arredondado) */
+.search-input-group-outside {
     display: flex;
     align-items: center;
     width: 300px;
     padding: 8px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: #f7f7f7;
+    border-radius: 20px; 
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.search-input-group input {
+.search-input-group-outside input {
     border: none;
     outline: none;
     flex-grow: 1;
     background-color: transparent;
-    padding-left: 10px;
-}
-
-.search-icon {
-    color: var(--light-text-color);
-}
-
-/* Layout da Tabela (usando Flexbox/Grid para o novo design) */
-.table-header-row, .table-row {
-    display: grid;
-    /* Colunas: Status, Renavam, Ano, Modelo, Cor, Combustível, Capacidade, Ações */
-    grid-template-columns: 50px 1fr 100px 2fr 1fr 1.2fr 1.5fr 30px; 
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-    align-items: center;
     font-size: 14px;
 }
 
+.search-icon-outside {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    object-fit: contain;
+    color: var(--light-text-color);
+}
+
+/* Painel de Controle de Frota (Container) */
+.fleet-control-panel {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.control-row {
+    display: none; /* A busca e o '+' foram movidos para .control-row-outside */
+}
+
+
+/* =======================================================
+    ESTILOS PARA A TABELA (VISUALIZAÇÃO DE VEÍCULOS)
+    ======================================================= */
+
+.table-header-row,
+.table-row {
+    display: grid;
+    grid-template-columns:
+        1fr    /* Placa */
+        1.5fr  /* Renavam */
+        0.8fr  /* Ano */
+        2.5fr  /* Modelo */
+        1fr    /* Cor */
+        1.2fr  /* Combustível */
+        1.2fr  /* Capacidade */
+        0.5fr; /* Ações/Botão (os '...') */
+    gap: 10px;
+    padding: 10px 0;
+    align-items: center;
+    text-align: left;
+}
+
 .table-header-row {
-    color: var(--primary-color); 
-    font-weight: normal;
+    font-weight: bold;
+    color: var(--text-color); 
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.table-row {
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    padding: 12px 0;
+    transition: background-color 0.2s;
 }
 
 .table-row:hover {
-    background-color: #fcfcfc;
+    background-color: #fafafa;
 }
 
-/* Estilos de Coluna */
-.header-col, .col {
-    padding-right: 10px;
+/* Garante que o texto nas células da tabela não quebre, exibindo '...' */
+.col {
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
-.col.placa-col-hidden {
-    display: none;
-}
-
-.actions-col {
-    text-align: center;
-    cursor: pointer;
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
-/* Indicador de Status (Dots) */
-.status-dot {
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.status-em-func { background-color: gray; }
-.status-quebrado { background-color: orange; }
-.status-manut { background-color: purple; }
-.status-em-uso { background-color: blue; }
-
-.no-records {
-    text-align: center;
-    padding: 40px;
-    color: var(--light-text-color);
-}
-
-.record-count {
+/* ALTERAÇÃO 4: "Registros" fora do painel e em negrito */
+.record-count-outside {
     margin-top: 20px;
+    margin-bottom: 15px; /* Espaçamento entre ele e a legenda */
     font-size: 12px;
-    color: black;
+    color: var(--text-color); /* Cor mais escura */
+    font-weight: bold; /* Negrito */
+    text-align: left; /* Alinhamento esquerdo */
+    padding-left: 20px; /* Para alinhar com o conteúdo do painel */
 }
 
-/* Legenda de Status na Base */
+
+/* ALTERAÇÃO 5: Legenda de Status (com as cores corretas do Figma) */
 .status-legend {
-    margin-top: 30px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+    margin-top: 0; /* Ajusta a margem superior já que o count saiu do painel */
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    padding-left: 20px; /* Para alinhar com o conteúdo do painel */
 }
 
 .legend-item {
-    margin-right: 20px;
-    font-size: 13px;
+    display: flex;
+    align-items: center;
     color: var(--light-text-color);
+    background-color: #f0f2f5; 
+    padding: 4px 8px;
+    border-radius: 15px;
+    box-shadow: none; 
 }
+
+.legend-item .status-dot {
+    display: inline-block;
+    width: 8px; 
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 5px; /* Espaçamento entre o ponto e o texto */
+}
+
+/* Cores de status redefinidas no :root e aplicadas aqui */
+.status-dot.status-em-func { background-color: var(--status-em-func); }
+.status-dot.status-quebrado { background-color: var(--status-quebrado); }
+.status-dot.status-manut { background-color: var(--status-manut); }
+.status-dot.status-em-uso { background-color: var(--status-em-uso); }
