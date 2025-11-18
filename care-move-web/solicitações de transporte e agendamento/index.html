@@ -4,146 +4,139 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solicitações de Transporte e Agendamento</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap">
 </head>
 <body>
 
-  <button class="menu-toggle" id="menu-toggle">
-    <i class="fa-solid fa-bars"></i>
-  </button>
+  <div class="container-figma">
+    <aside class="sidebar-figma" id="sidebar">
+      <div class="logo-figma">C<span class="heart-figma">♥</span>M</div>
 
-  <div class="container">
-    <aside class="sidebar" id="sidebar">
-      <div class="logo">C<span class="heart">♥</span>M</div>
-
-      <div class="search-box">
+      <div class="search-box-figma">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" placeholder="Buscar">
       </div>
 
-      <nav class="menu">
-        <p class="section-title">Funcionalidades</p>
-        <a href="#"><i class="fa-solid fa-van-shuttle"></i> Solicitações de Transporte e Agendamento</a>
+      <nav class="menu-figma">
+        <p class="section-title-figma">Funcionalidades</p>
+        <a href="#" class="active-figma"><i class="fa-solid fa-van-shuttle"></i> Solicitações de Transporte e Agendamento</a>
         <a href="#"><i class="fa-solid fa-user"></i> Meu Perfil</a>
       </nav>
     </aside>
 
-    <main class="content">
+    <main class="content-figma">
       
-      <div class="header-profile">
-        <div class="profile-image-container">
+      <div class="header-content-figma">
+        <div class="profile-image-container-figma">
           <img src="D:\Facul\CareMove\ProjetoSec\img\IconLog.png" alt="Foto de Perfil">
         </div>
-        <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+        <i class="fa-solid fa-right-from-bracket logout-icon-figma"></i>
       </div>
       
-      <h1 class="titulo">
+      <h1 class="titulo-figma">
         <i class="fa-solid fa-bus"></i>
         SOLICITAÇÕES DE TRANSPORTE E AGENDAMENTO
       </h1>
 
-      <form class="form-solicitacao">
-        <div class="form-row-grid">
-          <div class="input-box">
+      <form class="form-solicitacao-figma">
+        <div class="form-row-grid-figma">
+          
+          <div class="input-container-figma">
             <label for="partida">Partida</label>
-            <i class="fa-solid fa-location-dot input-icon"></i>
-            <input type="text" id="partida">
+            <div class="input-with-icon-figma">
+              <i class="fa-solid fa-location-dot input-icon-figma"></i>
+              <input type="text" id="partida">
+            </div>
           </div>
 
-          <div class="input-box">
+          <div class="input-container-figma">
             <label for="chegada">Chegada</label>
-            <i class="fa-solid fa-location-dot input-icon"></i>
-            <input type="text" id="chegada">
+            <div class="input-with-icon-figma">
+              <i class="fa-solid fa-location-dot input-icon-figma"></i>
+              <input type="text" id="chegada">
+            </div>
           </div>
 
-          <div class="input-box">
+          <div class="input-container-figma">
             <label for="atendimento">Tipo de Atendimento</label>
-            <div class="input-com-botao">
-              <i class="fa-solid fa-magnifying-glass input-icon"></i>
+            <div class="input-with-icon-figma has-clear-btn">
+              <i class="fa-solid fa-magnifying-glass input-icon-figma"></i>
               <input type="text" id="atendimento">
-              <button type="button" class="clear-button"><i class="fa-solid fa-xmark"></i></button>
+              <button type="button" class="clear-button-figma"><i class="fa-solid fa-xmark"></i></button>
             </div>
           </div>
         </div>
 
-        <div class="form-row-grid second-row">
-          <div class="input-box input-half">
+        <div class="form-row-grid-figma second-row-figma">
+          
+          <div class="input-container-figma date-input-figma">
             <label for="data">Data</label>
-            <i class="fa-solid fa-calendar-days input-icon"></i>
-            <i class="fa-solid fa-calendar-days input-right-icon"></i>
-            <input type="text" id="data" onfocus="this.type='date'" onblur="if(!this.value) this.type='text'" placeholder="dd / mm / aaaa">
+            <div class="input-with-icon-figma">
+              <i class="fa-solid fa-calendar-days input-icon-figma"></i>
+              <input type="text" id="data" onfocus="this.type='date'" onblur="if(!this.value) this.type='text'" placeholder="dd / mm / aaaa">
+            </div>
           </div>
 
-          <div class="input-box input-half">
+          <div class="input-container-figma time-input-figma">
             <label for="hora">Hora</label>
-            <i class="fa-regular fa-clock input-icon"></i>
-            <i class="fa-regular fa-clock input-right-icon"></i>
-            <input type="text" id="hora" onfocus="this.type='time'" onblur="if(!this.value) this.type='text'" placeholder="-- : --">
+            <div class="input-with-icon-figma">
+              <i class="fa-regular fa-clock input-icon-figma"></i>
+              <input type="text" id="hora" onfocus="this.type='time'" onblur="if(!this.value) this.type='text'" placeholder="-- : --">
+            </div>
           </div>
-        </div>
-
-        <div class="form-buttons-style-2">
-          <button type="reset" class="cancelar">Cancelar</button>
-          <button type="submit" class="enviar">Enviar</button>
+          
+          <div class="form-buttons-figma">
+            <button type="reset" class="btn-cancelar-figma">Cancelar</button>
+            <button type="submit" class="btn-enviar-figma">Enviar</button>
+          </div>
         </div>
       </form>
 
-      <section class="historico">
-        <h2><i class="fa-solid fa-bullhorn"></i> Minhas Solicitações Anteriores</h2>
+      <section class="historico-figma">
+        <h2 class="subtitulo-figma"><i class="fa-solid fa-bullhorn"></i> Minhas Solicitações Anteriores</h2>
 
-        <div class="historico-tabela">
-            <table>
+        <div class="historico-tabela-container-figma">
+            <table class="tabela-historico-figma">
                 <thead>
                     <tr>
-                        <th>SC</th>
+                        <th>Número do SC</th>
                         <th>Local Partida</th>
                         <th>Local Chegada</th>
                         <th>Data</th>
                         <th>Hora</th>
-                        <th>Tipo Atendimento</th>
+                        <th>Tipo de Atendimento</th>
                         <th>Status</th>
-                        <th class="coluna-acoes">Ações</th>
+                        <th class="coluna-acoes-figma">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td><span class="status-dot-aprovado-figma"></span> 000001</td>
+                        <td>Av. Paulista 1000</td>
+                        <td>Santa Casa</td>
+                        <td>19/09/2025</td>
+                        <td>08h00</td>
+                        <td>Exame</td>
+                        <td>Aprovado</td>
+                        <td>...</td>
+                    </tr>
                     </tbody>
             </table>
         </div>
+
+        <div class="legenda-status-figma">
+          <span><span class="bolinha-figma aguardando"></span> Aguardando</span>
+          <span><span class="bolinha-figma aprovado"></span> Aprovado</span>
+          <span><span class="bolinha-figma negado"></span> Negado</span>
+          <span><span class="bolinha-figma concluido"></span> Concluído</span>
+        </div>
+
       </section>
     </main>
   </div>
 
-  <script>
-    // Seleciona os elementos necessários
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    // Variável para controlar o timer de fechamento
-    let closeTimer;
-
-    // Função para ABRIR o menu
-    const abrirMenu = () => {
-      clearTimeout(closeTimer);
-      sidebar.classList.add('active');
-      menuToggle.classList.add('active');
-    };
-
-    // Função para INICIAR o processo de fechar o menu
-    const iniciarFechamento = () => {
-      closeTimer = setTimeout(() => {
-        sidebar.classList.remove('active');
-        menuToggle.classList.remove('active');
-      }, 300);
-    };
-
-    // --- Gatilhos de Eventos ---
-    menuToggle.addEventListener('mouseenter', abrirMenu);
-    sidebar.addEventListener('mouseenter', abrirMenu);
-    menuToggle.addEventListener('mouseleave', iniciarFechamento);
-    sidebar.addEventListener('mouseleave', iniciarFechamento);
-
-  </script>
-
-</body>
+  </body>
 </html>
