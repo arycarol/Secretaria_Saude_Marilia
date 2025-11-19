@@ -56,6 +56,7 @@ async function carregarAssignments() {
                 request.hour,
                 paciente.name,
                 paciente.cpf,
+                request.tipoAtendimento,
                 request.transportKind,
                 request.originLocation
             );
