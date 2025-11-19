@@ -133,12 +133,19 @@
         <li><i class="fa-solid fa-truck"></i><a href="../painel_adm/frotas.html">Controle de Frotas</a></li>
         <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
       `;
-    } else {
+    }
+    if (userCategory === "Motorista"){
+      menuLista.innerHTML = `
+        <li><i class="fa-solid fa-van-shuttle"></i><a href="../painel motorista/painel_motorista.html">Painel do Motorista</a></li>
+        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
+      `;
+    }
+    if (userCategory === "Paciente"){
       menuLista.innerHTML = `
         <li><i class="fa-solid fa-van-shuttle"></i><a href="../solicitações de transporte e agendamento/index.html">Solicitações de Transporte</a></li>
         <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
       `;
-    }
+    }    
   </script>
 
 </body>

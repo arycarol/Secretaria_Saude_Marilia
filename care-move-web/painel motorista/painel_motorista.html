@@ -15,6 +15,7 @@
   </button>
 
   <div class="container">
+
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="logo">C<span class="heart">♥</span>M</div>
@@ -27,12 +28,13 @@
       <nav class="menu">
         <p class="section-title">Funcionalidades</p>
         <a href="#"><i class="fa-solid fa-van-shuttle"></i> Painel do Motorista</a>
-        <a href="#"><i class="fa-solid fa-user"></i> Meu Perfil</a>
+        <a href="../meu perfil/perfil.html"><i class="fa-solid fa-user"></i> Meu Perfil</a>
       </nav>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
+    <!-- CONTEÚDO -->
     <main class="content">
+
       <div class="header-profile">
         <div class="profile-image-container">
           <img src="img/IconLog.png" alt="Foto de Perfil">
@@ -47,20 +49,29 @@
 
       <section class="painel-motorista">
         <div class="topo-grid">
-          <!-- STATUS DO VEÍCULO -->
+
+          <!-- STATUS VEÍCULO -->
           <div class="status-veiculo">
             <h2>STATUS DO VEÍCULO</h2>
+
             <div class="box-info">
               <p><strong>PLACA:</strong> ABC-123</p>
               <p><strong>MODELO:</strong> LANCER 2018</p>
               <p><strong>COMBUSTÍVEL:</strong> GASOLINA / ÁLCOOL</p>
             </div>
 
-            <!-- SOLICITAÇÕES -->
+            <!-- SOLICITAÇÕES PENDENTES -->
             <div class="solicitacoes">
               <h2>SOLICITAÇÕES <i class="fa-solid fa-triangle-exclamation alerta"></i></h2>
               <div class="lista-solicitacoes"></div>
             </div>
+
+            <!-- SOLICITAÇÕES ACEITAS -->
+            <div class="solicitacoes">
+              <h2>SOLICITAÇÕES ACEITAS <i class="fa-solid fa-circle-check sucesso"></i></h2>
+              <div class="lista-aceitas"></div>
+            </div>
+
           </div>
 
           <!-- AGENDA -->
@@ -68,9 +79,11 @@
             <h2>AGENDA DO DIA</h2>
             <div class="lista-agenda"></div>
           </div>
+
         </div>
       </section>
 
+      <!-- LEGENDA -->
       <div class="legenda-status">
         <span><span class="bolinha ainda"></span> Ainda hoje</span>
         <span><span class="bolinha agora"></span> Agora</span>
@@ -86,7 +99,11 @@
       </div>
 
     </main>
+
   </div>
+
+  <!-- JS EXTERNO -->
+
 
   <script>
     // === CONTROLE DA SIDEBAR ===
@@ -111,90 +128,261 @@
     sidebar.addEventListener('mouseenter', abrirMenu);
     menuToggle.addEventListener('mouseleave', iniciarFechamento);
     sidebar.addEventListener('mouseleave', iniciarFechamento);
-
-    // === SIMULAÇÃO DE DADOS ===
-    const modal = document.getElementById('modalConfirmacao');
-
-    let solicitacoes = [
-      { hora: "13:00", nome: "Aryane Caroline", cpf: "444.333.888.05", tipoAtendimento: "EMERGÊNCIA", local: "UPA" },
-      { hora: "16:30", nome: "Lucas Andrade", cpf: "555.222.777.11", tipoAtendimento: "CONSULTA", local: "Hospital Municipal" }
-    ];
-
-    let agenda = [
-      { hora: "08:00", nome: "Sofia Deniz", cpf: "444.333.999.05", descricao: "Consulta Médica", local: "Hospital das Clínicas", status: "agora" },
-      { hora: "14:00", nome: "Arthur Santos", cpf: "111.333.999.05", descricao: "Exame", local: "Hospital das Clínicas", status: "ainda" }
-    ];
-
-    const solicitacoesContainer = document.querySelector('.lista-solicitacoes');
-    const agendaContainer = document.querySelector('.lista-agenda');
-
-    function renderSolicitacoes() {
-      solicitacoesContainer.innerHTML = "";
-
-      if (solicitacoes.length === 0) {
-        solicitacoesContainer.innerHTML = `
-          <p class="mensagem-vazia">Nenhuma solicitação nova no momento.</p>
-        `;
-        return;
-      }
-
-      solicitacoes.forEach((s, index) => {
-        const div = document.createElement('div');
-        div.classList.add('box-info');
-        div.innerHTML = `
-          <p><strong>${s.hora} - ${s.nome} - CPF: ${s.cpf}</strong></p>
-          <p class="descricao">${s.tipoAtendimento}</p>
-          <p><strong>LOCAL:</strong> ${s.local}</p>
-          <div class="botoes">
-            <button class="btn-recusar">RECUSAR</button>
-            <button class="btn-aceitar">ACEITAR</button>
-          </div>
-        `;
-        div.querySelector('.btn-aceitar').addEventListener('click', () => aceitarSolicitacao(index));
-        solicitacoesContainer.appendChild(div);
-      });
+// ================================
+//  PEGAR TOKEN DO COOKIE
+// ================================
+function getCookie(name) {
+    const cookies = document.cookie.split(";").map(c => c.trim());
+    for (const cookie of cookies) {
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1);
+        }
     }
+    return null;
+}
 
-    function renderAgenda() {
-      agendaContainer.innerHTML = "";
-      agenda.forEach(a => {
-        const div = document.createElement('div');
-        div.classList.add('box-agenda');
-        div.innerHTML = `
-          <p><strong>${a.hora} - ${a.nome} - CPF: ${a.cpf}</strong></p>
-          <p class="descricao">${a.descricao}</p>
-          <p><strong>Local:</strong> ${a.local}</p>
-          <span class="status-bolinha ${a.status}"></span>
-        `;
-        agendaContainer.appendChild(div);
-      });
+const token = getCookie("jwt");
+if (!token) {
+    alert("Sessão expirada. Faça login novamente.");
+    window.location.href = "../login/login.html";
+}
+
+const API_BASE = "http://localhost:5260/api/v1";
+
+// ELEMENTOS
+const solicitacoesContainer = document.querySelector(".lista-solicitacoes");
+const aceitasContainer = document.querySelector(".lista-aceitas");
+const agendaContainer = document.querySelector(".lista-agenda");
+
+// ================================
+//  FUNÇÃO PRINCIPAL — CARREGAR TODAS
+// ================================
+async function carregarAssignments() {
+    try {
+        const response = await fetch(`${API_BASE}/TransportAssignment`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error("Falha ao carregar assignments");
+
+        const assignments = await response.json();
+
+        solicitacoesContainer.innerHTML = "";
+        aceitasContainer.innerHTML = "";
+
+        if (assignments.length === 0) {
+            solicitacoesContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma solicitação disponível.</p>`;
+            aceitasContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma solicitação aceita.</p>`;
+            return;
+        }
+
+        for (const item of assignments) {
+            const paciente = await carregarPaciente(item.pacientUserId);
+            const request = await carregarRequest(item.transportRequestId);
+
+            if (item.transportAssignmentStatus === "Concluido") {
+                adicionarSolicitacaoAceita(
+                    request.hour,
+                    paciente.name,
+                    paciente.cpf,
+                    request.transportKind,
+                    request.originLocation,
+                    request.destinationLocation
+                );
+            } 
+            if(item.transportAssignmentStatus === "Aguardando"){
+                adicionarSolicitacaoPendente(
+                    item.id,
+                    request.hour,
+                    paciente.name,
+                    paciente.cpf,
+                    request.originLocation,
+                    request.destinationLocation
+                );
+            }
+            if(item.transportAssignmentStatus === "Aguardando"){
+                adicionarAgenda(
+                    item.id,
+                    request.hour,
+                    paciente.name,
+                    paciente.cpf,
+                    request.originLocation,
+                    request.destinationLocation
+                );
+            }
+            
+        }
+
+    } catch (err) {
+        console.error(err);
     }
+}
 
-    function aceitarSolicitacao(index) {
-      const s = solicitacoes[index];
-      agenda.push({
-        hora: s.hora,
-        nome: s.nome,
-        cpf: s.cpf,
-        descricao: s.tipoAtendimento,
-        local: s.local,
-        status: "ainda"
-      });
-      solicitacoes.splice(index, 1);
-      renderSolicitacoes();
-      renderAgenda();
-      mostrarModal();
+// ================================
+//  BUSCAS DE APOIO
+// ================================
+async function carregarPaciente(id) {
+    const res = await fetch(`${API_BASE}/User/${id}`, {
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+    return await res.json();
+}
+
+async function carregarRequest(id) {
+    const res = await fetch(`${API_BASE}/TransportRequest/${id}`, {
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+    return await res.json();
+}
+
+
+async function carregarAgenda() {
+    try {
+        const response = await fetch(`${API_BASE}/TransportAssignment/GetListOfToday`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) throw new Error("Erro ao buscar agenda");
+
+        const assignments = await response.json();
+
+        // Limpar lista
+        agendaContainer.innerHTML = "";
+
+        // Filtrar somente os com status "Concluido"
+        const concluidos = assignments.filter(a => 
+            a.transportAssignmentStatus.toLowerCase() === "concluido"
+        );
+
+        if (concluidos.length === 0) {
+            agendaContainer.innerHTML =
+                `<p class="mensagem-vazia">Nenhuma solicitação concluída hoje.</p>`;
+            return;
+        }
+
+        // Para cada item concluído, carregar request + paciente
+        for (const item of concluidos) {
+            const paciente = await carregarPaciente(item.pacientUserId);
+            const request = await carregarRequest(item.transportRequestId);
+
+            adicionarAgenda(
+                request.hour,
+                paciente.name,
+                paciente.cpf,
+                request.transportKind,
+                request.originLocation,
+                request.destinationLocation
+            );
+        }
+
+    } catch (err) {
+        console.error(err);
+        agendaContainer.innerHTML =
+            `<p class="mensagem-vazia">Erro ao carregar agenda.</p>`;
     }
+}
 
-    function mostrarModal() {
-      modal.classList.add('ativo');
-      setTimeout(() => {
-        modal.classList.remove('ativo');
-      }, 2000);
+// ================================
+//  LISTAS
+// ================================
+function adicionarSolicitacaoPendente(id, hora, nome, cpf, tipo, origem, destino) {
+    const div = document.createElement("div");
+    div.classList.add("box-info");
+
+    div.innerHTML = `
+        <p><strong>${hora} - ${nome} - CPF: ${cpf}</strong></p>
+        <p class="descricao">${tipo}</p>
+
+        <p><strong>PARTIDA:</strong> ${origem}</p>
+        <p><strong>DESTINO:</strong> ${destino}</p>
+
+        <div class="botoes">
+          <button class="btn-recusar">RECUSAR</button>
+          <button class="btn-aceitar">ACEITAR</button>
+        </div>
+    `;
+
+    div.querySelector(".btn-aceitar")
+       .addEventListener("click", () => aceitarSolicitacao(id, div));
+
+    solicitacoesContainer.appendChild(div);
+}
+
+
+function adicionarSolicitacaoAceita(hora, nome, cpf, tipo, origem, destino) {
+    const div = document.createElement("div");
+    div.classList.add("box-info");
+
+    div.innerHTML = `
+        <p><strong>${hora} - ${nome} - CPF: ${cpf}</strong></p>
+        <p class="descricao">${tipo}</p>
+
+        <p><strong>PARTIDA:</strong> ${origem}</p>
+        <p><strong>DESTINO:</strong> ${destino}</p>
+    `;
+
+    aceitasContainer.appendChild(div);
+}
+
+
+// ================================
+//  ACEITAR SOLICITAÇÃO (ROTA CORRETA)
+// ================================
+async function aceitarSolicitacao(id, elemento) {
+    try {
+        const response = await fetch(`${API_BASE}/TransportAssignment/Accept/${id}`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro ao aceitar solicitação.");
+        }
+
+        elemento.remove();
+        mostrarModal();
+        carregarAssignments();
+
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao aceitar solicitação.");
     }
+}
 
-    renderSolicitacoes();
-    renderAgenda();
+
+function adicionarAgenda(hora, nome, cpf, tipo, origem, destino) {
+    const div = document.createElement("div");
+    div.classList.add("box-agenda");
+
+    div.innerHTML = `
+        <p><strong>${hora} - ${nome} - CPF: ${cpf}</strong></p>
+        <p class="descricao">${tipo}</p>
+        <p><strong>PARTIDA:</strong> ${origem}</p>
+        <p><strong>DESTINO:</strong> ${destino}</p>
+
+        <span class="status-bolinha ainda"></span>
+    `;
+
+    agendaContainer.appendChild(div);
+}
+
+
+// ================================
+//  MODAL
+// ================================
+function mostrarModal() {
+    const modal = document.getElementById("modalConfirmacao");
+    modal.classList.add("ativo");
+    setTimeout(() => modal.classList.remove("ativo"), 1800);
+}
+// ================================
+//  INICIAR
+// ================================
+carregarAssignments();
+carregarAgenda(); 
+
   </script>
 
 </body>
