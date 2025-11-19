@@ -12,6 +12,8 @@
 <body>
 
   <div class="container-figma">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar-figma" id="sidebar">
       <div class="logo-figma">C<span class="heart-figma">♥</span>M</div>
 
@@ -22,25 +24,35 @@
 
       <nav class="menu-figma">
         <p class="section-title-figma">Funcionalidades</p>
-        <a href="#" class="active-figma"><i class="fa-solid fa-van-shuttle"></i> Solicitações de Transporte e Agendamento</a>
-        <a href="#"><i class="fa-solid fa-user"></i> Meu Perfil</a>
+
+        <a href="#" class="active-figma">
+          <i class="fa-solid fa-van-shuttle"></i> Solicitações de Transporte e Agendamento
+        </a>
+
+        <!-- CORRIGIDO → LEVA PARA A TELA DE PERFIL -->
+        <a href="../meu perfil/perfil.html">
+          <i class="fa-solid fa-user"></i> Meu Perfil
+        </a>
+
       </nav>
     </aside>
 
+    <!-- CONTEÚDO -->
     <main class="content-figma">
-      
+
       <div class="header-content-figma">
         <div class="profile-image-container-figma">
-          <img src="D:\Facul\CareMove\ProjetoSec\img\IconLog.png" alt="Foto de Perfil">
+          <img src="img/IconLog.png" alt="Foto de Perfil">
         </div>
         <i class="fa-solid fa-right-from-bracket logout-icon-figma"></i>
       </div>
-      
+
       <h1 class="titulo-figma">
         <i class="fa-solid fa-bus"></i>
         SOLICITAÇÕES DE TRANSPORTE E AGENDAMENTO
       </h1>
 
+      <!-- FORMULÁRIO -->
       <form class="form-solicitacao-figma">
         <div class="form-row-grid-figma">
           
@@ -65,9 +77,12 @@
             <div class="input-with-icon-figma has-clear-btn">
               <i class="fa-solid fa-magnifying-glass input-icon-figma"></i>
               <input type="text" id="atendimento">
-              <button type="button" class="clear-button-figma"><i class="fa-solid fa-xmark"></i></button>
+              <button type="button" class="clear-button-figma">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
           </div>
+
         </div>
 
         <div class="form-row-grid-figma second-row-figma">
@@ -76,7 +91,10 @@
             <label for="data">Data</label>
             <div class="input-with-icon-figma">
               <i class="fa-solid fa-calendar-days input-icon-figma"></i>
-              <input type="text" id="data" onfocus="this.type='date'" onblur="if(!this.value) this.type='text'" placeholder="dd / mm / aaaa">
+              <input type="text" id="data" 
+                     onfocus="this.type='date'" 
+                     onblur="if(!this.value) this.type='text'" 
+                     placeholder="dd / mm / aaaa">
             </div>
           </div>
 
@@ -84,47 +102,44 @@
             <label for="hora">Hora</label>
             <div class="input-with-icon-figma">
               <i class="fa-regular fa-clock input-icon-figma"></i>
-              <input type="text" id="hora" onfocus="this.type='time'" onblur="if(!this.value) this.type='text'" placeholder="-- : --">
+              <input type="text" id="hora"
+                     onfocus="this.type='time'" 
+                     onblur="if(!this.value) this.type='text'" 
+                     placeholder="-- : --">
             </div>
           </div>
-          
+
           <div class="form-buttons-figma">
             <button type="reset" class="btn-cancelar-figma">Cancelar</button>
             <button type="submit" class="btn-enviar-figma">Enviar</button>
           </div>
+
         </div>
       </form>
 
+      <!-- HISTÓRICO -->
       <section class="historico-figma">
-        <h2 class="subtitulo-figma"><i class="fa-solid fa-bullhorn"></i> Minhas Solicitações Anteriores</h2>
+        <h2 class="subtitulo-figma">
+          <i class="fa-solid fa-bullhorn"></i> Minhas Solicitações Anteriores
+        </h2>
 
         <div class="historico-tabela-container-figma">
-            <table class="tabela-historico-figma">
-                <thead>
-                    <tr>
-                        <th>Número do SC</th>
-                        <th>Local Partida</th>
-                        <th>Local Chegada</th>
-                        <th>Data</th>
-                        <th>Hora</th>
-                        <th>Tipo de Atendimento</th>
-                        <th>Status</th>
-                        <th class="coluna-acoes-figma">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="status-dot-aprovado-figma"></span> 000001</td>
-                        <td>Av. Paulista 1000</td>
-                        <td>Santa Casa</td>
-                        <td>19/09/2025</td>
-                        <td>08h00</td>
-                        <td>Exame</td>
-                        <td>Aprovado</td>
-                        <td>...</td>
-                    </tr>
-                    </tbody>
-            </table>
+          <table class="tabela-historico-figma">
+            <thead>
+              <tr>
+                <th>Número do SC</th>
+                <th>Local Partida</th>
+                <th>Local Chegada</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Tipo de Atendimento</th>
+                <th>Status</th>
+                <th class="coluna-acoes-figma">Ações</th>
+              </tr>
+            </thead>
+
+            <tbody></tbody> <!-- JS insere aqui -->
+          </table>
         </div>
 
         <div class="legenda-status-figma">
@@ -135,8 +150,10 @@
         </div>
 
       </section>
+
     </main>
   </div>
 
-  </body>
+  <script src="./script.js"></script>
+</body>
 </html>
