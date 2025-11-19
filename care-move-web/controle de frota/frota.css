@@ -5,8 +5,8 @@
 * {
     font-family: 'Inter', sans-serif; 
     box-sizing: border-box;
-    margin: 0; /* Garante que não haja margens indesejadas */
-    padding: 0; /* Garante que não haja paddings indesejados */
+    margin: 0; 
+    padding: 0; 
 }
 
 :root {
@@ -14,17 +14,20 @@
     --toggle-button-width: 60px;
     --primary-color: #00AAFF; /* Azul primário */
     --secondary-bg: #f0f2f5; /* Fundo do main content */
-    --sidebar-bg: #ffffff; /* Fundo da sidebar */
+    --sidebar-bg: #ffffff; 
     --text-color: #333;
     --light-text-color: #777;
     --border-color: #ddd;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    /* Cores de Status ajustadas conforme o Figma */
-    --status-em-func: #6c757d; /* Cinza claro para 'Em funcionamento' */
-    --status-quebrado: #ffc107; /* Amarelo para 'Quebrado' */
-    --status-manut: #6f42c1; /* Roxo para 'Manutenção' */
-    --status-em-uso: #007bff; /* Azul para 'Em uso' */
-    --tab-inactive-color: #bdc3c7; /* Cinza claro para abas inativas */
+    /* Cores de Status */
+    --status-em-func: var(--primary-color); 
+    --status-quebrado: #dc3545; /* VERMELHO */
+    --status-manut: #ff8c00; /* LARANJA */
+    --status-em-uso: #28a745; /* VERDE */
+    --tab-inactive-color: #bdc3c7;
+    --table-header-bg: #f5f5f5;
+    /* Cores do Modal */
+    --modal-border-color: #e0f7ff; 
 }
 
 body {
@@ -108,24 +111,22 @@ body {
     font-weight: bold;
 }
 
-/* ALTERAÇÃO 1: Estilo da "Seta" (Arrow) para item ativo, removendo a bolinha */
 .menu a.active.menu-item-with-arrow {
-    background-color: #f0f2f5; /* Fundo cinza para o item ativo */
-    color: var(--primary-color); /* Texto azul */
+    background-color: #f0f2f5; 
+    color: var(--primary-color); 
     font-weight: bold;
-    padding-right: 40px; /* Espaço para a seta */
+    padding-right: 40px; 
 }
 
 .menu a.active.menu-item-with-arrow .arrow-icon {
-    display: block; /* Mostra a seta */
+    display: block; 
     position: absolute;
-    right: 15px; /* Posição da seta */
-    width: 16px; /* Tamanho da seta */
+    right: 15px; 
+    width: 16px; 
     height: 16px;
     object-fit: contain;
 }
 
-/* Esconde a seta por padrão para outros itens e quando não está ativo */
 .menu-item-with-arrow .arrow-icon {
     display: none;
 }
@@ -140,35 +141,6 @@ body {
     color: var(--primary-color);
     background-color: #f0f2f5;
 }
-
-/* Campo de busca da Sidebar (Mais arredondado) */
-.search-box {
-    display: flex;
-    align-items: center;
-    background-color: var(--secondary-bg);
-    padding: 10px 15px;
-    border-radius: 20px; 
-    margin-bottom: 25px;
-    width: 100%;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.search-box input {
-    border: none;
-    background: transparent;
-    outline: none;
-    flex-grow: 1;
-    font-size: 14px;
-    padding-left: 10px;
-}
-
-.search-box .search-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 5px;
-    object-fit: contain;
-}
-
 
 /* ===== BOTÃO DA SIDEBAR (Atrelado e na base) ===== */
 .menu-toggle {
@@ -206,7 +178,7 @@ body {
 
 /* Conteúdo Principal */
 .main-content {
-    padding: 30px;
+    padding: 15px 30px 30px; 
     padding-left: calc(30px + var(--toggle-button-width));
     overflow-y: auto;
     width: 100%;
@@ -216,7 +188,6 @@ body {
     transition: margin-left 0.3s ease, padding-left 0.3s ease;
 }
 
-/* DESLOCA O CONTEÚDO PRINCIPAL QUANDO A SIDEBAR ESTIVER ATIVA */
 .main-content.shifted {
     margin-left: var(--sidebar-width);
     padding-left: 30px;
@@ -230,8 +201,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px; /* Adiciona um espaço abaixo do cabeçalho */
+    margin-bottom: 15px; 
+    padding-bottom: 10px;
+    padding-top: 10px; 
 }
 
 .title-area {
@@ -239,44 +211,45 @@ body {
     align-items: center;
 }
 
-/* ALTERAÇÃO 2: Estilo do Novo Título e Ícone do Carro - MAIORES e azuis */
 .vehicle-icon-img {
-    width: 50px; /* Ícone do carro maior */
+    width: 50px; 
     height: auto;
     margin-right: 15px;
-    color: var(--primary-color); /* Se for SVG ou Font Awesome, será azul */
+    color: var(--primary-color);
 }
 
-.main-header h1 {
-    font-size: 24px; /* Título maior */
-    font-weight: 500;
+/* Linha de cima (Painel Administrativo) */
+.main-title-line {
+    font-size: 20px; 
+    font-weight: 700; 
     margin: 0;
-    color: var(--primary-color); /* Ambos em azul */
-    letter-spacing: 0.5px;
+    color: var(--primary-color); 
     line-height: 1.2;
 }
 
-.main-header h1 .title-highlight {
-    font-size: 24px; /* Mantém o mesmo tamanho para alinhamento */
+/* Estilo para o título (Controle de Frotas) */
+.title-highlight {
+    font-size: 26px; 
     font-weight: 700;
     color: var(--primary-color);
-    display: inline; /* Alinha na mesma linha, como no Figma */
+    display: block; 
+    margin-top: 2px;
 }
 
-/* ALTERAÇÃO 3: Botões de Sair e Perfil - MAIORES e mais para cima */
+/* Ícones de Sair e Perfil */
 .user-profile {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-top: -10px; /* Move para cima */
+    gap: 10px; 
+    margin-top: -55px; 
 }
 
 .action-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px; /* Maiores */
-    height: 40px; /* Maiores */
+    width: 41px; 
+    height: 41px; 
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 0.2s;
@@ -287,25 +260,24 @@ body {
 }
 
 .icon-back, .icon-profile {
-    width: 30px; /* Ícones maiores */
-    height: 30px; /* Ícones maiores */
+    width: 40px;
+    height: 40px;
     object-fit: contain;
 }
 
-.username, .avatar {
-    display: none;
+/* CONTAINER FLEXBOX PARA ALINHAR ABAS E PESQUISA NA MESMA LINHA */
+.top-controls-row {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 20px; 
 }
-
 
 /* TABS - NOVO ESTILO SEGMENTADO */
 .segmented-control {
     display: flex;
-    background-color: transparent;
-    border-radius: 10px;
-    padding: 0;
-    margin-bottom: 30px;
+    margin-bottom: 0; 
     width: fit-content;
-    box-shadow: none;
 }
 
 .tab-button {
@@ -332,13 +304,13 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Nova Row para Botão Adicionar e Pesquisar (FORA do painel) */
+/* Row para Botão Adicionar e Pesquisar (FORA do painel) */
 .control-row-outside {
     display: flex;
-    justify-content: flex-end; /* Alinha à direita */
     align-items: center;
-    gap: 15px; /* Espaçamento entre o '+' e a busca */
-    margin-bottom: 15px;
+    gap: 15px; 
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .add-button {
@@ -347,7 +319,7 @@ body {
     border: none;
     width: 40px;
     height: 40px;
-    border-radius: 10px; 
+    border-radius: 50%; 
     font-size: 24px;
     cursor: pointer;
     line-height: 40px;
@@ -363,7 +335,6 @@ body {
     background-color: #008fcc;
 }
 
-/* Campo de Pesquisa Externa (mais esticado e arredondado) */
 .search-input-group-outside {
     display: flex;
     align-items: center;
@@ -391,53 +362,67 @@ body {
     color: var(--light-text-color);
 }
 
+
+/* Cabeçalho da Tabela Fora do Painel (Fundo Cinza) */
+.fleet-table-header {
+    background-color: var(--table-header-bg); 
+    border-radius: 10px 10px 0 0; 
+    padding: 10px 20px; 
+    margin-top: 0; 
+    margin-bottom: -1px; 
+    box-shadow: 0 4px 12px rgba(23, 203, 248, 0.02);
+}
+
+.fleet-table-header .table-header-row {
+    font-weight: bold;
+    color: var(--primary-color); 
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
 /* Painel de Controle de Frota (Container) */
 .fleet-control-panel {
     background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 5px 0 20px 0; 
+    border-radius: 0 0 10px 10px; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.control-row {
-    display: none; /* A busca e o '+' foram movidos para .control-row-outside */
 }
 
 
 /* =======================================================
-    ESTILOS PARA A TABELA (VISUALIZAÇÃO DE VEÍCULOS)
+    ESTILOS PARA A TABELA (AÇÕES ATUALIZADAS)
     ======================================================= */
 
 .table-header-row,
 .table-row {
     display: grid;
+    /* AJUSTADO: Aumentado espaço para 'Editar/Excluir' */
     grid-template-columns:
-        1fr    /* Placa */
+        0.1fr  /* Bolinha de Status */
+        1.2fr  /* Placa */
         1.5fr  /* Renavam */
         0.8fr  /* Ano */
         2.5fr  /* Modelo */
         1fr    /* Cor */
         1.2fr  /* Combustível */
-        1.2fr  /* Capacidade */
-        0.5fr; /* Ações/Botão (os '...') */
+        1.0fr  /* Capacidade (Ajustado) */
+        1.0fr; /* Ações (Ajustado para 1.0fr) */
     gap: 10px;
-    padding: 10px 0;
     align-items: center;
     text-align: left;
 }
 
 .table-header-row {
     font-weight: bold;
-    color: var(--text-color); 
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 10px;
+    color: var(--primary-color); 
+    margin-bottom: 0;
     font-size: 13px;
 }
 
 .table-row {
     border-bottom: 1px solid #eee;
     font-size: 14px;
-    padding: 12px 0;
+    padding: 12px 20px;
     transition: background-color 0.2s;
 }
 
@@ -445,32 +430,71 @@ body {
     background-color: #fafafa;
 }
 
-/* Garante que o texto nas células da tabela não quebre, exibindo '...' */
 .col {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* ALTERAÇÃO 4: "Registros" fora do painel e em negrito */
-.record-count-outside {
-    margin-top: 20px;
-    margin-bottom: 15px; /* Espaçamento entre ele e a legenda */
-    font-size: 12px;
-    color: var(--text-color); /* Cor mais escura */
-    font-weight: bold; /* Negrito */
-    text-align: left; /* Alinhamento esquerdo */
-    padding-left: 20px; /* Para alinhar com o conteúdo do painel */
+/* NOVO: Container para os ícones de ação */
+.action-icons-group {
+    display: flex;
+    /* MUDANÇA ANTERIOR: Alinha os ícones à esquerda */
+    justify-content: flex-start; 
+    gap: 12px;
+}
+
+/* Estilo para os ícones de Editar e Excluir */
+.action-icon-edit, .action-icon-delete {
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s;
+}
+
+.action-icon-edit {
+    color: var(--primary-color); /* Azul para editar */
+}
+
+.action-icon-edit:hover {
+    color: #008fcc;
+}
+
+.action-icon-delete {
+    color: var(--status-quebrado); /* Vermelho para excluir */
+}
+
+.action-icon-delete:hover {
+    color: #a71d2a;
+}
+
+/* NOVO: Estilo da Bolinha de Status dentro da Linha da Tabela */
+.status-dot-inline {
+    display: inline-block;
+    width: 8px; /* Tamanho da bolinha */
+    height: 8px;
+    border-radius: 50%;
 }
 
 
-/* ALTERAÇÃO 5: Legenda de Status (com as cores corretas do Figma) */
+/* Registros fora do painel */
+.record-count-outside {
+    margin-top: 20px;
+    margin-bottom: 15px; 
+    font-size: 12px;
+    color: var(--text-color); 
+    font-weight: bold; 
+    text-align: left; 
+    padding-left: 20px; 
+}
+
+
+/* Legenda de Status - RESTAURADO */
 .status-legend {
-    margin-top: 0; /* Ajusta a margem superior já que o count saiu do painel */
+    margin-top: 0; 
     display: flex;
     gap: 15px;
     font-size: 12px;
-    padding-left: 20px; /* Para alinhar com o conteúdo do painel */
+    padding-left: 20px; 
 }
 
 .legend-item {
@@ -488,11 +512,207 @@ body {
     width: 8px; 
     height: 8px;
     border-radius: 50%;
-    margin-right: 5px; /* Espaçamento entre o ponto e o texto */
+    margin-right: 5px; 
 }
 
-/* Cores de status redefinidas no :root e aplicadas aqui */
-.status-dot.status-em-func { background-color: var(--status-em-func); }
-.status-dot.status-quebrado { background-color: var(--status-quebrado); }
-.status-dot.status-manut { background-color: var(--status-manut); }
-.status-dot.status-em-uso { background-color: var(--status-em-uso); }
+/* Aplicação das Cores de status */
+.status-dot.status-em-func, .status-dot-inline.status-em-func { background-color: var(--status-em-func); }
+.status-dot.status-quebrado, .status-dot-inline.status-quebrado { background-color: var(--status-quebrado); }
+.status-dot.status-manut, .status-dot-inline.status-manut { background-color: var(--status-manut); }
+.status-dot.status-em-uso, .status-dot-inline.status-em-uso { background-color: var(--status-em-uso); }
+
+/* =======================================================
+    ESTILOS DO MODAL DE CRIAÇÃO/EDIÇÃO
+    ======================================================= */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); 
+    /* Garante a centralização */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    border: 3px solid var(--modal-border-color); 
+    border-radius: 20px;
+    padding: 30px;
+    width: 95%; 
+    /* AJUSTE APLICADO: Aumentado para 1200px para garantir que o grid de 4 colunas caiba */
+    max-width: 1200px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+    font-size: 20px;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee; 
+}
+
+.modal-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px 20px; 
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-label {
+    font-size: 12px;
+    color: var(--light-text-color);
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
+.custom-input, .custom-select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 12px; 
+    border: 1px solid var(--primary-color); 
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.1);
+    transition: box-shadow 0.2s;
+}
+
+.custom-input:hover, .custom-select:hover {
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.2);
+}
+
+.custom-input input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.custom-select select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 14px;
+    padding-left: 10px;
+    cursor: pointer;
+    color: var(--text-color); 
+    width: 100%; 
+}
+
+.custom-select:not(.multiple)::after {
+    content: '\f0d7'; 
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    color: var(--primary-color);
+    margin-left: -20px; 
+    pointer-events: none; 
+}
+
+.custom-select.multiple select {
+    height: 18px; 
+    overflow: hidden;
+}
+
+
+.custom-input i, .custom-select i {
+    color: var(--primary-color); 
+    font-size: 16px;
+}
+
+.custom-select {
+    padding-right: 5px; 
+}
+
+.custom-select select {
+    padding-right: 5px;
+}
+
+.input-group.color-input {
+    grid-column: 1 / span 1; 
+}
+
+/* Botões de Ação do Modal */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.modal-button {
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.modal-button.cancel {
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.modal-button.confirm {
+    background: var(--primary-color);
+    color: white;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 170, 255, 0.3);
+}
+
+.modal-button:hover {
+    opacity: 0.9;
+}
+
+
+/* =======================================================
+    ESTILOS DO MODAL DE EXCLUSÃO (NOVO)
+    ======================================================= */
+
+.modal-content-small {
+    max-width: 450px; /* Tamanho menor para modal de confirmação */
+    text-align: center;
+}
+
+.delete-message {
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 25px;
+}
+
+.delete-message strong {
+    font-weight: bold;
+}
+
+.modal-delete .modal-actions {
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.modal-delete .modal-button.confirm.delete-button {
+    background-color: var(--status-quebrado);
+    border-color: var(--status-quebrado);
+}
+.modal-delete .modal-button.confirm.delete-button:hover {
+    background-color: #a71d2a;
+    border-color: #a71d2a;
+}

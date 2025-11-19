@@ -7,7 +7,7 @@
     <title>Painel Administrativo - Controle de Frotas</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./frota.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
@@ -21,11 +21,6 @@
             
             <div class="logo">
                 <img src="./img/logomenu.png" alt="Logo C+M" class="logo-image">
-            </div>
-
-            <div class="search-box">
-                <img src="./img/search.png" alt="Buscar" class="search-icon">
-                <input type="text" placeholder="Buscar" v-model="searchQuery">
             </div>
 
             <p class="section-title">Funcionalidades</p>
@@ -63,7 +58,10 @@
                 <div class="title-area">
                     <img src="./img/car.png" alt="Ícone de Carro" class="vehicle-icon-img">
                     
-                    <h1>Painel Administrativo: <span class="title-highlight">Controle de Frotas</span></h1>
+                    <div>
+                        <h1 class="main-title-line">Painel Administrativo</h1>
+                        <h1 class="title-highlight">Controle de Frotas</h1>
+                    </div>
                 </div>
                 <div class="user-profile">
                     <a href="/login" class="action-icon">
@@ -75,49 +73,60 @@
                 </div>
             </div>
 
-            <div class="segmented-control">
-                <button :class="{ 'tab-button': true, 'active': activeTab === 'emFunc' }"
-                    @click="activeTab = 'emFunc'">Em funcionamento</button>
-                <button :class="{ 'tab-button': true, 'active': activeTab === 'manut' }"
-                    @click="activeTab = 'manut'">Quebr/Manutenção</button>
-            </div>
+            <div class="top-controls-row">
+                <div class="segmented-control">
+                    <button :class="{ 'tab-button': true, 'active': activeTab === 'emFunc' }"
+                        @click="activeTab = 'emFunc'">Em funcionamento</button>
+                    <button :class="{ 'tab-button': true, 'active': activeTab === 'manut' }"
+                        @click="activeTab = 'manut'">Quebr/Manutenção</button>
+                </div>
 
-            <div class="control-row-outside">
-                <button class="add-button" @click="addVehicle">+</button>
-                
-                <div class="search-input-group-outside">
-                    <img src="./img/search.png" alt="Pesquisar" class="search-icon-outside">
-                    <input type="text" placeholder="Pesquisar" v-model="searchQuery">
+                <div class="control-row-outside">
+                    <button class="add-button" @click="openModal('create')">+</button>
+                    
+                    <div class="search-input-group-outside">
+                        <img src="./img/search.png" alt="Pesquisar" class="search-icon-outside">
+                        <input type="text" placeholder="Pesquisar" v-model="searchQuery">
+                    </div>
                 </div>
             </div>
             
-            <div class="fleet-control-panel">
+            <div class="fleet-table-header">
                 <div class="table-header-row">
-                    <span class="header-col status-col">Status</span> <span class="header-col placa-col">Placa</span>
+                    <span class="header-col status-icon-col"></span> 
+                    <span class="header-col placa-col">Placa</span>
                     <span class="header-col renavam-col">Renavam</span>
                     <span class="header-col ano-col">Ano</span>
                     <span class="header-col modelo-col">Modelo</span>
                     <span class="header-col cor-col">Cor</span>
                     <span class="header-col combustivel-col">Combustível</span>
                     <span class="header-col capacidade-col">Capacidade</span>
-                    <span class="header-col actions-col">...</span>
+                    <span class="header-col actions-col">Editar/Excluir</span> 
                 </div>
+            </div>
 
+            <div class="fleet-control-panel">
                 <div class="table-body">
                     <div v-if="filteredVehicles.length === 0" class="no-records">
                         Nenhum registro encontrado.
                     </div>
-                    <div v-else v-for="vehicle in filteredVehicles" :key="vehicle.placa" class="table-row">
-                        <div class="col status-col"><span class="status-dot-inline" :class="statusClass(vehicle.status)"></span></div>
+                    <div v-else v-for="(vehicle, index) in filteredVehicles" :key="vehicle.placa" class="table-row">
+                        <div class="col status-icon-col">
+                            <span :class="['status-dot-inline', statusClass(vehicle.status)]"></span>
+                        </div>
                         
                         <div class="col placa-col">{{ vehicle.placa }}</div>
                         <div class="col renavam-col">{{ vehicle.renavam }}</div>
                         <div class="col ano-col">{{ vehicle.ano }}</div>
                         <div class="col modelo-col">{{ vehicle.modelo }}</div>
                         <div class="col cor-col">{{ vehicle.cor }}</div>
-                        <div class="col combustivel-col">{{ vehicle.combustivel }}</div>
+                        <div class="col combustivel-col">{{ Array.isArray(vehicle.combustivel) ? vehicle.combustivel.join(', ') : vehicle.combustivel }}</div>
                         <div class="col capacidade-col">{{ vehicle.capacidade }}</div>
-                        <div class="col actions-col">...</div>
+                        
+                        <div class="col actions-col action-icons-group">
+                            <i class="fas fa-pencil-alt action-icon-edit" @click="openModal('edit', vehicle)"></i>
+                            <i class="fas fa-trash-alt action-icon-delete" @click="openDeleteConfirmation(vehicle)"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,12 +134,111 @@
             <p class="record-count-outside">{{ filteredVehicles.length }} Registros</p>
 
             <div class="status-legend">
-                <span class="legend-item"><span class="status-dot status-em-func"></span> Em funcionamento</span>
-                <span class="legend-item"><span class="status-dot status-quebrado"></span> Quebrado</span>
-                <span class="legend-item"><span class="status-dot status-manut"></span> Manutenção</span>
-                <span class="legend-item"><span class="status-dot status-em-uso"></span> Em uso</span>
+                <div class="legend-item"><span class="status-dot status-em-func"></span> Em funcionamento</div>
+                <div class="legend-item"><span class="status-dot status-quebrado"></span> Quebrado</div>
+                <div class="legend-item"><span class="status-dot status-manut"></span> Em Manutenção</div>
+                <div class="legend-item"><span class="status-dot status-em-uso"></span> Em Uso</div>
             </div>
         </div>
+
+        <div v-if="isModalOpen" class="modal-overlay">
+            <div class="modal-content">
+                <h2 class="modal-title">{{ modalMode === 'create' ? 'CADASTRAR VEÍCULO' : 'EDITAR VEÍCULO' }}</h2>
+
+                <div class="modal-fields-grid">
+                    <div class="input-group">
+                        <div class="input-label">Placa</div>
+                        <div class="custom-input">
+                            <i class="fas fa-id-card-alt"></i>
+                            <input type="text" placeholder="Placa" v-model="newVehicle.placa" :disabled="modalMode === 'edit'">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Renavam</div>
+                        <div class="custom-input">
+                            <i class="fas fa-file-alt"></i>
+                            <input type="text" placeholder="Renavam" v-model="newVehicle.renavam">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Modelo</div>
+                        <div class="custom-input">
+                            <i class="fas fa-car-side"></i>
+                            <input type="text" placeholder="Modelo" v-model="newVehicle.modelo">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Ano</div>
+                        <div class="custom-input">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="text" placeholder="Ano" v-model="newVehicle.ano">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Capacidade</div>
+                        <div class="custom-input">
+                            <i class="fas fa-users"></i>
+                            <input type="text" placeholder="Capacidade" v-model="newVehicle.capacidade">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Status</div>
+                        <div class="custom-select">
+                            <i class="fas fa-search"></i>
+                            <select v-model="newVehicle.status">
+                                <option disabled value="">Status</option>
+                                <option v-for="option in statusOptions" :key="option.value" :value="option.value">{{ option.text }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Categoria de Veículo</div>
+                        <div class="custom-select">
+                            <i class="fas fa-search"></i>
+                            <select v-model="newVehicle.categoria">
+                                <option disabled value="">Categoria de Veículo</option>
+                                <option v-for="option in categoriaOptions" :key="option" :value="option">{{ option }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-label">Tipo de Combustível</div>
+                        <div class="custom-select">
+                            <i class="fas fa-search"></i>
+                            <select v-model="newVehicle.combustivel"> 
+                                <option disabled value="">Tipo de Combustível</option>
+                                <option v-for="option in combustivelOptions" :key="option" :value="option">{{ option }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group color-input">
+                        <div class="input-label">Cor</div>
+                        <div class="custom-input">
+                            <i class="fas fa-palette"></i>
+                            <input type="text" placeholder="Cor" v-model="newVehicle.cor">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="modal-button cancel" @click="closeModal">Cancelar</button>
+                    <button class="modal-button confirm" @click="saveVehicle">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="isDeleteModalOpen" class="modal-overlay modal-delete">
+            <div class="modal-content modal-content-small">
+                <h2 class="modal-title">CONFIRMAÇÃO</h2>
+                <p class="delete-message">Tem certeza que deseja excluir o veículo de placa **{{ vehicleToDelete.placa }}**?</p>
+
+                <div class="modal-actions">
+                    <button class="modal-button cancel" @click="closeDeleteConfirmation">Não</button>
+                    <button class="modal-button confirm delete-button" @click="deleteVehicle">Sim</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="./frota.js"></script> 
