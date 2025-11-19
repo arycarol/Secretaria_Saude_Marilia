@@ -3,81 +3,107 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Arial", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
   display: flex;
-  background: #fff;
-  color: #333;
+  background: #f4f7f9;
   height: 100vh;
+  color: #333;
 }
 
-/* Sidebar */
+
+/* ===== SIDEBAR ===== */
 .sidebar {
-  width: 330px;
+  width: 280px;
   background: #fff;
-  padding: 20px 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  padding: 30px 20px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #eee;
-  border-radius: 20px;
-}
-
-.logo {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .logo-text {
+  font-family: "Montserrat", sans-serif;
   font-size: 28px;
-  font-weight: bold;
-  color: #00bfff;
+  font-weight: 800;
+  color: #00aaff;
 }
 
-/* Search */
 .search-box {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 25px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  flex: 1;
-  font-size: 14px;
+  background: #f4f7f9;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 20px;
+  border: 1px solid #e0e6ed;
 }
 
 .search-box i {
-  color: #666;
+  margin-right: 10px;
+  color: #777;
 }
 
-/* Menu */
-.menu-title {
-  font-size: 13px;
-  color: gray;
-  margin: 10px 0;
-}
-
-.menu ul {
-  list-style: none;
-}
-
-.menu li {
-  padding: 10px 0;
-  cursor: pointer;
+.search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
   font-size: 14px;
 }
 
-/* Conteúdo principal */
+.menu {
+  margin-top: 30px;
+}
+
+.menu-title {
+  font-size: 14px;
+  color: #777;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.menu-list {
+  list-style: none;
+}
+
+.menu-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s;
+  font-size: 15px;
+}
+
+.menu-list li i {
+  color: #00aaff;
+  font-size: 18px;
+}
+
+.menu-list li:hover {
+  background: #e0f2ff;
+  color: #00aaff;
+}
+
+.menu-list li.active {
+  background: #e0f2ff;
+  color: #00aaff;
+  font-weight: 600;
+}
+
+
+/* ===== CONTEÚDO ===== */
 .content {
   flex: 1;
-  padding: 30px 40px;
+  padding: 40px;
   position: relative;
 }
 
@@ -85,57 +111,49 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 25px;
 }
 
-.welcome .avatar img {
-  width: 180px;
-  height:180px;
+.avatar img {
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
 }
 
-.welcome-text h2 {
-  font-size: 22px;
-  color: #333;
-}
-
 .highlight {
-  color: #00bfff;
+  color: #00aaff;
 }
 
-/* Social box */
+
+/* ===== SOCIAL BOX ===== */
 .social-box {
   position: absolute;
+  right: 100px;
   top: 90px;
-  right: 200px;
-  border: 2px solid #00bfff;
+  background: #fff;
+  padding: 15px 25px;
   border-radius: 20px;
-  padding: 12px 20px;
+  border: 2px solid #00aaff;
   display: flex;
   align-items: center;
   gap: 15px;
-  min-width: 350px;
-  background: #fff;
-  font-size: 18px;
-  line-height: 1.3;
-}
-
-.social-box a {
-  color: #00bfff;
-  text-decoration: none;
-  font-weight: bold;
 }
 
 .social-icon {
-  font-size: 20px;
-  color: #00bfff;
+  font-size: 22px;
+  color: #00aaff;
+  cursor: pointer;
 }
 
-/* Formulário */
+
+/* ===== FORMULÁRIO ===== */
+.form-section {
+  margin-top: 60px;
+}
+
 .form-section h3 {
-  color: #00bfff;
+  color: #00aaff;
+  font-size: 22px;
   margin-bottom: 20px;
-  font-size: 20px;
 }
 
 .form-grid {
@@ -144,100 +162,72 @@ body {
   gap: 20px 30px;
 }
 
-/* Inputs mais bonitos */
 .input-box {
   display: flex;
   align-items: center;
   gap: 10px;
   background: #fff;
   border: 1.5px solid #ddd;
-  padding: 14px 18px; /* <<< aumenta altura */
-  border-radius: 20px; /* <<< mais arredondado */
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.08); /* <<< sombra suave */
+  padding: 14px 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.07);
   position: relative;
-  transition: all 0.2s ease-in-out;
 }
 
 .input-box input {
   border: none;
   outline: none;
   flex: 1;
-  font-size: 15px; /* <<< fonte maior */
-  color: #333;
+  font-size: 15px;
 }
 
-.input-box i {
-  color: #00bfff; /* <<< ícones na cor principal */
-  font-size: 16px;
-}
-
-.input-box .toggle {
+.input-box i.fa-eye {
   position: absolute;
   right: 14px;
   cursor: pointer;
-  color: #888;
 }
 
-/* Efeito ao focar */
 .input-box:focus-within {
-  border-color: #00bfff;
+  border-color: #00aaff;
   box-shadow: 0px 4px 10px rgba(0,191,255,0.25);
 }
 
-/* Botões */
+
+/* BOTÕES */
 .form-buttons {
-  display: flex;
-  justify-content: flex-end; /* joga os dois para o canto direito */
-  gap: 10px; /* espaço entre os botões */
   margin-top: 20px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
-.form-buttons button {
-  padding: 8px 16px; /* tamanho menor */
-  border: 2px solid #00bfff;
-  border-radius: 8px;
-  background: white;
-  font-weight: bold;
-  font-size: 14px;
-  color: #00bfff;
+button.cancel {
+  background: #eee;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
   cursor: pointer;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
-  transition: all 0.2s ease;
 }
 
-.form-buttons button:hover {
-  background: #00bfff;
-  color: white;
+button.reset {
+  background: #00aaff;
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+button.reset:hover {
+  background: #0080cc;
 }
 
 
-.form-buttons button:hover {
-  background: #00bfff;
-  color: white;
-}
-
-
-.form-buttons .cancel {
-  background: #f2f2f2;
-  color: #333;
-}
-
-.form-buttons .reset {
-  background: #00bfff;
-  color: white;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-}
-
-/* Footer */
+/* FOOTER */
 .footer {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
-.footer .caremove {
-  font-weight: bold;
-  color: #00bfff;
+.caremove {
+  color: #00aaff;
 }
-

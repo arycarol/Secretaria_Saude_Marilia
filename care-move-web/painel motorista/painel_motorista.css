@@ -352,3 +352,10 @@ body {
 .bolinha.ainda { background: #4a90e2; }
 .bolinha.agora { background: #5ad75a; }
 .bolinha.finalizado { background: #000; }
+/* ADICIONE AQUI NO FINAL DO SEU CSS */
+.sucesso { color: #28c76f; }
+
+.lista-aceitas .box-info {
+  border-left: 4px solid #28c76f;
+}
+.status-bolinha.finalizado { background: #000; }

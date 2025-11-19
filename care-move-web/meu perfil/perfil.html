@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel CareMove</title>
+  <title>Painel CareMove - Meu Perfil</title>
   <link rel="stylesheet" href="./perfil.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
-  <!-- Sidebar -->
+
+  <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar">
     <div class="logo">
       <span class="logo-text">C•M</span>
@@ -21,64 +23,61 @@
 
     <nav class="menu">
       <p class="menu-title">Funcionalidades</p>
-      <ul>
-        <li>Solicitações de Transporte e Agendamento.</li>
-        <li>Meu Perfil</li>
-      </ul>
+      <ul class="menu-list"></ul>
     </nav>
   </aside>
 
-  <!-- Conteúdo principal -->
+  <!-- ===== CONTEÚDO ===== -->
   <main class="content">
+
     <header class="welcome">
       <div class="avatar">
         <img src="./IconLog.png" alt="Avatar">
       </div>
+
       <div class="welcome-text">
-        <h2>Olá, <span class="highlight">Aryane!</span></h2>
-        <p>Bem-vindo(a)! 😊<br>
-          Explore o app e aproveite todas as funcionalidades.
-        </p>
+        <h2>Olá, <span class="highlight" id="nomeUsuario">Usuário</span>!</h2>
+        <p>Bem-vindo(a)! 😊<br>Explore o app e aproveite todas as funcionalidades.</p>
       </div>
     </header>
 
     <section class="social-box">
-      <p>
-        Acompanhe nossas redes sociais<br>
-        <a>e descubra mais sobre nós.</a>
-      </p>
-      <a href="https://www.instagram.com/caremove.marilia/" target="_blank">
-        <div class="social-icon">
-          <i class="fa-brands fa-instagram"></i>
-        </div>
-      </a>
+      <p>Acompanhe nossas redes sociais <br><a>e descubra mais sobre nós.</a></p>
 
+      <a href="https://www.instagram.com/caremove.marilia/" target="_blank">
+        <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
+      </a>
     </section>
 
     <section class="form-section">
       <h3>Formulário de Edição</h3>
+
       <form>
         <div class="form-grid">
+
           <div class="input-box">
             <i class="fa fa-user"></i>
-            <input type="text" placeholder="Nome">
+            <input type="text" placeholder="Nome" id="campoNome">
           </div>
+
           <div class="input-box">
             <i class="fa fa-id-card"></i>
-            <input type="text" placeholder="CPF">
+            <input type="text" placeholder="CPF" id="campoCpf">
           </div>
 
           <div class="input-box">
             <i class="fa fa-envelope"></i>
-            <input type="email" placeholder="Email">
+            <input type="email" placeholder="Email" id="campoEmail">
           </div>
+
           <div class="input-box">
             <i class="fa fa-phone"></i>
-            <input type="tel" placeholder="Telefone">
+            <input type="tel" placeholder="Telefone" id="campoTelefone">
           </div>
+
           <div class="input-box">
             <i class="fa fa-calendar"></i>
-            <input type="date" placeholder="Data Nasc.">
+            <input type="date" placeholder="Data Nasc." id="campoData">
           </div>
 
           <div class="input-box">
@@ -86,6 +85,7 @@
             <input type="password" placeholder="Nova Senha">
             <i class="fa fa-eye toggle"></i>
           </div>
+
           <div class="input-box">
             <i class="fa fa-lock"></i>
             <input type="password" placeholder="Confirmar senha">
@@ -103,6 +103,50 @@
     <footer class="footer">
       <p>Desenvolvido por <span class="caremove">CareMove</span></p>
     </footer>
+
   </main>
+
+
+  <!-- ===== JS Sidebar Dinâmica ===== -->
+  <script>
+    function getCookie(name) {
+      const cookies = document.cookie.split(";").map(c => c.trim());
+      for (const cookie of cookies) {
+        if (cookie.startsWith(name + "=")) {
+          return cookie.substring(name.length + 1);
+        }
+      }
+      return null;
+    }
+
+    const userCategory = getCookie("userCategory");
+    const userName = getCookie("userName");
+    if (userName) document.getElementById("nomeUsuario").innerText = userName;
+
+    const menuLista = document.querySelector(".menu-list");
+    menuLista.innerHTML = "";
+
+    if (userCategory === "Administrador" || userCategory === "Admin") {
+      menuLista.innerHTML = `
+        <li><i class="fa-solid fa-users"></i><a href="../painel_adm/index.html">Gerenciamento de Usuários</a></li>
+        <li><i class="fa-solid fa-clipboard-check"></i><a href="../painel_adm/liberacao.html">Liberação de Transporte</a></li>
+        <li><i class="fa-solid fa-truck"></i><a href="../painel_adm/frotas.html">Controle de Frotas</a></li>
+        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
+      `;
+    }
+    if (userCategory === "Motorista"){
+      menuLista.innerHTML = `
+        <li><i class="fa-solid fa-van-shuttle"></i><a href="../painel motorista/painel_motorista.html">Painel do Motorista</a></li>
+        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
+      `;
+    }
+    if (userCategory === "Paciente"){
+      menuLista.innerHTML = `
+        <li><i class="fa-solid fa-van-shuttle"></i><a href="../solicitações de transporte e agendamento/index.html">Solicitações de Transporte</a></li>
+        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
+      `;
+    }    
+  </script>
+
 </body>
 </html>
