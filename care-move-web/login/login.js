@@ -77,21 +77,19 @@ document.querySelector(".btn").addEventListener("click", async (event) => {
         document.cookie = `userCategory=${userCategory}; path=/; max-age=86400; samesite=strict`;
         document.cookie = `userId=${userId}; path=/; max-age=86400; samesite=strict`;
 
-        alert("Login realizado com sucesso!");
-
         // ================================
         // REDIRECIONAMENTO POR CATEGORIA
         // ================================
         if (userCategory === "Administrador" || userCategory === "Admin") {
-            window.location.href = "../painel_adm/index.html";
+            window.location.href = "../painel adm/index.html";
         } 
         
         else if (userCategory === "Paciente") {
             window.location.href = "../solicitações de transporte e agendamento/index.html";
         }
 
-        else {
-            alert("Categoria de usuário desconhecida!");
+        else if (userCategory === "Motorista"){
+            window.location.href = "../painel motorista/painel_motorista.html";
         }
 
     } catch (error) {

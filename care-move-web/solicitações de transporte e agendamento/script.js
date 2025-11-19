@@ -75,7 +75,6 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
             return;
         }
 
-        alert("Solicitação enviada com sucesso!");
         carregarSolicitacoes();
         document.querySelector("form").reset();
 
