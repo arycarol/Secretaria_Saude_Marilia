@@ -27,6 +27,11 @@ public class TransportRequestService : BaseService<ITransportRequestRepository, 
         return Convert(_repository.GetListPending());
     }
 
+    public List<OutputTransportRequest>? GetListByUserId(long userId)
+    {
+        return Convert(_repository.GetListByUserId(userId));
+    }
+
     public override List<long>? CreateMultiple(List<InputCreateTransportRequest>? listInputCreate)
     {
         List<TransportRequestDTO> listCreateDTO = new List<TransportRequestDTO>();

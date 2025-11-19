@@ -7,6 +7,7 @@ public interface ITransportRequestService : IBaseService<InputCreateTransportReq
 {
     List<OutputTransportRequest>? GetListPending();
     List<OutputTransportRequest>? GetListNonPending();
+    List<OutputTransportRequest>? GetListByUserId(long userId);
     void Accept(InputAcceptTransportRequest inputAcceptTransportRequest);
     void Reject(long id);
 }

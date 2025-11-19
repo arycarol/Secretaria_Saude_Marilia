@@ -7,4 +7,5 @@ public interface ITransportRequestRepository : IBaseRepository<OutputTransportRe
 {
     List<TransportRequestDTO>? GetListPending();
     List<TransportRequestDTO>? GetListNonPending();
+    List<TransportRequestDTO>? GetListByUserId(long userId);
 }

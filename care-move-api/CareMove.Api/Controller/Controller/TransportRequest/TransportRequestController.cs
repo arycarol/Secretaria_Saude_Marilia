@@ -24,6 +24,13 @@ public class TransportRequestController : BaseController<ITransportRequestServic
         return Ok(query);
     }
 
+    [HttpGet("GetListByUserId/{id}")]
+    public ActionResult<List<OutputTransportRequest>> GetListByUserId(long id)
+    {
+        var query = _service.GetListByUserId(id);
+        return Ok(query);
+    }
+
     [HttpPost("Accept")]
     public virtual IActionResult Accept(InputAcceptTransportRequest inputAcceptTransportRequest)
     {

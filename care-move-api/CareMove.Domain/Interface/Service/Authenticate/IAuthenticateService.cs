@@ -4,5 +4,5 @@ namespace CareMove.Domain.Interface.Service;
 
 public interface IAuthenticateService
 {
-    string Authenticate(InputAuthenticate inputAuthenticate);
+    OutputAuthenticate Authenticate(InputAuthenticate inputAuthenticate);
 }
