@@ -21,7 +21,7 @@ public class AuthenticateService : IAuthenticateService
         _userRepository = userRepository;
     }
 
-    public string Authenticate(InputAuthenticate inputAuthenticate)
+    public OutputAuthenticate Authenticate(InputAuthenticate inputAuthenticate)
     {
         UserDTO? userDTO = _userRepository.GetFilterByCPF(inputAuthenticate.CPF);
         if (userDTO == null)
@@ -30,7 +30,7 @@ public class AuthenticateService : IAuthenticateService
         if (!string.Equals(userDTO.Password, inputAuthenticate.Password, StringComparison.Ordinal))
             throw new Exception("Senha inválida");
 
-        return GenerateToken(userDTO);
+        return new OutputAuthenticate(GenerateToken(userDTO), userDTO.UserCategory, userDTO.Id);
     }
 
     #region Private

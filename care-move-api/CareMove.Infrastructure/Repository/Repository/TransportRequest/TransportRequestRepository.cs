@@ -22,4 +22,9 @@ public class TransportRequestRepository : BaseRepository<TransportRequest, Trans
     {
         return Convert(_dbset.Where(x => x.TransportStatus != "Aguardando").AsNoTracking().ToList());
     }
+
+    public List<TransportRequestDTO>? GetListByUserId(long userId)
+    {
+        return Convert(_dbset.Where(x => x.UserId == userId).AsNoTracking().ToList());
+    }
 }
