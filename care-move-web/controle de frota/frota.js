@@ -1,117 +1,156 @@
 const { createApp } = Vue;
 
-// Mapeamento para garantir que a classe CSS de status esteja correta
+// Mapeamento para status visual (CSS)
 const statusMap = {
-    'Em funcionamento': 'em-func',
-    'Em uso': 'em-uso',
-    'Manutenção': 'manut',
-    'Quebrado': 'quebrado'
+    "Em funcionamento": "em-func",
+    "Em uso": "em-uso",
+    "Manutenção": "manut",
+    "Quebrado": "quebrado"
 };
 
-// Mapeamento inverso (usado para pré-preencher o select na edição)
 const statusMapReverse = {
-    'em-func': 'Em funcionamento',
-    'em-uso': 'Em uso',
-    'manut': 'Manutenção',
-    'quebrado': 'Quebrado'
+    "em-func": "Em funcionamento",
+    "em-uso": "Em uso",
+    "manut": "Manutenção",
+    "quebrado": "Quebrado"
 };
 
-// Objeto para resetar o formulário
+// Modelo base do formulário
 const defaultNewVehicle = {
-    placa: '',
-    renavam: '',
-    modelo: '',
-    ano: '',
-    cor: '',
-    capacidade: '',
-    status: '', // Ex: 'Em funcionamento' (texto)
-    categoria: '',
-    combustivel: [], // Array para seleção múltipla
+    id: null,
+    placa: "",
+    renavam: "",
+    modelo: "",
+    ano: "",
+    cor: "",
+    capacidade: "",
+    categoria: "",
+    combustivel: "",
+    status: ""
 };
 
 createApp({
     data() {
         return {
-            isSidebarActive: true, 
-            searchQuery: '',
-            activeTab: 'emFunc',
+            isSidebarActive: false,
+            searchQuery: "",
+            activeTab: "emFunc",
 
-            // MODAL CRIAÇÃO/EDIÇÃO
-            isModalOpen: false, 
-            modalMode: 'create', // 'create' ou 'edit'
-            newVehicle: { ...defaultNewVehicle }, 
-            originalPlaca: null, // Armazena a placa original para encontrar o item na edição
+            isModalOpen: false,
+            modalMode: "create",
+            newVehicle: { ...defaultNewVehicle },
 
-            // MODAL EXCLUSÃO
             isDeleteModalOpen: false,
-            vehicleToDelete: {}, // Armazena o objeto do veículo a ser excluído
+            vehicleToDelete: {},
 
-            // Listas de opções
             statusOptions: [
-                { value: 'Em funcionamento', text: 'Em funcionamento' },
-                { value: 'Em uso', text: 'Em Uso' },
-                { value: 'Manutenção', text: 'Manutenção' },
-                { value: 'Quebrado', text: 'Quebrado' }
+                { value: "Em funcionamento", text: "Em funcionamento" },
+                { value: "Em uso", text: "Em Uso" },
+                { value: "Manutenção", text: "Manutenção" },
+                { value: "Quebrado", text: "Quebrado" }
             ],
-            categoriaOptions: ['Ambulância', 'Carro', 'Ônibus', 'Van'], 
-            combustivelOptions: ['Diesel', 'Etanol', 'Etanol/Gasolina', 'Gasolina'], 
+            categoriaOptions: ["Ambulância", "Carro", "Ônibus", "Van"],
+            combustivelOptions: ["Diesel", "Etanol", "Etanol/Gasolina", "Gasolina"],
 
-            // Dados iniciais
-            vehicles: [
-                { placa: 'ABC-1234', renavam: '01234567890', ano: '2019/2020', modelo: 'Volkswagen Gol 1.6', cor: 'Branco', combustivel: ['Diesel'], capacidade: '16 Lugares', status: 'em-func' },
-                { placa: 'ABC-1024', renavam: '34567901123', ano: '2021/2024', modelo: 'Mercedes-Benz Sprinter', cor: 'Branco', combustivel: ['Diesel'], capacidade: '15 Lugares', status: 'em-uso' },
-                { placa: 'PFR-1023', renavam: '34567890123', ano: '2021/2022', modelo: 'Mercedes-Benz', cor: 'Branco', combustivel: ['Diesel'], capacidade: '15 Lugares', status: 'quebrado' },
-                { placa: 'PFR-4789', renavam: '45678901234', ano: '2017/2018', modelo: 'Volkswagen Comil', cor: 'Branco', combustivel: ['Diesel', 'Etanol'], capacidade: '16 Lugares', status: 'manut' },
-            ]
-        }
+            vehicles: [] // <-- Recebe da API
+        };
     },
+
     computed: {
         filteredVehicles() {
             return this.vehicles.filter(v => {
                 let matchesTab = false;
-                if (this.activeTab === 'emFunc') {
-                    matchesTab = v.status === 'em-func' || v.status === 'em-uso';
-                } else if (this.activeTab === 'manut') {
-                    matchesTab = v.status === 'quebrado' || v.status === 'manut';
+
+                // FILTRO DA ABA
+                if (this.activeTab === "emFunc") {
+                    matchesTab = v.status === "em-func" || v.status === "em-uso";
+                } else {
+                    matchesTab = v.status === "quebrado" || v.status === "manut";
                 }
 
-                const searchLower = this.searchQuery.toLowerCase();
-                const matchesSearch = v.placa.toLowerCase().includes(searchLower) ||
-                    v.modelo.toLowerCase().includes(searchLower) ||
-                    v.renavam.toLowerCase().includes(searchLower);
+                const s = this.searchQuery.toLowerCase();
+
+                const matchesSearch =
+                    v.placa.toLowerCase().includes(s) ||
+                    v.modelo.toLowerCase().includes(s) ||
+                    v.renavam.toLowerCase().includes(s);
 
                 return matchesTab && matchesSearch;
             });
         }
     },
+
     methods: {
-        // Retorna a classe CSS de status
-        statusClass(status) {
-            return 'status-' + status;
+        // Lê o JWT salvo no cookie
+        getToken() {
+            return document.cookie
+                .split("; ")
+                .find(c => c.startsWith("jwt="))
+                ?.split("=")[1];
         },
-        
-        // ===================================
-        // FUNÇÕES DO MODAL DE CRIAÇÃO/EDIÇÃO
-        // ===================================
 
-        // Abre o modal de Cadastro ('create') ou Edição ('edit')
-        openModal(mode, vehicleData = null) {
-            this.modalMode = mode;
-            this.newVehicle = { ...defaultNewVehicle }; // Reseta
-            this.originalPlaca = null;
+        statusClass(s) {
+            return "status-" + s;
+        },
 
-            if (mode === 'edit' && vehicleData) {
-                // Ao editar, pré-preenche o formulário com os dados do veículo
-                this.newVehicle = {
-                    ...vehicleData,
-                    // Converte a chave CSS de status (Ex: 'em-func') para o texto do Select (Ex: 'Em funcionamento')
-                    status: statusMapReverse[vehicleData.status] || '', 
-                    // Garante que combustivel seja um array (o v-model espera isso)
-                    combustivel: Array.isArray(vehicleData.combustivel) ? vehicleData.combustivel : [vehicleData.combustivel],
-                    categoria: vehicleData.categoria || '',
-                };
-                this.originalPlaca = vehicleData.placa; // Armazena para referência na hora de salvar
+        // ============================================================
+        // 📌 CARREGAR VEÍCULOS DA API
+        // ============================================================
+        async loadVehicles() {
+            try {
+                const token = this.getToken();
+
+                const res = await fetch("http://localhost:5260/api/v1/Vehicle", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                if (!res.ok) throw new Error("Erro API GET");
+
+                const data = await res.json();
+
+                // 🔁 Mapeamento correto dos campos API → Front
+                this.vehicles = data.map(v => ({
+                    id: v.id,
+                    placa: v.licensePlate,
+                    renavam: v.renavam,
+                    modelo: v.vehicleModel,
+                    ano: v.year,
+                    cor: v.color,
+                    combustivel: v.vehicleFuelType,
+                    capacidade: v.capacity,
+                    categoria: v.vehicleCategory,
+                    status: statusMap[v.vehicleStatus] || "em-func"
+                }));
+
+            } catch (e) {
+                console.error("Erro loadVehicles():", e);
+                alert("Erro ao carregar veículos");
             }
+        },
+
+        // ============================================================
+        // 📌 ABRIR MODAL (criar/editar)
+        // ============================================================
+        openModal(mode, vehicle = null) {
+            this.modalMode = mode;
+
+            if (mode === "create") {
+                this.newVehicle = { ...defaultNewVehicle };
+            } else {
+                this.newVehicle = {
+                    id: vehicle.id,
+                    placa: vehicle.placa,
+                    renavam: vehicle.renavam,
+                    modelo: vehicle.modelo,
+                    ano: vehicle.ano,
+                    cor: vehicle.cor,
+                    capacidade: vehicle.capacidade,
+                    categoria: vehicle.categoria,
+                    combustivel: vehicle.combustivel,
+                    status: statusMapReverse[vehicle.status]
+                };
+            }
+
             this.isModalOpen = true;
         },
 
@@ -119,47 +158,59 @@ createApp({
             this.isModalOpen = false;
         },
 
-        // Função Única para salvar (Criação ou Edição)
-        saveVehicle() {
-            // Converte o status de texto para a chave CSS
-            const statusKey = statusMap[this.newVehicle.status] || 'em-func';
+        // ============================================================
+        // 📌 SALVAR VEÍCULO (POST / PUT)
+        // ============================================================
+        async saveVehicle() {
+            try {
+                const token = this.getToken();
 
-            const vehicleToSave = {
-                placa: this.newVehicle.placa,
-                renavam: this.newVehicle.renavam,
-                modelo: this.newVehicle.modelo,
-                ano: this.newVehicle.ano,
-                cor: this.newVehicle.cor,
-                capacidade: this.newVehicle.capacidade,
-                status: statusKey, 
-                combustivel: this.newVehicle.combustivel, 
-                categoria: this.newVehicle.categoria || '', 
-            };
-            
-            if (this.modalMode === 'create') {
-                // LÓGICA DE CRIAÇÃO
-                this.vehicles.push(vehicleToSave);
-                console.log('Novo veículo cadastrado:', vehicleToSave);
+                const payload = {
+                    id: this.newVehicle.id,
+                    name: this.newVehicle.modelo,
+                    licensePlate: this.newVehicle.placa,
+                    vehicleCategory: this.newVehicle.categoria,
+                    vehicleModel: this.newVehicle.modelo,
+                    color: this.newVehicle.cor,
+                    vehicleFuelType: this.newVehicle.combustivel,
+                    vehicleStatus: this.newVehicle.status,
+                    renavam: this.newVehicle.renavam,
+                    year: this.newVehicle.ano,
+                    capacity: Number(this.newVehicle.capacidade)
+                };
 
-            } else if (this.modalMode === 'edit') {
-                // LÓGICA DE EDIÇÃO
-                const index = this.vehicles.findIndex(v => v.placa === this.originalPlaca);
-                if (index !== -1) {
-                    this.vehicles[index] = vehicleToSave;
-                    console.log('Veículo editado:', vehicleToSave);
+                const url = "http://localhost:5260/api/v1/Vehicle";
+                const method = this.modalMode === "create" ? "POST" : "PUT";
+
+                const res = await fetch(url, {
+                    method,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const t = await res.text();
+                    console.log("Erro API:", t);
+                    throw new Error("Falha ao salvar");
                 }
-            }
 
-            this.closeModal();
-            this.newVehicle = { ...defaultNewVehicle }; // Limpa
+                alert(this.modalMode === "create" ? "Veículo criado!" : "Atualizado!");
+
+                this.closeModal();
+                this.loadVehicles();
+
+            } catch (e) {
+                console.error("Erro saveVehicle():", e);
+                alert("Erro ao salvar veículo");
+            }
         },
 
-
-        // ===================================
-        // FUNÇÕES DO MODAL DE EXCLUSÃO
-        // ===================================
-        
-        // Abre o modal de confirmação de exclusão
+        // ============================================================
+        // 📌 MODAL DE EXCLUSÃO
+        // ============================================================
         openDeleteConfirmation(vehicle) {
             this.vehicleToDelete = vehicle;
             this.isDeleteModalOpen = true;
@@ -170,19 +221,37 @@ createApp({
             this.vehicleToDelete = {};
         },
 
-        // Remove o veículo da lista após a confirmação
-        deleteVehicle() {
-            const placa = this.vehicleToDelete.placa;
-            const index = this.vehicles.findIndex(v => v.placa === placa);
+        // ============================================================
+        // 📌 EXCLUIR VEÍCULO (DELETE)
+        // ============================================================
+        async deleteVehicle() {
+            try {
+                const token = this.getToken();
 
-            if (index !== -1) {
-                // Remove o veículo usando o índice
-                this.vehicles.splice(index, 1);
-                console.log(`Veículo de placa ${placa} excluído.`);
+                const res = await fetch("http://localhost:5260/api/v1/Vehicle", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ id: this.vehicleToDelete.id })
+                });
+
+                if (!res.ok) throw new Error("Erro ao excluir");
+
+                alert("Veículo excluído!");
+
+                this.closeDeleteConfirmation();
+                this.loadVehicles();
+
+            } catch (e) {
+                console.error("Erro deleteVehicle():", e);
+                alert("Erro ao excluir veículo");
             }
-
-            // Fecha o modal de exclusão
-            this.closeDeleteConfirmation();
         }
+    },
+
+    mounted() {
+        this.loadVehicles();
     }
-}).mount('#app');
+}).mount("#app");
