@@ -130,7 +130,7 @@ menuToggle.addEventListener('mouseleave', iniciarFechamento);
 sidebar.addEventListener('mouseleave', iniciarFechamento);
 
 /* ========================
-       TOKEN
+       TOKEN & USER
 ======================== */
 function getCookie(name) {
   const cookies = document.cookie.split(";").map(c => c.trim());
@@ -143,12 +143,14 @@ function getCookie(name) {
 }
 
 const token = getCookie("jwt");
-if (!token) {
+const driverUserId = getCookie("userId"); // MOTORISTA LOGADO
+
+if (!token || !driverUserId) {
   alert("Sessão expirada. Faça login novamente.");
   window.location.href = "../login/login.html";
 }
 
-const API_BASE = "http://localhost:5260/api/v1";
+const API_BASE = "https://localhost:7041/api/v1";
 
 /* ========================
        ELEMENTOS
@@ -162,7 +164,7 @@ const agendaContainer = document.querySelector(".lista-agenda");
 ======================== */
 async function carregarAssignments() {
   try {
-      const response = await fetch(`${API_BASE}/TransportAssignment`, {
+      const response = await fetch(`${API_BASE}/TransportAssignment/GetListByDriverId/${driverUserId}`, {
           headers: { "Authorization": `Bearer ${token}` }
       });
 
@@ -190,7 +192,8 @@ async function carregarAssignments() {
               );
           }
 
-          if (item.transportAssignmentStatus === "Concluido") {
+          if (item.transportAssignmentStatus === "Concluido" ||
+              item.transportAssignmentStatus === "Aceito") {
               adicionarSolicitacaoAceita(
                   request.hour,
                   paciente.name,
@@ -208,13 +211,15 @@ async function carregarAssignments() {
 }
 
 /* ========================
-       CARREGAR AGENDA
+       CARREGAR AGENDA (HOJE)
 ======================== */
 async function carregarAgenda() {
   try {
-      const response = await fetch(`${API_BASE}/TransportAssignment/GetListOfToday`, {
+      const response = await fetch(`${API_BASE}/TransportAssignment/GetListOfToday/${driverUserId}`, {
           headers: { "Authorization": `Bearer ${token}` }
       });
+
+      if (!response.ok) throw new Error("Erro ao carregar agenda");
 
       const assignments = await response.json();
 
@@ -358,6 +363,7 @@ function mostrarModal() {
 ======================== */
 carregarAssignments();
 carregarAgenda();
+
 
 </script>
 
