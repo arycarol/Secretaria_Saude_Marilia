@@ -1,0 +1,565 @@
+/* Importar uma fonte moderna e limpa, como 'Inter' (similar à da imagem) */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+/* Variáveis de Cores */
+
+:root {
+    --color-primary: #1e90ff; /* Azul para destaque e ícones */
+
+    --color-text-dark: #333;
+
+    --color-text-light: #555;
+
+    --color-background: #f8f9fa;
+
+    --color-sidebar-bg: #fff; /* Renomeado de --color-sidebar para evitar conflito com a nova regra de posicionamento */
+
+    --color-border: #eee;
+
+    --color-green: #5cb85c;
+
+    --color-red: #d9534f;
+
+    --color-blue-dot: #007bff;
+
+    --color-green-dot: #5cb85c;
+
+    --color-black-dot: #333;
+
+    --color-red-dot: #d9534f;
+
+    --sidebar-width: 260px; /* Variável para a largura do menu burger */
+}
+
+* {
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+
+    background-color: var(--color-background);
+
+    color: var(--color-text-dark);
+
+    display: flex;
+
+    min-height: 100vh;
+}
+
+/* 1. Container Principal */
+
+.container {
+    display: flex;
+
+    width: 100%;
+}
+
+/* 2. Barra Lateral (Sidebar) - ESTILOS DE MENU BURGER APLICADOS */
+
+.sidebar {
+    width: var(--sidebar-width);
+
+    background-color: var(--color-sidebar-bg);
+
+    padding: 20px 0;
+
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+    /* Configurações de posicionamento do menu burger */
+
+    position: fixed; /* Fixa o menu */
+
+    top: 0;
+
+    left: calc(
+        -1 * var(--sidebar-width)
+    ); /* Esconde a sidebar para a esquerda */
+
+    height: 100%;
+
+    transition: left 0.3s ease; /* Transição suave ao mover */
+
+    z-index: 100;
+}
+
+/* Estado Ativo: Torna a sidebar visível */
+
+.sidebar.active {
+    left: 0;
+}
+
+.logo {
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: var(--color-primary);
+
+    padding: 0 20px 30px;
+}
+
+.menu {
+    flex-grow: 1;
+
+    padding-right: 15px;
+}
+
+/* Removendo icones do menu burger que não estavam no original */
+
+.menu-item .fa-solid {
+    margin-right: 10px;
+}
+
+/* --- ESTILOS DO MENU BURGER --- */
+
+.menu-toggle {
+    position: fixed;
+
+    bottom: 40px;
+
+    left: 0;
+
+    width: 60px;
+
+    height: 50px;
+
+    background: var(
+        --color-primary
+    ); /* Usei a cor primária para manter a coesão */
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    border: none;
+
+    border-radius: 0 25px 25px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: left 0.3s ease;
+
+    z-index: 999;
+}
+
+/* Quando a sidebar está aberta, move o botão para o lado direito da sidebar */
+
+.menu-toggle.active {
+    left: var(--sidebar-width);
+}
+
+/* 3. Conteúdo Principal */
+
+/* O main-content precisa de padding/margin para garantir que o conteúdo não fique escondido sob a sidebar aberta */
+
+.main-content {
+    flex-grow: 1;
+
+    padding: 30px;
+
+    width: 100%;
+
+    /* Adiciona padding para o menu burger quando a sidebar estiver fechada */
+
+    padding-left: 90px;
+
+    transition: padding-left 0.3s ease;
+}
+
+/* Ajuste de layout para o restante dos elementos (sem alteração significativa no layout original) */
+
+.header {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 30px;
+}
+
+/* ... (Restante dos estilos originais da tabela, abas, etc.) ... */
+
+/* Estilos de busca, menu-title, menu-item (mantidos do código anterior) */
+
+.search-box {
+    display: flex;
+
+    align-items: center;
+
+    background-color: var(--color-background);
+
+    color: var(--color-text-dark);
+
+    padding: 10px 20px;
+
+    margin-bottom: 20px;
+
+    border-top-right-radius: 20px;
+
+    border-bottom-right-radius: 20px;
+
+    font-weight: 600;
+}
+
+.search-box .fas {
+    margin-right: 10px;
+
+    color: var(--color-text-dark);
+}
+
+.search-box .arrow-right {
+    margin-left: auto;
+
+    font-size: 10px;
+
+    color: var(--color-text-dark);
+}
+
+.menu-title {
+    color: var(--color-text-light);
+
+    font-size: 12px;
+
+    padding: 15px 20px 5px;
+
+    text-transform: uppercase;
+
+    font-weight: 600;
+}
+
+.menu-item {
+    display: flex;
+
+    align-items: center;
+
+    padding: 12px 20px;
+
+    color: var(--color-text-dark);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: background-color 0.2s;
+
+    position: relative;
+
+    border-top-right-radius: 20px;
+
+    border-bottom-right-radius: 20px;
+
+    margin: 5px 0;
+}
+
+.menu-item.active {
+    background-color: var(--color-background);
+
+    font-weight: 600;
+
+    color: var(--color-primary);
+}
+
+.menu-item .arrow-right {
+    margin-left: auto;
+
+    font-size: 10px;
+
+    color: var(--color-text-light);
+}
+
+.menu-item.active .arrow-right {
+    color: var(--color-primary);
+}
+
+.user-profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    color: var(--color-primary);
+}
+
+.user-profile img {
+    width: 30px;
+
+    height: 30px;
+
+    border-radius: 50%;
+
+    background-color: #f1f1f1;
+}
+
+.user-profile .fa-sign-out-alt {
+    color: var(--color-text-light);
+
+    font-size: 18px;
+}
+
+.admin-panel {
+    background-color: var(--color-sidebar-bg);
+
+    padding: 30px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.panel-title {
+    font-size: 18px;
+
+    font-weight: 400;
+
+    margin-bottom: 25px;
+
+    color: var(--color-text-dark);
+
+    display: flex;
+
+    align-items: center;
+}
+
+.panel-title .fas {
+    font-size: 20px;
+
+    margin-right: 10px;
+
+    color: var(--color-primary);
+}
+
+.panel-title .highlight {
+    font-weight: 700;
+
+    color: var(--color-primary);
+}
+
+.controls-bar {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.tabs {
+    background-color: var(--color-background);
+
+    border-radius: 25px;
+
+    padding: 5px;
+
+    display: flex;
+}
+
+.tab-button {
+    padding: 8px 20px;
+
+    border: none;
+
+    border-radius: 20px;
+
+    background-color: transparent;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: var(--color-text-light);
+
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tab-button.active {
+    background-color: var(--color-sidebar-bg);
+
+    color: var(--color-primary);
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input-container {
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid var(--color-primary);
+
+    border-radius: 25px;
+
+    padding: 5px 15px;
+
+    background-color: var(--color-sidebar-bg);
+
+    width: 250px;
+}
+
+.search-input-container .fas {
+    color: var(--color-primary);
+
+    margin-right: 10px;
+}
+
+.search-input-container input {
+    border: none;
+
+    outline: none;
+
+    flex-grow: 1;
+
+    font-size: 14px;
+
+    color: var(--color-text-dark);
+}
+
+.data-table {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+thead th {
+    text-align: left;
+
+    padding: 15px 10px;
+
+    color: var(--color-text-dark);
+
+    font-weight: 700;
+
+    border-bottom: 1px solid var(--color-border);
+}
+
+tbody td {
+    padding: 15px 10px;
+
+    color: var(--color-text-light);
+
+    border-bottom: 1px solid var(--color-border);
+
+    vertical-align: middle;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.status-dot {
+    display: inline-block;
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    margin-right: 5px;
+}
+
+.status-dot.blue {
+    background-color: var(--color-blue-dot);
+}
+
+.status-dot.green {
+    background-color: var(--color-green-dot);
+}
+
+.status-dot.black {
+    background-color: var(--color-black-dot);
+}
+
+.status-dot.red {
+    background-color: var(--color-red-dot);
+}
+
+.actions-buttons {
+    display: flex;
+
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 8px 15px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition: opacity 0.2s;
+}
+
+.action-btn.green {
+    background-color: var(--color-green);
+}
+
+.action-btn.red {
+    background-color: var(--color-red);
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
+
+.record-count {
+    font-size: 14px;
+
+    color: var(--color-text-light);
+
+    margin-top: 15px;
+
+    font-weight: 600;
+
+    padding-left: 10px;
+}
+
+.status-legend {
+    display: flex;
+
+    gap: 30px;
+
+    margin-top: 40px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid var(--color-border);
+}
+
+.legend-item {
+    display: flex;
+
+    align-items: center;
+
+    font-size: 13px;
+
+    color: var(--color-text-dark);
+}
