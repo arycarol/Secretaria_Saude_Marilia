@@ -5,5 +5,6 @@ namespace CareMove.Domain.Interface.Repository.Repository;
 
 public interface ITransportAssignmentRepository : IBaseRepository<OutputTransportAssignment, TransportAssignmentDTO>
 {
-    List<TransportAssignmentDTO>? GetListOfToday();
+    List<TransportAssignmentDTO>? GetListOfToday(long driverUserId);
+    List<TransportAssignmentDTO>? GetListByDriverId(long driverUserId);
 }

@@ -11,9 +11,14 @@ public class TransportAssignmentService : BaseService<ITransportAssignmentReposi
 {
     public TransportAssignmentService(ITransportAssignmentRepository repository, IMapper mapper) : base(repository, mapper) { }
 
-    public List<OutputTransportAssignment>? GetListOfToday()
+    public List<OutputTransportAssignment>? GetListOfToday(long driverUserId)
     {
-        return Convert(_repository.GetListOfToday());
+        return Convert(_repository.GetListOfToday(driverUserId));
+    }
+
+    public List<OutputTransportAssignment>? GetListByDriverId(long driverUserId)
+    {
+        return Convert(_repository.GetListByDriverId(driverUserId));
     }
 
     public void Accept(long id)
