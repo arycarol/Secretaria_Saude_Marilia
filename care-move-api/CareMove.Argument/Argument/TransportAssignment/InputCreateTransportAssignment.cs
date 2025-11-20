@@ -9,16 +9,14 @@ public class InputCreateTransportAssignment : BaseInputCreate<InputCreateTranspo
     public long DriverUserId { get; private set; }
     public long PacientUserId { get; private set; }
     public long TransportRequestId { get; private set; }
-    public string TransportAssignmentStatus { get; private set; }
 
     [JsonConstructor]
-    public InputCreateTransportAssignment(long? vehicleId, DateOnly date, long driverUserId, long pacientUserId, long transportRequestId, string transportAssignmentStatus)
+    public InputCreateTransportAssignment(long? vehicleId, DateOnly date, long driverUserId, long pacientUserId, long transportRequestId)
     {
         VehicleId = vehicleId;
         Date = date;
         DriverUserId = driverUserId;
         PacientUserId = pacientUserId;
         TransportRequestId = transportRequestId;
-        TransportAssignmentStatus = transportAssignmentStatus;
     }
 }
