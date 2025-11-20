@@ -9,129 +9,123 @@
 </head>
 <body>
 
-  <!-- BOTÃO DO MENU -->
-  <button class="menu-toggle" id="menu-toggle">
-    <i class="fa-solid fa-bars"></i>
-  </button>
+  <div id="app">
 
-  <div class="container">
+    <div 
+        :class="{ 'sidebar': true, 'active': isSidebarActive }"
+        @mouseover="isSidebarActive = true"
+        @mouseleave="isSidebarActive = false"
+    >
+        <div class="logo">
+            <img src="./img/logomenu.png" alt="Logo C+M" class="logo-image">
+        </div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="logo">C<span class="heart">♥</span>M</div>
-
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Buscar">
-      </div>
-
-      <nav class="menu">
         <p class="section-title">Funcionalidades</p>
-        <a href="#"><i class="fa-solid fa-van-shuttle"></i> Painel do Motorista</a>
-        <a href="../meu perfil/perfil.html"><i class="fa-solid fa-user"></i> Meu Perfil</a>
-      </nav>
-    </aside>
 
-    <!-- CONTEÚDO -->
-    <main class="content">
+        <div class="menu">
+            <a href="#" class="active">
+                <i class="fas fa-car"></i>
+                <span>Painel do Motorista</span>
+            </a>
 
-      <div class="header-profile">
-        <div class="profile-image-container">
-          <img src="img/IconLog.png" alt="Foto de Perfil">
+            <a href="../meu perfil/perfil.html">
+                <i class="fas fa-user-circle"></i>
+                <span>Meu Perfil</span>
+            </a>
+            
+            </div>
+    </div>
+    <button 
+        :class="{ 'menu-toggle': true, 'active': isSidebarActive }"
+        @mouseover="isSidebarActive = true"
+        @mouseleave="isSidebarActive = false"
+    >
+        <i :class="isSidebarActive ? 'fas fa-chevron-left' : 'fas fa-bars'"></i>
+    </button>
+    <div class="container">
+
+      <main class="content">
+
+        <div class="main-header">
+            <div class="title-area">
+                <img src="./img/driver.png.png" alt="Ícone de Carro" class="vehicle-icon-img" style="width: 50px; height: 50px;">
+                
+                <div>
+                    <h1 class="main-title-line">Painel do Motorista</h1>
+                    <h1 class="title-highlight">Solicitações e Agenda</h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <a href="../login/login.html" class="action-icon">
+                    <img src="./img/back.png" alt="Sair" class="icon-back">
+                </a>
+                <a href="../meu perfil/perfil.html" class="action-icon">
+                    <img src="./img/profile.png" alt="Meu Perfil" class="icon-profile">
+                </a>
+            </div>
         </div>
-        <i class="fa-solid fa-right-from-bracket logout-icon"></i>
-      </div>
+        <section class="painel-motorista">
+          <div class="topo-grid">
 
-      <h1 class="titulo">
-        <i class="fa-solid fa-car-side"></i>
-        PAINEL DO MOTORISTA
-      </h1>
+            <div class="status-veiculo">
+              <h2>STATUS DO VEÍCULO</h2>
 
-      <section class="painel-motorista">
-        <div class="topo-grid">
+              <div class="box-info">
+                <p><strong>PLACA:</strong> ABC-123</p>
+                <p><strong>MODELO:</strong> LANCER 2018</p>
+                <p><strong>COMBUSTÍVEL:</strong> GASOLINA / ÁLCOOL</p>
+              </div>
 
-          <!-- STATUS VEÍCULO -->
-          <div class="status-veiculo">
-            <h2>STATUS DO VEÍCULO</h2>
+              <div class="solicitacoes">
+                <h2>SOLICITAÇÕES <i class="fa-solid fa-triangle-exclamation alerta"></i></h2>
+                <div class="lista-solicitacoes"></div>
+              </div>
 
-            <div class="box-info">
-              <p><strong>PLACA:</strong> ABC-123</p>
-              <p><strong>MODELO:</strong> LANCER 2018</p>
-              <p><strong>COMBUSTÍVEL:</strong> GASOLINA / ÁLCOOL</p>
+              <div class="solicitacoes">
+                <h2>SOLICITAÇÕES ACEITAS <i class="fa-solid fa-circle-check sucesso"></i></h2>
+                <div class="lista-aceitas"></div>
+              </div>
+
             </div>
 
-            <!-- SOLICITAÇÕES PENDENTES -->
-            <div class="solicitacoes">
-              <h2>SOLICITAÇÕES <i class="fa-solid fa-triangle-exclamation alerta"></i></h2>
-              <div class="lista-solicitacoes"></div>
-            </div>
-
-            <!-- SOLICITAÇÕES ACEITAS -->
-            <div class="solicitacoes">
-              <h2>SOLICITAÇÕES ACEITAS <i class="fa-solid fa-circle-check sucesso"></i></h2>
-              <div class="lista-aceitas"></div>
+            <div class="agenda-dia">
+              <h2>AGENDA DO DIA</h2>
+              <div class="lista-agenda"></div>
             </div>
 
           </div>
+        </section>
 
-          <!-- AGENDA -->
-          <div class="agenda-dia">
-            <h2>AGENDA DO DIA</h2>
-            <div class="lista-agenda"></div>
+        <div class="legenda-status">
+          <span><span class="bolinha ainda"></span> Ainda hoje</span>
+        </div>
+
+        <div class="modal-confirmacao" id="modalConfirmacao">
+          <div class="modal-conteudo">
+            <i class="fa-solid fa-check"></i>
+            <p><strong>Solicitação aceita<br><span class="sucesso">com sucesso!</span></strong></p>
           </div>
-
         </div>
-      </section>
 
-      <!-- LEGENDA -->
-      <div class="legenda-status">
-        <span><span class="bolinha ainda"></span> Ainda hoje</span>
-      </div>
+      </main>
 
-      <!-- MODAL -->
-      <div class="modal-confirmacao" id="modalConfirmacao">
-        <div class="modal-conteudo">
-          <i class="fa-solid fa-check"></i>
-          <p><strong>Solicitação aceita<br><span class="sucesso">com sucesso!</span></strong></p>
-        </div>
-      </div>
-
-    </main>
-
+    </div>
   </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-  <!-- ====================== -->
-  <!-- SCRIPTS                -->
-  <!-- ====================== -->
-<script>
-/* ========================
-        SIDEBAR
-======================== */
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.getElementById('sidebar');
-let closeTimer;
+  <script>
 
-const abrirMenu = () => {
-  clearTimeout(closeTimer);
-  sidebar.classList.add('active');
-  menuToggle.classList.add('active');
-};
+const app = Vue.createApp({
+    data() {
+        return {
+            isSidebarActive: false,
+        };
+    }
+});
 
-const iniciarFechamento = () => {
-  closeTimer = setTimeout(() => {
-    sidebar.classList.remove('active');
-    menuToggle.classList.remove('active');
-  }, 300);
-};
+app.mount("#app");
 
-menuToggle.addEventListener('mouseenter', abrirMenu);
-sidebar.addEventListener('mouseenter', abrirMenu);
-menuToggle.addEventListener('mouseleave', iniciarFechamento);
-sidebar.addEventListener('mouseleave', iniciarFechamento);
-
-/* ========================
-       TOKEN & USER
-======================== */
 function getCookie(name) {
   const cookies = document.cookie.split(";").map(c => c.trim());
   for (const cookie of cookies) {
@@ -142,8 +136,8 @@ function getCookie(name) {
   return null;
 }
 
-const token = getCookie("jwt");
-const driverUserId = getCookie("userId"); // MOTORISTA LOGADO
+const token = null;
+const driverUserId = null;
 
 if (!token || !driverUserId) {
   alert("Sessão expirada. Faça login novamente.");
@@ -152,16 +146,10 @@ if (!token || !driverUserId) {
 
 const API_BASE = "https://localhost:7041/api/v1";
 
-/* ========================
-       ELEMENTOS
-======================== */
 const solicitacoesContainer = document.querySelector(".lista-solicitacoes");
 const aceitasContainer = document.querySelector(".lista-aceitas");
 const agendaContainer = document.querySelector(".lista-agenda");
 
-/* ========================
-       LOAD ALL
-======================== */
 async function carregarAssignments() {
   try {
       const response = await fetch(`${API_BASE}/TransportAssignment/GetListByDriverId/${driverUserId}`, {
@@ -208,11 +196,10 @@ async function carregarAssignments() {
   } catch (err) {
       console.error(err);
   }
+  solicitacoesContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma solicitação (API desativada).</p>`;
+  aceitasContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma solicitação aceita (API desativada).</p>`;
 }
 
-/* ========================
-       CARREGAR AGENDA (HOJE)
-======================== */
 async function carregarAgenda() {
   try {
       const response = await fetch(`${API_BASE}/TransportAssignment/GetListOfToday/${driverUserId}`, {
@@ -246,11 +233,10 @@ async function carregarAgenda() {
   } catch (err) {
       console.error(err);
   }
+
+  agendaContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma agenda (API desativada).</p>`;
 }
 
-/* ========================
-       BUSCAS
-======================== */
 async function carregarPaciente(id) {
   const res = await fetch(`${API_BASE}/User/${id}`, {
       headers: { "Authorization": `Bearer ${token}` }
@@ -265,9 +251,6 @@ async function carregarRequest(id) {
   return await res.json();
 }
 
-/* ========================
-       LISTAS
-======================== */
 function adicionarSolicitacaoPendente(id, hora, nome, cpf, tipoAtendimento, origem, destino) {
   const div = document.createElement("div");
   div.classList.add("box-info");
@@ -285,9 +268,8 @@ function adicionarSolicitacaoPendente(id, hora, nome, cpf, tipoAtendimento, orig
         <button class="btn-aceitar">ACEITAR</button>
       </div>
   `;
-
-  div.querySelector(".btn-aceitar")
-     .addEventListener("click", () => aceitarSolicitacao(id, div));
+   div.querySelector(".btn-aceitar")
+      .addEventListener("click", () => aceitarSolicitacao(id, div));
 
   solicitacoesContainer.appendChild(div);
 }
@@ -326,10 +308,6 @@ function adicionarAgenda(hora, nome, cpf, tipoAtendimento, origem, destino) {
   agendaContainer.appendChild(div);
 }
 
-
-/* ========================
-       ACEITAR
-======================== */
 async function aceitarSolicitacao(id, elemento) {
   try {
       const response = await fetch(`${API_BASE}/TransportAssignment/Accept/${id}`, {
@@ -349,18 +327,12 @@ async function aceitarSolicitacao(id, elemento) {
   }
 }
 
-/* ========================
-        MODAL
-======================== */
 function mostrarModal() {
   const modal = document.getElementById("modalConfirmacao");
   modal.classList.add("ativo");
   setTimeout(() => modal.classList.remove("ativo"), 1800);
 }
 
-/* ========================
-        ON START
-======================== */
 carregarAssignments();
 carregarAgenda();
 

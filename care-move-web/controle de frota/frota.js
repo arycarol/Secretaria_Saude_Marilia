@@ -1,6 +1,5 @@
 const { createApp } = Vue;
 
-// Mapeamento para status visual (CSS)
 const statusMap = {
     "Em funcionamento": "em-func",
     "Em uso": "em-uso",
@@ -15,7 +14,6 @@ const statusMapReverse = {
     "quebrado": "Quebrado"
 };
 
-// Modelo base do formulário
 const defaultNewVehicle = {
     id: null,
     placa: "",
@@ -52,7 +50,7 @@ createApp({
             categoriaOptions: ["Ambulância", "Carro", "Ônibus", "Van"],
             combustivelOptions: ["Diesel", "Etanol", "Etanol/Gasolina", "Gasolina"],
 
-            vehicles: [] // <-- Recebe da API
+            vehicles: []
         };
     },
 
@@ -61,7 +59,6 @@ createApp({
             return this.vehicles.filter(v => {
                 let matchesTab = false;
 
-                // FILTRO DA ABA
                 if (this.activeTab === "emFunc") {
                     matchesTab = v.status === "em-func" || v.status === "em-uso";
                 } else {
@@ -81,7 +78,6 @@ createApp({
     },
 
     methods: {
-        // Lê o JWT salvo no cookie
         getToken() {
             return document.cookie
                 .split("; ")
@@ -92,10 +88,6 @@ createApp({
         statusClass(s) {
             return "status-" + s;
         },
-
-        // ============================================================
-        // 📌 CARREGAR VEÍCULOS DA API
-        // ============================================================
         async loadVehicles() {
             try {
                 const token = this.getToken();
@@ -127,10 +119,6 @@ createApp({
                 alert("Erro ao carregar veículos");
             }
         },
-
-        // ============================================================
-        // 📌 ABRIR MODAL (criar/editar)
-        // ============================================================
         openModal(mode, vehicle = null) {
             this.modalMode = mode;
 
@@ -158,9 +146,6 @@ createApp({
             this.isModalOpen = false;
         },
 
-        // ============================================================
-        // 📌 SALVAR VEÍCULO (POST / PUT)
-        // ============================================================
         async saveVehicle() {
             try {
                 const token = this.getToken();
@@ -208,9 +193,6 @@ createApp({
             }
         },
 
-        // ============================================================
-        // 📌 MODAL DE EXCLUSÃO
-        // ============================================================
         openDeleteConfirmation(vehicle) {
             this.vehicleToDelete = vehicle;
             this.isDeleteModalOpen = true;
@@ -221,9 +203,6 @@ createApp({
             this.vehicleToDelete = {};
         },
 
-        // ============================================================
-        // 📌 EXCLUIR VEÍCULO (DELETE)
-        // ============================================================
         async deleteVehicle() {
             try {
                 const token = this.getToken();
