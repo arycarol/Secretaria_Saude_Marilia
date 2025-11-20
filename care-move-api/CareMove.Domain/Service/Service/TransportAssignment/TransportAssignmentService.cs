@@ -27,6 +27,9 @@ public class TransportAssignmentService : BaseService<ITransportAssignmentReposi
         if (transportAssignmentDTO == null)
             throw new Exception("Id inválido");
 
+        if (transportAssignmentDTO.TransportAssignmentStatus != "Aguardando")
+            throw new Exception("Esse registro ja foi processado");
+
         transportAssignmentDTO.TransportAssignmentStatus = "Concluido";
         _repository.Update(transportAssignmentDTO);
     }
@@ -36,6 +39,9 @@ public class TransportAssignmentService : BaseService<ITransportAssignmentReposi
         TransportAssignmentDTO? transportAssignmentDTO = _repository.Get(id);
         if (transportAssignmentDTO == null)
             throw new Exception("Id inválido");
+
+        if (transportAssignmentDTO.TransportAssignmentStatus != "Aguardando")
+            throw new Exception("Esse registro ja foi processado");
 
         transportAssignmentDTO.TransportAssignmentStatus = "Negado pelo motorista";
         _repository.Update(transportAssignmentDTO);

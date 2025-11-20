@@ -34,6 +34,8 @@ public abstract class BaseService<TRepository, TInputCreate, TInputUpdate, TInpu
     {
         List<TDTO> listCreateDTO = new List<TDTO>();
 
+        OnCreateMultiple(listInputCreate);
+
         foreach (var i in listInputCreate)
         {
             TDTO instance = new TDTO();
@@ -49,6 +51,8 @@ public abstract class BaseService<TRepository, TInputCreate, TInputUpdate, TInpu
         List<long> listId = _repository.CreateMultiple(listCreateDTO);
         return listId;
     }
+
+    protected virtual void OnCreateMultiple(List<TInputCreate>? listInputCreate) { }
     #endregion
 
     #region Delete
