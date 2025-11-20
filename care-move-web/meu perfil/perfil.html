@@ -3,150 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel CareMove - Meu Perfil</title>
-  <link rel="stylesheet" href="./perfil.css">
+  <title>Painel CareMove</title>
+  <link rel="stylesheet" href="./style/perfil.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=logout" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
-
 <body>
+    <div id="app" class="app-container">
+        <div
+            :class="{ 'sidebar': true, 'active': isSidebarActive }"
+            @mouseover="isSidebarActive = true"
+            @mouseleave="isSidebarActive = false"
+        >
+            <div class="logo">
+                <img src="./img/logomenu.png" alt="Logo C+M" class="logo-image">
+            </div>
 
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
-    <div class="logo">
-      <span class="logo-text">C•M</span>
-    </div>
+            <p class="section-title">Funcionalidades</p>
 
-    <div class="search-box">
-      <i class="fa fa-search"></i>
-      <input type="text" placeholder="Buscar">
-    </div>
+            <div class="menu">
+                <a href="../painel adm/index.html">
+                    <i class="fas fa-users"></i>
+                    <span>Gerenciamento de Usuários</span>
+                </a>
 
-    <nav class="menu">
-      <p class="menu-title">Funcionalidades</p>
-      <ul class="menu-list"></ul>
-    </nav>
-  </aside>
+                <a href="../liberacao transporte/LiberacaoTransporte.html">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Liberação de Transporte e Agendamento</span>
+                </a>
 
-  <!-- ===== CONTEÚDO ===== -->
-  <main class="content">
+                <a href="../frota/frota.html" class="menu-item-with-arrow">
+                    <i class="fas fa-truck"></i>
+                    <span>Controle de Frotas</span>
+                    <img src="./img/seta.png" alt="Seta" class="arrow-icon">
+                </a>
 
-    <header class="welcome">
-      <div class="avatar">
-        <img src="./IconLog.png" alt="Avatar">
-      </div>
-
-      <div class="welcome-text">
-        <h2>Olá, <span class="highlight" id="nomeUsuario">Usuário</span>!</h2>
-        <p>Bem-vindo(a)! 😊<br>Explore o app e aproveite todas as funcionalidades.</p>
-      </div>
-    </header>
-
-    <section class="social-box">
-      <p>Acompanhe nossas redes sociais <br><a>e descubra mais sobre nós.</a></p>
-
-      <a href="https://www.instagram.com/caremove.marilia/" target="_blank">
-        <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
-      </a>
-    </section>
-
-    <section class="form-section">
-      <h3>Formulário de Edição</h3>
-
-      <form>
-        <div class="form-grid">
-
-          <div class="input-box">
-            <i class="fa fa-user"></i>
-            <input type="text" placeholder="Nome" id="campoNome">
-          </div>
-
-          <div class="input-box">
-            <i class="fa fa-id-card"></i>
-            <input type="text" placeholder="CPF" id="campoCpf">
-          </div>
-
-          <div class="input-box">
-            <i class="fa fa-envelope"></i>
-            <input type="email" placeholder="Email" id="campoEmail">
-          </div>
-
-          <div class="input-box">
-            <i class="fa fa-phone"></i>
-            <input type="tel" placeholder="Telefone" id="campoTelefone">
-          </div>
-
-          <div class="input-box">
-            <i class="fa fa-calendar"></i>
-            <input type="date" placeholder="Data Nasc." id="campoData">
-          </div>
-
-          <div class="input-box">
-            <i class="fa fa-lock"></i>
-            <input type="password" placeholder="Nova Senha">
-            <i class="fa fa-eye toggle"></i>
-          </div>
-
-          <div class="input-box">
-            <i class="fa fa-lock"></i>
-            <input type="password" placeholder="Confirmar senha">
-            <i class="fa fa-eye toggle"></i>
-          </div>
+                <a href="../meu perfil/perfil.html" class="active">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Meu Perfil</span>
+                </a>
+            </div>
+        </div>
+        <button 
+            :class="{ 'menu-toggle': true, 'active': isSidebarActive }"
+            @mouseover="isSidebarActive = true"
+            @mouseleave="isSidebarActive = false"
+        >
+            <i :class="isSidebarActive ? 'fas fa-chevron-left' : 'fas fa-bars'"></i>
+        </button>
+        
+        <div class="logout-button">
+            <a href="#">
+                <img src="./img/logout.png" alt="Sair">
+            </a>
         </div>
 
-        <div class="form-buttons">
-          <button type="button" class="cancel">Cancelar</button>
-          <button type="submit" class="reset">Redefinir</button>
+        <section class="social-box">
+            <p>
+                Acompanhe nossas redes sociais<br>
+                <span>e descubra mais sobre nós.</span>
+            </p>
+            <div class="social-icon">
+                <a href="https://www.instagram.com/caremove.marilia/" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </section>
+        <div class="container">
+            <main :class="{ 'content': true, 'shifted': isSidebarActive }">
+                <header class="welcome">
+                    <div class="avatar">
+                        <img src="./img/IconLog.png" alt="Avatar">
+                    </div>
+                    <div class="welcome-text">
+                        <h2>Olá!</h2>
+                        <p>Bem-vindo(a)! 😊<br>
+                            Explore o app e aproveite todas as funcionalidades.
+                        </p>
+                    </div>
+                </header>
+                
+                <section class="form-section">
+                    <h3>Formulário de Edição</h3>
+                    <form>
+                        <div class="form-grid">
+                            <div class="input-box">
+                                <i class="fa fa-user"></i>
+                                <input type="text" placeholder="Nome">
+                            </div>
+                            
+                            <div class="input-box">
+                                <i class="fa fa-envelope"></i>
+                                <input type="email" placeholder="Email">
+                            </div>
+
+                            <div class="input-box-group">
+                                <div class="input-box">
+                                    <i class="fa fa-phone"></i>
+                                    <input type="tel" id="input-telefone" placeholder="Telefone" maxlength="15">
+                                </div>
+                                <div class="input-box data-nasc-box">
+                                    <i class="fa fa-calendar"></i>
+                                    <input type="date" placeholder="Data Nasc.">
+                                </div>
+                            </div>
+
+                            <div class="input-box">
+                                <i class="fa fa-lock"></i>
+                                <input type="password" id="input-senha" placeholder="Nova Senha">
+                                <i class="fa fa-eye toggle" id="toggle-senha"></i>
+                            </div>
+                            <div class="input-box">
+                                <i class="fa fa-lock"></i>
+                                <input type="password" placeholder="Confirmar senha">
+                                <i class="fa fa-eye toggle"></i>
+                            </div>
+
+                            <div class="form-buttons">
+                                <button type="button" class="cancel">Cancelar</button>
+                                <button type="submit" class="reset">Redefinir</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </section>
+            </main>
         </div>
-      </form>
-    </section>
+    </div>
 
-    <footer class="footer">
-      <p>Desenvolvido por <span class="caremove">CareMove</span></p>
-    </footer>
-
-  </main>
-
-
-  <!-- ===== JS Sidebar Dinâmica ===== -->
-  <script>
-    function getCookie(name) {
-      const cookies = document.cookie.split(";").map(c => c.trim());
-      for (const cookie of cookies) {
-        if (cookie.startsWith(name + "=")) {
-          return cookie.substring(name.length + 1);
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                isSidebarActive: false,
+            };
         }
-      }
-      return null;
+    });
+
+    app.mount("#app");
+
+    const toggleSenha = document.getElementById('toggle-senha');
+    const inputSenha = document.getElementById('input-senha');
+
+    if (toggleSenha && inputSenha) {
+        toggleSenha.addEventListener('click', function() {
+            const type = inputSenha.getAttribute('type') === 'password' ? 'text' : 'password';
+            inputSenha.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
     }
 
-    const userCategory = getCookie("userCategory");
-    const userName = getCookie("userName");
-    if (userName) document.getElementById("nomeUsuario").innerText = userName;
+    const inputTelefone = document.getElementById('input-telefone');
 
-    const menuLista = document.querySelector(".menu-list");
-    menuLista.innerHTML = "";
+    if (inputTelefone) {
+        inputTelefone.addEventListener('input', function (e) {
+            const value = e.target.value.replace(/\D/g, "");
+            let formattedValue = '';
 
-    if (userCategory === "Administrador" || userCategory === "Admin") {
-      menuLista.innerHTML = `
-        <li><i class="fa-solid fa-users"></i><a href="../painel_adm/index.html">Gerenciamento de Usuários</a></li>
-        <li><i class="fa-solid fa-clipboard-check"></i><a href="../liberacao transporte/LiberacaoTransporte.html">Liberação de Transporte</a></li>
-        <li><i class="fa-solid fa-truck"></i><a href="../painel_adm/frotas.html">Controle de Frotas</a></li>
-        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
-      `;
+            if (value.length > 0) {
+                formattedValue = '(' + value.substring(0, 2);
+            }
+            if (value.length > 2) {
+                formattedValue += ') ' + value.substring(2, 7);
+            }
+            if (value.length > 7) {
+                formattedValue += '-' + value.substring(7, 11);
+            }
+            e.target.value = formattedValue;
+        });
     }
-    if (userCategory === "Motorista"){
-      menuLista.innerHTML = `
-        <li><i class="fa-solid fa-van-shuttle"></i><a href="../painel motorista/painel_motorista.html">Painel do Motorista</a></li>
-        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
-      `;
-    }
-    if (userCategory === "Paciente"){
-      menuLista.innerHTML = `
-        <li><i class="fa-solid fa-van-shuttle"></i><a href="../solicitações de transporte e agendamento/index.html">Solicitações de Transporte</a></li>
-        <li class="active"><i class="fa-solid fa-user"></i><a href="./perfil.html">Meu Perfil</a></li>
-      `;
-    }    
-  </script>
 
+</script>
 </body>
 </html>
