@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Painel Administrativo - C+M</title>
+        <link rel="stylesheet" href="../liberacao transporte/LiberacaoTransporte.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+    </head>
+    <body>
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="container" id="container">
+            <aside class="sidebar" id="sidebar">
+                <div class="logo">C<span class="heart">+</span>M</div>
+                <nav class="menu">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <span>Buscar</span>
+                        <i class="fas fa-chevron-right arrow-right"></i>
+                    </div>
+
+                    <p class="menu-title">Funcionalidades</p>
+
+                    <a href="#" class="menu-item"
+                        ><i class="fa-solid fa-user"></i> Gerenciamento de
+                        Usuários</a
+                    >
+
+                    <a href="#" class="menu-item active">
+                        <i class="fa-solid fa-van-shuttle"></i> Liberação de
+                        Transporte e Agendamento
+                        <i class="fas fa-chevron-right arrow-right"></i>
+                    </a>
+
+                    <a href="#" class="menu-item"
+                        ><i class="fa-solid fa-truck"></i> Controle de Frotas</a
+                    >
+
+                    <a href="#" class="menu-item"
+                        ><i class="fa-solid fa-circle-user"></i> Meu Perfil</a
+                    >
+                </nav>
+            </aside>
+
+            <main class="main-content">
+                <header class="header">
+                    <div class="user-profile">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                </header>
+
+                <section class="admin-panel">
+                    <h1 class="panel-title">
+                        <i class="fas fa-car"></i> PAINEL ADMINISTRATIVO:
+                        <span class="highlight"
+                            >Liberação de Transporte e Agendamento.</span
+                        >
+                    </h1>
+
+                    <div class="controls-bar">
+                        <div class="tabs">
+                            <button
+                                class="tab-button active"
+                                data-tab="pendente"
+                            >
+                                Pendentes
+                            </button>
+                            <button class="tab-button" data-tab="aprovado">
+                                Aprov/Bloq
+                            </button>
+                        </div>
+                        <div class="search-input-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Pesquisar" />
+                        </div>
+                    </div>
+
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Número da SC</th>
+                                    <th>Local</th>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                    <th>Tipo</th>
+                                    <th>Ações</th>
+                                    <th>Aprovar/Bloquear</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-rows">
+                                <tr>
+                                    <td>
+                                        <span class="status-dot blue"></span>
+                                        000001
+                                    </td>
+                                    <td>Santa Casa</td>
+                                    <td>19/09/2025</td>
+                                    <td>08h00</td>
+                                    <td>Exame</td>
+                                    <td></td>
+                                    <td class="actions-buttons">
+                                        <button
+                                            class="action-btn green"
+                                            data-action="liberar"
+                                        >
+                                            Liberar
+                                        </button>
+                                        <button
+                                            class="action-btn red"
+                                            data-action="bloquear"
+                                        >
+                                            Bloquear
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="status-dot blue"></span>
+                                        000002
+                                    </td>
+                                    <td>H. das Clínicas</td>
+                                    <td>20/09/2025</td>
+                                    <td>09h15</td>
+                                    <td>Consulta</td>
+                                    <td></td>
+                                    <td class="actions-buttons">
+                                        <button
+                                            class="action-btn green"
+                                            data-action="liberar"
+                                        >
+                                            Liberar
+                                        </button>
+                                        <button
+                                            class="action-btn red"
+                                            data-action="bloquear"
+                                        >
+                                            Bloquear
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="status-dot blue"></span>
+                                        000003
+                                    </td>
+                                    <td>H. das Clínicas</td>
+                                    <td>21/09/2025</td>
+                                    <td>10h00</td>
+                                    <td>Consulta</td>
+                                    <td></td>
+                                    <td class="actions-buttons">
+                                        <button
+                                            class="action-btn green"
+                                            data-action="liberar"
+                                        >
+                                            Liberar
+                                        </button>
+                                        <button
+                                            class="action-btn red"
+                                            data-action="bloquear"
+                                        >
+                                            Bloquear
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p class="record-count">03 Registros</p>
+                    </div>
+
+                    <div class="status-legend">
+                        <div class="legend-item">
+                            <span class="status-dot blue"></span> Aguardando
+                        </div>
+                        <div class="legend-item">
+                            <span class="status-dot green"></span> Aprovado
+                        </div>
+                        <div class="legend-item">
+                            <span class="status-dot black"></span> Negado
+                        </div>
+                        <div class="legend-item">
+                            <span class="status-dot red"></span> Concluído
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ============================
+    // LER COOKIES
+    // ============================
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+        return null;
+    }
+
+    const token = getCookie("jwt");
+    const driverId = getCookie("userId"); // motorista logado
+
+    if (!token) {
+        alert("Você precisa fazer login!");
+        window.location.href = "../login/login.html";
+        return;
+    }
+
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const dataRows = document.getElementById("data-rows");
+    const recordCount = document.querySelector(".record-count");
+
+    // ============================
+    // BUSCAR LISTA DE PENDENTES
+    // ============================
+    async function loadPendingRequests() {
+        try {
+            const response = await fetch(
+                "http://localhost:5260/api/v1/TransportRequest/GetListPending",
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            );
+
+            const list = await response.json();
+
+            const pendingData = list.map((item) => ({
+                id: item.id.toString().padStart(6, "0"),
+                realId: item.id,
+                local: `${item.originLocation} → ${item.destinationLocation}`,
+                data: formatDate(item.date),
+                hora: item.hour.substring(0, 5),
+                tipo: item.transportKind,
+                statusClass: "blue"
+            }));
+
+            renderTable(pendingData, "pendente");
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // ============================
+    // BUSCAR LISTA DE APROVADOS/BLOQUEADOS
+    // ============================
+    async function loadNonPendingRequests() {
+        try {
+            const response = await fetch(
+                "http://localhost:5260/api/v1/TransportRequest/GetListNonPending",
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            );
+
+            const list = await response.json();
+
+            const data = list.map(item => ({
+                id: item.id.toString().padStart(6, "0"),
+                local: `${item.originLocation} → ${item.destinationLocation}`,
+                data: formatDate(item.date),
+                hora: item.hour.substring(0, 5),
+                tipo: item.transportKind,
+                statusClass: "green",
+                actions: "Aceito"
+            }));
+
+            renderTable(data, "aprovado");
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // ============================
+    // FUNÇÃO FORMATAR DATA
+    // ============================
+    function formatDate(dateStr) {
+        return new Date(dateStr).toLocaleDateString("pt-BR");
+    }
+
+    // ============================
+    // RENDERIZAR TABELA
+    // ============================
+    function renderTable(data, tab) {
+        dataRows.innerHTML = "";
+
+        data.forEach(item => {
+            const row = document.createElement("tr");
+
+            row.innerHTML += `
+                <td><span class="status-dot ${item.statusClass}"></span> ${item.id}</td>
+                <td>${item.local}</td>
+                <td>${item.data}</td>
+                <td>${item.hora}</td>
+                <td>${item.tipo}</td>
+                <td>${item.actions ?? ""}</td>
+            `;
+
+            if (tab === "pendente") {
+                row.innerHTML += `
+                    <td class="actions-buttons">
+                        <button class="action-btn green" data-id="${item.realId}" data-action="liberar">Liberar</button>
+                        <button class="action-btn red" data-action="bloquear">Bloquear</button>
+                    </td>
+                `;
+            } else {
+                row.innerHTML += `<td></td>`;
+            }
+
+            dataRows.appendChild(row);
+        });
+
+        recordCount.textContent = `${String(data.length).padStart(2, "0")} Registros`;
+    }
+
+    // ============================
+    // AÇÃO: LIBERAR (ACCEPT)
+    // ============================
+    dataRows.addEventListener("click", async (event) => {
+        if (!event.target.classList.contains("action-btn")) return;
+
+        const action = event.target.dataset.action;
+        const id = event.target.dataset.id;
+
+        if (action === "liberar") {
+            // BODY DA ROTA
+            const body = {
+                id: Number(id),
+                vehicleId: 1, // você pode depois tornar isso selecionável
+                driverUserId: Number(driverId)
+            };
+
+            try {
+                const response = await fetch(
+                    "http://localhost:5260/api/v1/TransportRequest/Accept",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: JSON.stringify(body)
+                    }
+                );
+
+                if (!response.ok) {
+                    alert("Erro ao liberar transporte!");
+                    return;
+                }
+
+                alert("Transporte liberado!");
+
+                // ATUALIZAR TABELAS
+                loadPendingRequests();
+                loadNonPendingRequests();
+
+            } catch (err) {
+                console.error(err);
+                alert("Erro na API.");
+            }
+        }
+    });
+
+    // ============================
+    // TROCA DE ABAS
+    // ============================
+    tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            tabButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const tab = btn.dataset.tab;
+
+            if (tab === "pendente") loadPendingRequests();
+            if (tab === "aprovado") loadNonPendingRequests();
+        });
+    });
+
+    // ============================
+    // CARREGAR AO ENTRAR
+    // ============================
+    loadPendingRequests();
+});
+</script>
+
+</html>
