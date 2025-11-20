@@ -10,10 +10,17 @@ public class TransportAssignmentController : BaseController<ITransportAssignment
 {
     public TransportAssignmentController(ITransportAssignmentService service) : base(service) { }
 
-    [HttpGet("GetListOfToday")]
-    public ActionResult<List<OutputTransportAssignment>> GetListOfToday()
+    [HttpGet("GetListOfToday/{driverUserId}")]
+    public ActionResult<List<OutputTransportAssignment>> GetListOfToday(long driverUserId)
     {
-        var query = _service.GetListOfToday();
+        var query = _service.GetListOfToday(driverUserId);
+        return Ok(query);
+    }
+
+    [HttpGet("GetListByDriverId/{driverUserId}")]
+    public ActionResult<List<OutputTransportAssignment>> GetListByDriverId(long driverUserId)
+    {
+        var query = _service.GetListByDriverId(driverUserId);
         return Ok(query);
     }
 

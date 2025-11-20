@@ -13,10 +13,15 @@ public class TransportAssignmentRepository : BaseRepository<TransportAssignment,
 {
     public TransportAssignmentRepository(AppDbContext context, IMapper mapper) : base(context, mapper) { }
 
-    public List<TransportAssignmentDTO>? GetListOfToday()
+    public List<TransportAssignmentDTO>? GetListOfToday(long driverUserId)
     {
         DateOnly dataAtual = DateOnly.FromDateTime(DateTime.Today);
 
-        return Convert(_dbset.Where(x => x.Date == dataAtual).AsNoTracking().ToList());
+        return Convert(_dbset.Where(x => x.Date == dataAtual && x.DriverUserId == driverUserId).AsNoTracking().ToList());
+    }
+
+    public List<TransportAssignmentDTO>? GetListByDriverId(long driverUserId)
+    {
+        return Convert(_dbset.Where(x => x.DriverUserId == driverUserId).AsNoTracking().ToList());
     }
 }
