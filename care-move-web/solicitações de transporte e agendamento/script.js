@@ -1,6 +1,3 @@
-// =====================================================
-// PEGAR TOKEN DO COOKIE
-// =====================================================
 function getToken() {
     const cookies = document.cookie.split(";");
     for (let c of cookies) {
@@ -22,16 +19,52 @@ function getUserId() {
 const token = getToken();
 const userId = getUserId();
 
-if (!token) {
+if (!token || !userId) {
     alert("Você precisa estar logado para acessar esta página.");
-    window.location.href = "../login/login.html";
+    window.location.href = "../login/login.html"; 
 }
 
+function openSuccessModal() {
+    document.getElementById('success-modal-overlay').style.display = 'flex';
+}
 
+function closeSuccessModal() {
+    document.getElementById('success-modal-overlay').style.display = 'none';
+}
 
-// =====================================================
-// ENVIAR SOLICITAÇÃO (POST)
-// =====================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar-figma");
+    const toggleButton = document.getElementById("menu-toggle-button");
+    const pageContentWrapper = document.getElementById("page-content-wrapper"); 
+    const toggleIcon = toggleButton.querySelector('i');
+    
+    function setSidebarState(isActive) {
+        sidebar.classList.toggle('active', isActive);
+        toggleButton.classList.toggle('active', isActive);
+        pageContentWrapper.classList.toggle('shifted', isActive); 
+        
+        if (isActive) {
+            toggleIcon.classList.remove('fa-bars');
+            toggleIcon.classList.add('fa-chevron-left');
+        } else {
+            toggleIcon.classList.remove('fa-chevron-left');
+            toggleIcon.classList.add('fa-bars');
+        }
+    }
+    
+    toggleButton.addEventListener("mouseenter", () => {
+        setSidebarState(true);
+    });
+    
+    const handleMouseLeave = () => {
+        setSidebarState(false);
+    };
+
+    toggleButton.addEventListener("mouseleave", handleMouseLeave);
+    sidebar.addEventListener("mouseleave", handleMouseLeave);
+    sidebar.addEventListener("mouseenter", () => setSidebarState(true));
+});
+
 document.querySelector(".btn-enviar-figma").addEventListener("click", async (event) => {
     event.preventDefault();
 
@@ -46,9 +79,6 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
         return;
     }
 
-    // Ajustar USER ID (depois posso extrair do token)
-
-    // Body REAL da API
     const requestBody = {
         userId: userId,
         date: data,
@@ -75,8 +105,9 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
             return;
         }
 
-        carregarSolicitacoes();
         document.querySelector("form").reset();
+        openSuccessModal();
+        carregarSolicitacoes();
 
     } catch (error) {
         console.error("Erro:", error);
@@ -84,11 +115,6 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
     }
 });
 
-
-
-// =====================================================
-// CARREGAR TODAS AS SOLICITAÇÕES (GET)
-// =====================================================
 async function carregarSolicitacoes() {
     try {
         const response = await fetch(`http://localhost:5260/api/v1/TransportRequest/GetListByUserId/${userId}`, {
@@ -111,16 +137,15 @@ async function carregarSolicitacoes() {
     }
 }
 
-
-
-// =====================================================
-// PREENCHER TABELA
-// =====================================================
 function preencherTabela(lista) {
     const tabela = document.querySelector(".tabela-historico-figma tbody");
     tabela.innerHTML = "";
 
-    lista.forEach(item => {
+    const listaOrdenada = lista.sort((a, b) => b.id - a.id);
+
+    listaOrdenada.forEach(item => {
+        const statusClass = item.transportStatus.toLowerCase().replace(/[áã]/g, 'a').replace(/ú/g, 'u').replace(/ /g, '');
+        
         tabela.innerHTML += `
             <tr>
                 <td>${String(item.id).padStart(6, "0")}</td>
@@ -129,26 +154,16 @@ function preencherTabela(lista) {
                 <td>${item.date}</td>
                 <td>${item.hour.substring(0,5)}</td>
                 <td>${item.transportKind}</td>
-                <td>${item.transportStatus}</td>
-                <td>...</td>
+                <td title="${item.transportStatus}"><span class="bolinha-figma ${statusClass}"></span></td>
             </tr>
         `;
     });
 }
 
-
-
-// =====================================================
-// LOGOUT
-// =====================================================
 document.querySelector(".logout-icon-figma").addEventListener("click", () => {
     document.cookie = "jwt=; path=/; max-age=0";
+    document.cookie = "userId=; path=/; max-age=0";
     window.location.href = "../login/login.html";
 });
 
-
-
-// =====================================================
-// INICIALIZAÇÃO
-// =====================================================
 carregarSolicitacoes();

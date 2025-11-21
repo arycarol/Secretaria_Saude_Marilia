@@ -6,154 +6,144 @@
   <title>Solicitações de Transporte e Agendamento</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"> 
 </head>
 <body>
-
-  <div class="container-figma">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar-figma" id="sidebar">
-      <div class="logo-figma">C<span class="heart-figma">♥</span>M</div>
-
-      <div class="search-box-figma">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Buscar">
-      </div>
-
-      <nav class="menu-figma">
-        <p class="section-title-figma">Funcionalidades</p>
-
-        <a href="#" class="active-figma">
-          <i class="fa-solid fa-van-shuttle"></i> Solicitações de Transporte e Agendamento
-        </a>
-
-        <!-- CORRIGIDO → LEVA PARA A TELA DE PERFIL -->
-        <a href="../meu perfil/perfil.html">
-          <i class="fa-solid fa-user"></i> Meu Perfil
-        </a>
-
-      </nav>
-    </aside>
-
-    <!-- CONTEÚDO -->
-    <main class="content-figma">
-
-      <div class="header-content-figma">
-        <div class="profile-image-container-figma">
-          <img src="img/IconLog.png" alt="Foto de Perfil">
+  <div class="full-layout-container-figma" id="app"> 
+    <nav id="sidebar-figma" class="sidebar">
+        <div class="logo">
+            <img src="./img/logomenu.png" alt="Logo C+M" class="logo-image">
         </div>
-        <i class="fa-solid fa-right-from-bracket logout-icon-figma"></i>
-      </div>
-
-      <h1 class="titulo-figma">
-        <i class="fa-solid fa-bus"></i>
-        SOLICITAÇÕES DE TRANSPORTE E AGENDAMENTO
-      </h1>
-
-      <!-- FORMULÁRIO -->
-      <form class="form-solicitacao-figma">
-        <div class="form-row-grid-figma">
-          
-          <div class="input-container-figma">
-            <label for="partida">Partida</label>
-            <div class="input-with-icon-figma">
-              <i class="fa-solid fa-location-dot input-icon-figma"></i>
-              <input type="text" id="partida">
+        <p class="section-title">Funcionalidades</p>
+        <div class="menu">
+            <a href="#" class="active">
+                <i class="fas fa-bus"></i> 
+                <span>Solicitação de Transporte</span>
+            </a>
+            <a href="../meu perfil/perfil.html">
+                <i class="fas fa-user-circle"></i>
+                <span>Meu Perfil</span>
+            </a>
+        </div>
+    </nav>
+    <button id="menu-toggle-button" class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div id="page-content-wrapper" class="main-content"> 
+      <main class="content-figma">
+        <div class="main-header">
+            <div class="title-area">
+                <i class="fas fa-bus" style="font-size: 50px; color: var(--primary-color); margin-right: 15px;"></i>
+                <div>
+                    <h1 class="main-title-line">Painel do Usuário</h1> 
+                    <h1 class="title-highlight">Solicitações de Transporte e Agendamento</h1>
+                </div>
+            </div>
+            <div class="user-profile">
+                <a href="../login/login.html" class="action-icon logout-icon-figma">
+                    <img src="./img/back.png" alt="Sair" class="icon-back">
+                </a>
+                <a href="../meu perfil/perfil.html" class="action-icon">
+                    <img src="./img/profile.png" alt="Meu Perfil" class="icon-profile">
+                </a>
+            </div>
+        </div>
+        <form class="form-solicitacao-figma">
+          <div class="form-row-grid-figma">
+            <div class="input-container-figma">
+              <label for="partida">Partida</label>
+              <div class="input-with-icon-figma">
+                <i class="fa-solid fa-location-dot input-icon-figma"></i>
+                <input type="text" id="partida">
+              </div>
+            </div>
+            <div class="input-container-figma">
+              <label for="chegada">Chegada</label>
+              <div class="input-with-icon-figma">
+                <i class="fa-solid fa-location-dot input-icon-figma"></i>
+                <input type="text" id="chegada">
+              </div>
+            </div>
+            <div class="input-container-figma">
+              <label for="atendimento">Tipo de Atendimento</label>
+              <div class="input-with-icon-figma select-atendimento">
+                <select id="atendimento">
+                    <option value="" disabled selected>Selecione um tipo</option>
+                    <option value="Urgência">Urgência</option>
+                    <option value="Cirurgia">Cirurgia</option>
+                    <option value="Retorno">Retorno</option>
+                    <option value="Consulta">Consulta</option>
+                    <option value="Hemodiálise">Hemodiálise</option>
+                    <option value="Exame">Exame</option>
+                </select>
+              </div>
             </div>
           </div>
-
-          <div class="input-container-figma">
-            <label for="chegada">Chegada</label>
-            <div class="input-with-icon-figma">
-              <i class="fa-solid fa-location-dot input-icon-figma"></i>
-              <input type="text" id="chegada">
+          <div class="form-row-grid-figma second-row-figma">
+            <div class="input-container-figma date-input-figma">
+              <label for="data">Data</label>
+              <div class="input-with-icon-figma">
+                <i class="fa-solid fa-calendar-days input-icon-figma"></i>
+                <input type="text" id="data" 
+                       onfocus="this.type='date'" 
+                       onblur="if(!this.value) this.type='text'" 
+                       placeholder="dd / mm / aaaa">
+              </div>
+            </div>
+            <div class="input-container-figma time-input-figma">
+              <label for="hora">Hora</label>
+              <div class="input-with-icon-figma">
+                <i class="fa-regular fa-clock input-icon-figma"></i>
+                <input type="text" id="hora"
+                       onfocus="this.type='time'" 
+                       onblur="if(!this.value) this.type='text'" 
+                       placeholder="-- : --">
+              </div>
+            </div>
+            <div class="form-buttons-figma">
+              <button type="reset" class="btn-cancelar-figma">Cancelar</button>
+              <button type="submit" class="btn-enviar-figma">Enviar</button>
             </div>
           </div>
-
-          <div class="input-container-figma">
-            <label for="atendimento">Tipo de Atendimento</label>
-            <div class="input-with-icon-figma has-clear-btn">
-              <i class="fa-solid fa-magnifying-glass input-icon-figma"></i>
-              <input type="text" id="atendimento">
-              <button type="button" class="clear-button-figma">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
+        </form>
+        <section class="historico-figma">
+          <h2 class="subtitulo-figma">
+            <img src="./img/2back.png" alt="Histórico" class="icon-subtitulo">
+            Minhas Solicitações Anteriores
+          </h2>
+          <div class="historico-tabela-container-figma">
+            <table class="tabela-historico-figma">
+              <thead>
+                <tr>
+                  <th>Número do SC</th>
+                  <th>Local Partida</th>
+                  <th>Local Chegada</th>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Tipo de Atendimento</th>
+                  <th>Status</th> 
+                </tr>
+              </thead>
+              <tbody id="tabela-solicitacoes"></tbody>
+            </table>
           </div>
-
-        </div>
-
-        <div class="form-row-grid-figma second-row-figma">
-          
-          <div class="input-container-figma date-input-figma">
-            <label for="data">Data</label>
-            <div class="input-with-icon-figma">
-              <i class="fa-solid fa-calendar-days input-icon-figma"></i>
-              <input type="text" id="data" 
-                     onfocus="this.type='date'" 
-                     onblur="if(!this.value) this.type='text'" 
-                     placeholder="dd / mm / aaaa">
-            </div>
+          <div class="legenda-status-figma">
+            <span><span class="bolinha-figma aguardando"></span> Aguardando</span>
+            <span><span class="bolinha-figma aprovado"></span> Aprovado</span>
+            <span><span class="bolinha-figma negado"></span> Negado</span>
+            <span><span class="bolinha-figma concluido"></span> Concluído</span>
           </div>
-
-          <div class="input-container-figma time-input-figma">
-            <label for="hora">Hora</label>
-            <div class="input-with-icon-figma">
-              <i class="fa-regular fa-clock input-icon-figma"></i>
-              <input type="text" id="hora"
-                     onfocus="this.type='time'" 
-                     onblur="if(!this.value) this.type='text'" 
-                     placeholder="-- : --">
-            </div>
-          </div>
-
-          <div class="form-buttons-figma">
-            <button type="reset" class="btn-cancelar-figma">Cancelar</button>
-            <button type="submit" class="btn-enviar-figma">Enviar</button>
-          </div>
-
+        </section>
+      </main>
+    </div>
+    <div id="success-modal-overlay" class="modal-overlay success-modal-overlay" style="display: none;">
+        <div class="modal-content success-modal-content">
+            <i class="fas fa-times success-close-button" onclick="closeSuccessModal()"></i>
+            <i class="fas fa-check success-icon"></i>
+            <h2 class="success-title" id="success-message">Solicitação enviada com sucesso, aguarde atualizações</h2>
         </div>
-      </form>
-
-      <!-- HISTÓRICO -->
-      <section class="historico-figma">
-        <h2 class="subtitulo-figma">
-          <i class="fa-solid fa-bullhorn"></i> Minhas Solicitações Anteriores
-        </h2>
-
-        <div class="historico-tabela-container-figma">
-          <table class="tabela-historico-figma">
-            <thead>
-              <tr>
-                <th>Número do SC</th>
-                <th>Local Partida</th>
-                <th>Local Chegada</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Tipo de Atendimento</th>
-                <th>Status</th>
-                <th class="coluna-acoes-figma">Ações</th>
-              </tr>
-            </thead>
-
-            <tbody></tbody> <!-- JS insere aqui -->
-          </table>
-        </div>
-
-        <div class="legenda-status-figma">
-          <span><span class="bolinha-figma aguardando"></span> Aguardando</span>
-          <span><span class="bolinha-figma aprovado"></span> Aprovado</span>
-          <span><span class="bolinha-figma negado"></span> Negado</span>
-          <span><span class="bolinha-figma concluido"></span> Concluído</span>
-        </div>
-
-      </section>
-
-    </main>
+    </div>
   </div>
-
   <script src="./script.js"></script>
 </body>
 </html>
