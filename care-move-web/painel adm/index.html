@@ -4,212 +4,247 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - Gerenciamento de Usuários</title>
-
-    <!-- Vue CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-    <!-- CSS Unificado -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-
-<div id="app" class="admin-dashboard">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar__header">
-            <div class="sidebar__logo-text">C+M</div>
+<div id="app" class="app-container">
+    <div 
+        :class="{ 'sidebar': true, 'active': isSidebarActive }"
+        @mouseover="isSidebarActive = true"
+        @mouseleave="isSidebarActive = false"
+    >
+        <div class="logo">
+            <img src="./img/logomenu.png" alt="Logo C+M" class="logo-image">
         </div>
-
-        <ul class="sidebar__menu">
-            <li class="sidebar__item--group">Funcionalidades</li>
-
-            <li class="sidebar__item sidebar__item--active">
-                <a href="#" class="sidebar__link">
-                    Gerenciamento de Usuários
-                    <span class="arrow">›</span>
-                </a>
-            </li>
-
-            <li class="sidebar__item">
-                <a href="../liberacao transporte/LiberacaoTransporte.html" class="sidebar__link">Liberação de Transporte e Agendamento</a>
-            </li>
-
-            <li class="sidebar__item">
-                <a href="../controle de frota/frota.html" class="sidebar__link">Controle de Frotas</a>
-            </li>
-
-            <li class="sidebar__item">
-                <a href="../meu perfil/perfil.html" class="sidebar__link">Meu Perfil</a>
-            </li>
-        </ul>
-    </aside>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="main-content">
-
-        <header class="main-header">
-            <h1 class="main-header__title">
-                PAINEL ADMINISTRATIVO:
-                <span class="main-header__subtitle">Gerenciamento de Usuários</span>
-            </h1>
-
-            <div class="main-header__actions-group">
-                <button class="btn btn--primary btn--icon" @click="openModal">
-                    <span class="icon">+</span>
-                </button>
-
-                <div class="search-box">
-                    <input type="text" placeholder="Pesquisar" class="search-box__input">
-                    <span class="search-box__icon">🔍</span>
-                </div>
-            </div>
-
-            <div class="user-profile">
-                <div class="user-profile__avatar">👤</div>
-            </div>
-        </header>
-
-        <!-- TABELA -->
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th class="column-ativo">Ativo</th>
-                        <th class="column-codigo">Código</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>CPF</th>
-                        <th>Telefone</th>
-                        <th>Data Nascimento</th>
-                        <th class="column-acoes">Ações</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr v-for="user in users" :key="user.codigo">
-                        <td>
-                            <label class="switch">
-                                <input type="checkbox" :checked="user.ativo" @change="toggleActive(user.codigo)">
-                                <span class="slider round"></span>
-                            </label>
-                        </td>
-                        <td>{{ user.codigo }}</td>
-                        <td>{{ user.nome }}</td>
-                        <td><a :href="'mailto:' + user.email" class="table__link">{{ user.email }}</a></td>
-                        <td>{{ user.cpf }}</td>
-                        <td>{{ user.telefone }}</td>
-                        <td>{{ user.dataNascimento }}</td>
-                        <td>
-                            <button class="btn btn--icon btn--ghost btn-acoes">...</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="table-footer">
-                <p class="table-footer__text">{{ formatarContadorRegistros(users.length) }}</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- MODAL (AGORA DENTRO DO #app) -->
-    <div class="modal-backdrop" v-if="isModalOpen" @click.self="closeModal">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h2 class="modal-title">CADASTRAR USUÁRIO</h2>
-            </div>
-
-            <div class="modal-body">
-
-                <div class="input-row">
-                    <div class="input-group">
-                        <label>Nome</label>
-                        <div class="input-field">
-                            <span class="input-icon">👤</span>
-                            <input type="text" placeholder="Nome">
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Email</label>
-                        <div class="input-field">
-                            <span class="input-icon">✉️</span>
-                            <input type="email" placeholder="Email">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-row">
-                    <div class="input-group">
-                        <label>CPF</label>
-                        <div class="input-field">
-                            <span class="input-icon">💳</span>
-                            <input type="text" placeholder="CPF">
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Telefone</label>
-                        <div class="input-field">
-                            <span class="input-icon">📞</span>
-                            <input type="text" placeholder="Telefone">
-                        </div>
-                    </div>
-
-                    <div class="input-group input-group--date">
-                        <label>Data Nasc.</label>
-                        <div class="input-field">
-                            <span class="input-icon">📅</span>
-                            <input type="text" placeholder="Data Nasc.">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-row">
-                    <div class="input-group">
-                        <label>Senha</label>
-                        <div class="input-field">
-                            <span class="input-icon">🔒</span>
-                            <input type="password" placeholder="Senha">
-                            <span class="input-action-icon">👁️</span>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Confirmar Senha</label>
-                        <div class="input-field">
-                            <span class="input-icon">🔒</span>
-                            <input type="password" placeholder="Senha">
-                            <span class="input-action-icon">👁️</span>
-                        </div>
-                    </div>
-
-                    <div class="input-group input-group--categoria">
-                        <label>Categoria de usuário</label>
-                        <div class="input-field">
-                            <span class="input-icon">🔎</span>
-                            <input type="text">
-                            <span class="input-action-icon input-action-icon--clear">❌</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn--modal-cancel" @click="closeModal">Cancelar</button>
-                <button class="btn btn--primary btn--modal-confirm" @click="cadastrarUsuario">Confirmar</button>
-            </div>
-
+        <p class="section-title">Funcionalidades</p>
+        <div class="menu">
+            <a href="../painel adm/index.html" class="active">
+                <i class="fas fa-users"></i>
+                <span>Gerenciamento de Usuários</span>
+            </a>
+            <a href="../liberacao transporte/LiberacaoTransporte.html">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Liberação de Transporte e Agendamento</span>
+            </a>
+            <a href="../controle frotas/frota.html">
+                <i class="fas fa-truck"></i>
+                <span>Controle de Frotas</span>
+            </a>
+            <a href="../meu perfil/perfil.html">
+                <i class="fas fa-user-circle"></i>
+                <span>Meu Perfil</span>
+            </a>
         </div>
     </div>
-
-</div> <!-- fecha o #app -->
-
-<!-- Vue Logic -->
+    <button 
+        :class="{ 'menu-toggle': true, 'active': isSidebarActive }"
+        @mouseover="isSidebarActive = true"
+        @mouseleave="isSidebarActive = false"
+    >
+        <i :class="isSidebarActive ? 'fas fa-chevron-left' : 'fas fa-bars'"></i>
+    </button>
+    <div :class="{ 'main-content': true, 'shifted': isSidebarActive }">
+        <div class="main-header">
+            <div class="title-area">
+                <i class="fas fa-users" style="font-size: 50px; color: var(--primary-color); margin-right: 15px;"></i>
+                <div>
+                    <h1 class="main-title-line">Painel Administrativo</h1>
+                    <h1 class="title-highlight">Gerenciamento de Usuários</h1>
+                </div>
+            </div>
+            <div class="user-profile">
+                <a href="../login/login.html" class="action-icon">
+                    <img src="./img/back.png" alt="Sair" class="icon-back">
+                </a>
+                <a href="../meu perfil/perfil.html" class="action-icon">
+                    <img src="./img/profile.png" alt="Meu Perfil" class="icon-profile">
+                </a>
+            </div>
+        </div>
+        <div class="top-controls-row">
+            <div class="control-row-outside">
+                <button class="add-button" @click="openModal('create')">+</button>
+                <div class="search-input-group-outside">
+                    <img src="./img/search.png" alt="Pesquisar" class="search-icon-outside">
+                    <input type="text" placeholder="Pesquisar" v-model="searchQuery">
+                </div>
+            </div>
+        </div>
+        <div class="fleet-table-header">
+            <div class="table-header-row user-grid">
+                <span class="header-col status-icon-col column-ativo">Ativo</span>
+                <span class="header-col placa-col column-codigo">Código</span>
+                <span class="header-col renavam-col">Nome</span>
+                <span class="header-col ano-col">Email</span>
+                <span class="header-col modelo-col">CPF</span>
+                <span class="header-col cor-col">Telefone</span>
+                <span class="header-col combustivel-col">Data Nasc.</span>
+                <span class="header-col actions-col column-acoes">Editar/Excluir</span> 
+            </div>
+        </div>
+        <div class="fleet-control-panel">
+            <div class="table-body">
+                <div v-if="filteredUsers.length === 0" class="no-records">
+                    Nenhum registro encontrado.
+                </div>
+                <div v-else v-for="user in filteredUsers" :key="user.codigo" class="table-row user-grid">
+                    <div class="col status-icon-col column-ativo">
+                        <label class="switch">
+                            <input type="checkbox" :checked="user.ativo" @change="toggleActive(user.codigo)">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="col placa-col column-codigo">{{ user.codigo }}</div>
+                    <div class="col renavam-col">{{ user.nome }}</div>
+                    <div class="col ano-col"><a :href="'mailto:' + user.email" class="table__link">{{ user.email }}</a></div>
+                    <div class="col modelo-col">{{ formatCpf(user.cpf) }}</div>
+                    <div class="col cor-col">{{ formatarTelefone(user.telefone) }}</div>
+                    <div class="col combustivel-col">{{ formatarDataNascimento(user.dataNascimento) }}</div>
+                    <div class="col actions-col action-icons-group">
+                        <i class="fas fa-pencil-alt action-icon-edit" @click="openModal('edit', user)" title="Editar"></i>
+                        <i class="fas fa-trash-alt action-icon-delete" @click="openDeleteConfirmation(user)" title="Excluir"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="record-count-outside">{{ formatarContadorRegistros() }}</p>
+    </div>
+    <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
+        <div class="modal-content">
+            <h2 class="modal-title">{{ modalMode === 'create' ? 'CADASTRAR USUÁRIO' : 'EDITAR USUÁRIO' }}</h2>
+            <div class="modal-fields-grid user-modal-grid"> 
+                <div class="input-group">
+                    <div class="input-label">Nome</div>
+                    <div class="custom-input">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Nome" v-model="newUser.nome">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Email</div>
+                    <div class="custom-input">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email" v-model="newUser.email">
+                    </div>
+                </div>
+                <div></div> 
+                <div class="input-group">
+                    <div class="input-label">CPF</div>
+                    <div class="custom-input">
+                        <i class="fas fa-id-card"></i>
+                        <input 
+                            type="text" 
+                            placeholder="000.000.000-00" 
+                            :value="formatCpf(newUser.cpf)" 
+                            @input="updateCpf($event.target.value)"
+                            maxlength="14"
+                        >
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Telefone</div>
+                    <div class="custom-input">
+                        <i class="fas fa-phone"></i>
+                        <input 
+                            type="tel" 
+                            placeholder="(00) 00000-0000" 
+                            :value="formatarTelefone(newUser.telefone)" 
+                            @input="updateTelefone($event.target.value)"
+                            maxlength="15"
+                        >
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Data Nasc.</div>
+                    <div class="custom-input">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input 
+                            type="text" 
+                            placeholder="DD/MM/AAAA" 
+                            :value="formatarDataNascimento(newUser.dataNascimento)" 
+                            @input="updateDataNascimento($event.target.value)"
+                            maxlength="10"
+                        >
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Senha</div>
+                    <div class="custom-input">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            :type="passwordVisible ? 'text' : 'password'" 
+                            placeholder="Senha" 
+                            v-model="newUser.senha"
+                        >
+                        <i 
+                            :class="['fas', passwordVisible ? 'fa-eye-slash' : 'fa-eye', 'input-action-icon']" 
+                            @click="togglePasswordVisibility"
+                            title="Mostrar Senha"
+                        ></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Confirmar Senha</div>
+                    <div class="custom-input">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            :type="confirmPasswordVisible ? 'text' : 'password'" 
+                            placeholder="Confirmar Senha" 
+                            v-model="newUser.confirmarSenha"
+                        >
+                         <i 
+                            :class="['fas', confirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye', 'input-action-icon']" 
+                            @click="toggleConfirmPasswordVisibility"
+                            title="Mostrar Senha"
+                        ></i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Categoria de usuário</div>
+                    <div class="custom-select"> 
+                        <i class="fas fa-search"></i>
+                        <select v-model="newUser.categoria">
+                            <option value="" disabled>Selecione a Categoria</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Comum">Comum</option>
+                            <option value="Motorista">Motorista</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-button cancel" @click="closeModal">Cancelar</button>
+                <button class="modal-button confirm" @click="saveUser">
+                    {{ modalMode === 'create' ? 'Confirmar' : 'Salvar Alterações' }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div v-if="isDeleteModalOpen" class="modal-overlay modal-delete" @click.self="closeDeleteConfirmation">
+        <div class="modal-content modal-content-small">
+            <h2 class="modal-title">CONFIRMAÇÃO</h2>
+            <p class="delete-message">Tem certeza que deseja excluir o usuário **{{ userToDelete.nome }}**?</p>
+            <div class="modal-actions">
+                <button class="modal-button cancel" @click="closeDeleteConfirmation">Não</button>
+                <button class="modal-button confirm delete-button" @click="deleteUser">Sim</button>
+            </div>
+        </div>
+    </div>
+    <div v-if="isSuccessModalOpen" class="modal-overlay success-modal-overlay">
+        <div class="modal-content success-modal-content">
+            <i class="fas fa-times success-close-button" @click="closeSuccessModal"></i>
+            <i class="fas fa-check success-icon"></i>
+            <h2 class="success-title">
+                {{ successMessage.topLine }}
+                <span v-if="successMessage.code" class="highlight-code">{{ successMessage.code }}</span>
+                <br>
+                {{ successMessage.bottomLine }}
+            </h2>
+        </div>
+    </div>
+</div> 
 <script src="app_logic.js"></script>
-
 </body>
 </html>
