@@ -1,7 +1,9 @@
-# 🏥 CareMove: Sistema de Agendamento e Gestão de Transportes da Secretaria da Saúde de Marília
+<div align="center">
+    <img src="caremove.png" alt="CareMove - Telas do Sistema" style="width: 50%; border-radius: 8px;">
+</div>
 
 <div align="center">
-    <img src="CareMoveScreens.png" alt="CareMove - Telas do Sistema" style="width: 80%; border-radius: 8px;">
+    <img src="CareMoveScreens.png" alt="CareMove - Telas do Sistema" style="width: 80%; border-radius: 20px;">
 </div>
 
 ## ✨ Sobre o Projeto
