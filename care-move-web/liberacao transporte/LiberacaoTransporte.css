@@ -1,565 +1,550 @@
-/* Importar uma fonte moderna e limpa, como 'Inter' (similar à da imagem) */
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
-
-/* Variáveis de Cores */
-
-:root {
-    --color-primary: #1e90ff; /* Azul para destaque e ícones */
-
-    --color-text-dark: #333;
-
-    --color-text-light: #555;
-
-    --color-background: #f8f9fa;
-
-    --color-sidebar-bg: #fff; /* Renomeado de --color-sidebar para evitar conflito com a nova regra de posicionamento */
-
-    --color-border: #eee;
-
-    --color-green: #5cb85c;
-
-    --color-red: #d9534f;
-
-    --color-blue-dot: #007bff;
-
-    --color-green-dot: #5cb85c;
-
-    --color-black-dot: #333;
-
-    --color-red-dot: #d9534f;
-
-    --sidebar-width: 260px; /* Variável para a largura do menu burger */
-}
-
+/* ======================================================= */
+/* ESTILOS PADRÃO (COPIADOS E AJUSTADOS DO Gerenciamento de Usuários/style.css) */
+/* ======================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 * {
-    margin: 0;
-
-    padding: 0;
-
+    font-family: 'Inter', sans-serif;
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+:root {
+    --sidebar-width: 260px;
+    --toggle-button-width: 60px;
+    --primary-color: #00AAFF; /* Azul Padronizado */
+    --secondary-bg: #f0f2f5;
+    --sidebar-bg: #ffffff;
+    --text-color: #333;
+    --light-text-color: #777;
+    --border-color: #ddd;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --status-quebrado: #dc3545; /* Usado para Bloquear/Excluir (Red) */
+    --status-liberado: #28a745; /* Usado para Liberar (Green) */
+    --table-header-bg: #f5f5f5;
+    --modal-border-color: #e0f7ff;
 
+    /* Cores dos Dots/Legend */
+    --color-blue-dot: #007bff; /* Aguardando */
+    --color-green-dot: #5cb85c; /* Aprovado */
+    --color-black-dot: #333; /* Negado */
+    --color-red-dot: #d9534f; /* Concluído */
+}
 body {
-    font-family: "Inter", sans-serif;
-
-    background-color: var(--color-background);
-
-    color: var(--color-text-dark);
-
-    display: flex;
-
+    background-color: var(--secondary-bg);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.app-container {
+    position: relative;
     min-height: 100vh;
 }
-
-/* 1. Container Principal */
-
-.container {
-    display: flex;
-
-    width: 100%;
-}
-
-/* 2. Barra Lateral (Sidebar) - ESTILOS DE MENU BURGER APLICADOS */
-
+/* SIDEBAR (Estilos padronizados) */
 .sidebar {
     width: var(--sidebar-width);
-
-    background-color: var(--color-sidebar-bg);
-
-    padding: 20px 0;
-
+    max-width: var(--sidebar-width);
+    background: #fff;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-
-    /* Configurações de posicionamento do menu burger */
-
-    position: fixed; /* Fixa o menu */
-
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 0 30px 30px 0;
+    position: fixed;
     top: 0;
-
-    left: calc(
-        -1 * var(--sidebar-width)
-    ); /* Esconde a sidebar para a esquerda */
-
+    left: calc(0px - var(--sidebar-width));
     height: 100%;
-
-    transition: left 0.3s ease; /* Transição suave ao mover */
-
-    z-index: 100;
+    transition: left 0.3s ease;
+    z-index: 1000;
 }
 
-/* Estado Ativo: Torna a sidebar visível */
-
+/* NOVO: Abertura por Hover */
+.menu-toggle:hover ~ .sidebar,
 .sidebar.active {
     left: 0;
 }
 
 .logo {
-    font-size: 24px;
-
-    font-weight: 700;
-
-    color: var(--color-primary);
-
-    padding: 0 20px 30px;
+    text-align: left;
+    margin-bottom: 25px;
+    padding-left: 10px;
 }
-
+.logo-image {
+    width: 150px;
+    height: auto;
+}
+.section-title {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    padding-left: 0;
+}
 .menu {
+    width: 100%;
     flex-grow: 1;
-
-    padding-right: 15px;
 }
-
-/* Removendo icones do menu burger que não estavam no original */
-
-.menu-item .fa-solid {
-    margin-right: 10px;
+.menu a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 14px;
+    margin: 10px 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: 0.2s;
 }
-
-/* --- ESTILOS DO MENU BURGER --- */
-
+.menu a.active {
+    color: var(--primary-color);
+    background-color: #f0f2f5;
+    font-weight: bold;
+    padding-right: 10px;
+}
+.menu a i {
+    color: var(--primary-color);
+    font-size: 16px;
+}
+.menu a:hover {
+    color: var(--primary-color);
+    background-color: #f0f2f5;
+}
+/* MENU TOGGLE (Estilos padronizados) */
 .menu-toggle {
     position: fixed;
-
     bottom: 40px;
-
     left: 0;
-
-    width: 60px;
-
+    width: var(--toggle-button-width);
     height: 50px;
-
-    background: var(
-        --color-primary
-    ); /* Usei a cor primária para manter a coesão */
-
-    color: white;
-
-    font-size: 20px;
-
-    cursor: pointer;
-
     border: none;
-
+    background: var(--primary-color);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
     border-radius: 0 25px 25px 0;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
-    transition: left 0.3s ease;
-
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: left 0.3s ease, background 0.3s ease;
     z-index: 999;
 }
-
-/* Quando a sidebar está aberta, move o botão para o lado direito da sidebar */
-
-.menu-toggle.active {
-    left: var(--sidebar-width);
+.menu-toggle:hover {
+    background: #008fcc;
 }
-
-/* 3. Conteúdo Principal */
-
-/* O main-content precisa de padding/margin para garantir que o conteúdo não fique escondido sob a sidebar aberta */
-
+/* NOVO: Ajuste a cor do botão quando estiver "travado" (clicado) */
+.menu-toggle.locked {
+    background: #008fcc;
+}
+/* MAIN CONTENT (Estilos padronizados) */
 .main-content {
-    flex-grow: 1;
-
-    padding: 30px;
-
+    padding: 15px 30px 30px;
+    padding-left: calc(30px + var(--toggle-button-width));
+    overflow-y: auto;
     width: 100%;
-
-    /* Adiciona padding para o menu burger quando a sidebar estiver fechada */
-
-    padding-left: 90px;
-
-    transition: padding-left 0.3s ease;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin-left: 0;
+    transition: margin-left 0.3s ease, padding-left 0.3s ease, width 0.3s ease; /* Adicionado 'width' */
 }
 
-/* Ajuste de layout para o restante dos elementos (sem alteração significativa no layout original) */
-
-.header {
-    display: flex;
-
-    justify-content: flex-end;
-
-    margin-bottom: 30px;
+/* MODIFICADO: Ajusta a largura para que o conteúdo preencha o espaço restante */
+.main-content.shifted {
+    margin-left: var(--sidebar-width);
+    padding-left: 30px;
+    width: calc(100% - var(--sidebar-width)); /* NOVO: Reduz a largura do main-content */
 }
 
-/* ... (Restante dos estilos originais da tabela, abas, etc.) ... */
-
-/* Estilos de busca, menu-title, menu-item (mantidos do código anterior) */
-
-.search-box {
+/* ------------------------------------------------------------------ */
+/* --- CORREÇÃO DO HEADER E ALINHAMENTO DOS ÍCONES DE PERFIL --- */
+/* ------------------------------------------------------------------ */
+.main-header {
     display: flex;
-
+    justify-content: space-between;
     align-items: center;
-
-    background-color: var(--color-background);
-
-    color: var(--color-text-dark);
-
-    padding: 10px 20px;
-
-    margin-bottom: 20px;
-
-    border-top-right-radius: 20px;
-
-    border-bottom-right-radius: 20px;
-
-    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    /* Ajusta o padding-top para ser menor, subindo levemente o bloco inteiro */
+    padding-top: 5px; 
 }
 
-.search-box .fas {
-    margin-right: 10px;
-
-    color: var(--color-text-dark);
-}
-
-.search-box .arrow-right {
-    margin-left: auto;
-
-    font-size: 10px;
-
-    color: var(--color-text-dark);
-}
-
-.menu-title {
-    color: var(--color-text-light);
-
-    font-size: 12px;
-
-    padding: 15px 20px 5px;
-
-    text-transform: uppercase;
-
-    font-weight: 600;
-}
-
-.menu-item {
+.title-area {
     display: flex;
-
     align-items: center;
-
-    padding: 12px 20px;
-
-    color: var(--color-text-dark);
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    transition: background-color 0.2s;
-
-    position: relative;
-
-    border-top-right-radius: 20px;
-
-    border-bottom-right-radius: 20px;
-
-    margin: 5px 0;
 }
-
-.menu-item.active {
-    background-color: var(--color-background);
-
-    font-weight: 600;
-
-    color: var(--color-primary);
+.fa-car {
+    width: 50px;
+    height: auto;
+    margin-right: 15px;
+    color: var(--primary-color);
 }
-
-.menu-item .arrow-right {
-    margin-left: auto;
-
-    font-size: 10px;
-
-    color: var(--color-text-light);
+.main-title-line {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary-color);
+    line-height: 1.2;
 }
-
-.menu-item.active .arrow-right {
-    color: var(--color-primary);
+.title-highlight {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+    margin-top: 2px;
 }
 
 .user-profile {
     display: flex;
-
     align-items: center;
-
-    gap: 15px;
-
-    color: var(--color-primary);
+    gap: 10px;
+    /* Aplicamos uma margem negativa para subir o elemento. */
+    /* Se o valor -15px não for suficiente, aumente para -20px, -25px, etc. */
+    margin-top: -50px; 
 }
+/* ------------------------------------------------------------------ */
 
-.user-profile img {
-    width: 30px;
 
-    height: 30px;
-
+.action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 41px;
+    height: 41px;
+    cursor: pointer;
     border-radius: 50%;
-
-    background-color: #f1f1f1;
+    transition: background-color 0.2s;
 }
-
-.user-profile .fa-sign-out-alt {
-    color: var(--color-text-light);
-
-    font-size: 18px;
+.action-icon:hover {
+    background-color: #f0f2f5;
 }
-
-.admin-panel {
-    background-color: var(--color-sidebar-bg);
-
-    padding: 30px;
-
-    border-radius: 10px;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+.icon-back, .icon-profile {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
-
-.panel-title {
-    font-size: 18px;
-
-    font-weight: 400;
-
-    margin-bottom: 25px;
-
-    color: var(--color-text-dark);
-
+/* TOP CONTROLS ROW (Estilos padronizados) */
+.top-controls-row {
     display: flex;
-
+    justify-content: flex-end;
     align-items: center;
-}
-
-.panel-title .fas {
-    font-size: 20px;
-
-    margin-right: 10px;
-
-    color: var(--color-primary);
-}
-
-.panel-title .highlight {
-    font-weight: 700;
-
-    color: var(--color-primary);
-}
-
-.controls-bar {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
     margin-bottom: 20px;
 }
-
-.tabs {
-    background-color: var(--color-background);
-
-    border-radius: 25px;
-
-    padding: 5px;
-
+.control-row-outside {
     display: flex;
+    align-items: center;
+    gap: 15px; 
 }
-
+.search-input-group-outside {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.search-input-group-outside input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    background-color: transparent;
+    font-size: 14px;
+}
+.search-icon-outside {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    object-fit: contain;
+    color: var(--primary-color); 
+}
+/* TABS */
+.tabs-group {
+    background-color: white;
+    border-radius: 25px;
+    padding: 5px;
+    display: flex;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
 .tab-button {
     padding: 8px 20px;
-
     border: none;
-
     border-radius: 20px;
-
     background-color: transparent;
-
     cursor: pointer;
-
     font-size: 14px;
-
     font-weight: 600;
-
-    color: var(--color-text-light);
-
+    color: var(--light-text-color);
     transition: background-color 0.3s, color 0.3s;
 }
-
 .tab-button.active {
-    background-color: var(--color-sidebar-bg);
-
-    color: var(--color-primary);
-
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: var(--secondary-bg);
+    color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
-.search-input-container {
-    display: flex;
-
+/* TABLE (Estilos padronizados) */
+.fleet-table-header {
+    background-color: var(--table-header-bg);
+    border-radius: 10px 10px 0 0;
+    padding: 10px 20px;
+    margin-top: 0;
+    margin-bottom: -1px;
+    box-shadow: 0 4px 12px rgba(23, 203, 248, 0.02);
+}
+.fleet-control-panel {
+    background-color: white;
+    padding: 5px 0 20px 0;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+/* GRID ESPECÍFICO PARA A TELA DE TRANSPORTE */
+.transport-grid {
+    grid-template-columns: 
+        1.0fr    /* SC Number */
+        2.0fr    /* Local */
+        2.0fr    /* Data/Hora */
+        1.5fr    /* Tipo */
+        1.5fr    /* Status Text */
+        2.0fr;   /* Actions */
+    gap: 10px;
     align-items: center;
-
-    border: 1px solid var(--color-primary);
-
-    border-radius: 25px;
-
-    padding: 5px 15px;
-
-    background-color: var(--color-sidebar-bg);
-
-    width: 250px;
-}
-
-.search-input-container .fas {
-    color: var(--color-primary);
-
-    margin-right: 10px;
-}
-
-.search-input-container input {
-    border: none;
-
-    outline: none;
-
-    flex-grow: 1;
-
-    font-size: 14px;
-
-    color: var(--color-text-dark);
-}
-
-.data-table {
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-
-    border-collapse: collapse;
-
-    font-size: 14px;
-}
-
-thead th {
     text-align: left;
-
-    padding: 15px 10px;
-
-    color: var(--color-text-dark);
-
-    font-weight: 700;
-
-    border-bottom: 1px solid var(--color-border);
 }
-
-tbody td {
-    padding: 15px 10px;
-
-    color: var(--color-text-light);
-
-    border-bottom: 1px solid var(--color-border);
-
-    vertical-align: middle;
+.table-header-row {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0;
+    font-size: 13px;
+    display: grid;
 }
-
-tbody tr:last-child td {
+.table-row {
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    padding: 12px 20px;
+    transition: background-color 0.2s;
+    display: grid;
+}
+.table-row:last-child {
     border-bottom: none;
 }
-
-.status-dot {
-    display: inline-block;
-
-    width: 8px;
-
-    height: 8px;
-
-    border-radius: 50%;
-
-    margin-right: 5px;
+.table-row:hover {
+    background-color: #fafafa;
 }
-
-.status-dot.blue {
-    background-color: var(--color-blue-dot);
+.col {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light-text-color);
 }
-
-.status-dot.green {
-    background-color: var(--color-green-dot);
+.col span {
+    font-weight: 600;
+    color: var(--text-color);
 }
-
-.status-dot.black {
-    background-color: var(--color-black-dot);
-}
-
-.status-dot.red {
-    background-color: var(--color-red-dot);
-}
-
-.actions-buttons {
+/* BOTÕES DE AÇÃO NA TABELA */
+.action-icons-group {
     display: flex;
-
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 10px; 
 }
-
 .action-btn {
     padding: 8px 15px;
-
     border: none;
-
     border-radius: 5px;
-
     color: white;
-
     font-weight: 600;
-
     cursor: pointer;
-
     font-size: 13px;
-
     transition: opacity 0.2s;
 }
-
-.action-btn.green {
-    background-color: var(--color-green);
+.action-btn.green { 
+    background-color: var(--status-liberado); 
+    border: 1px solid var(--status-liberado);
 }
-
-.action-btn.red {
-    background-color: var(--color-red);
+.action-btn.red { 
+    background-color: var(--status-quebrado); 
+    border: 1px solid var(--status-quebrado);
 }
-
 .action-btn:hover {
     opacity: 0.9;
 }
-
-.record-count {
-    font-size: 14px;
-
-    color: var(--color-text-light);
-
-    margin-top: 15px;
-
-    font-weight: 600;
-
-    padding-left: 10px;
+/* DOTS E LEGENDAS */
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
 }
+.status-dot.blue { background-color: var(--color-blue-dot); }
+.status-dot.green { background-color: var(--color-green-dot); }
+.status-dot.black { background-color: var(--color-black-dot); }
+.status-dot.red { background-color: var(--color-red-dot); }
 
+.record-count-outside {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: left;
+    padding-left: 20px;
+}
 .status-legend {
     display: flex;
-
     gap: 30px;
-
     margin-top: 40px;
-
     padding-top: 20px;
-
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--border-color);
+    padding-left: 20px;
 }
-
 .legend-item {
     display: flex;
-
     align-items: center;
-
     font-size: 13px;
+    color: var(--text-color);
+}
+.no-records {
+    text-align: center;
+    padding: 30px;
+    color: var(--light-text-color);
+    font-style: italic;
+    font-size: 16px;
+}
 
-    color: var(--color-text-dark);
+/* ======================================================= */
+/* ESTILOS DE MODAL PADRONIZADO (STATUS/SUCESSO) */
+/* ======================================================= */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.modal-content {
+    background: white;
+    border: 3px solid var(--modal-border-color);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+.success-modal-overlay {
+    background-color: rgba(255, 255, 255, 0.7); 
+}
+.success-modal-content {
+    max-width: 450px;
+    padding: 50px 30px;
+    text-align: center;
+    border: 3px solid var(--modal-border-color);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: #fff; 
+    position: relative; 
+}
+.success-icon {
+    font-size: 60px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    display: block;
+}
+.success-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--text-color);
+}
+.highlight-code {
+    color: var(--primary-color);
+    font-weight: 900;
+}
+/* Estilo para ícones de status de bloqueio */
+.status-modal.is-blocked .success-icon {
+    color: var(--status-quebrado);
+}
+.success-close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 20px;
+    color: var(--light-text-color);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.success-close-button:hover {
+    color: var(--text-color);
+}
+
+
+/* ======================================================= */
+/* ESTILOS DO MODAL ESPECÍFICO DE MOTORISTA (POP-UP DE LIBERAÇÃO) */
+/* ======================================================= */
+.motorista-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; 
+    display: none; 
+    z-index: 1500;
+}
+
+.motorista-modal-content {
+    display: none; 
+    position: absolute; 
+    min-width: 250px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1600;
+    padding: 10px;
+    border: 1px solid var(--modal-border-color);
+    transform: translateY(-50%); 
+}
+
+.modal-header-custom {
+    padding: 10px 10px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-header-custom .fas.fa-car {
+    color: var(--primary-color);
+}
+
+.motorista-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.motorista-list li {
+    padding: 8px 10px;
+    font-size: 14px;
+    color: var(--light-text-color);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.motorista-list li:hover {
+    background-color: var(--secondary-bg);
+    color: var(--primary-color);
+    font-weight: 600;
 }

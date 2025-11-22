@@ -1,401 +1,428 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Painel Administrativo - C+M</title>
-        <link rel="stylesheet" href="../liberacao transporte/LiberacaoTransporte.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-        />
-    </head>
-    <body>
-        <button class="menu-toggle" id="menu-toggle">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Administrativo - Liberação de Transporte</title>
+    <link rel="stylesheet" href="./LiberacaoTransporte.css" /> 
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
 
-        <div class="container" id="container">
-            <aside class="sidebar" id="sidebar">
-                <div class="logo">C<span class="heart">+</span>M</div>
-                <nav class="menu">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <span>Buscar</span>
-                        <i class="fas fa-chevron-right arrow-right"></i>
-                    </div>
+<div id="app" class="app-container">
 
-                    <p class="menu-title">Funcionalidades</p>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="./img/logomenu.png" alt="Logo C+M" class="logo-image">
+        </div>
+        <p class="section-title">Funcionalidades</p>
+        <nav class="menu">
+            <a href="#" class="menu-item"><i class="fa-solid fa-user"></i> <span>Gerenciamento de Usuários</span></a>
 
-                    <a href="#" class="menu-item"
-                        ><i class="fa-solid fa-user"></i> Gerenciamento de
-                        Usuários</a
-                    >
+            <a href="#" class="menu-item active">
+                <i class="fa-solid fa-van-shuttle"></i> <span>Liberação de Transporte e Agendamento</span>
+            </a>
 
-                    <a href="#" class="menu-item active">
-                        <i class="fa-solid fa-van-shuttle"></i> Liberação de
-                        Transporte e Agendamento
-                        <i class="fas fa-chevron-right arrow-right"></i>
-                    </a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-truck"></i> <span>Controle de Frotas</span></a>
 
-                    <a href="#" class="menu-item"
-                        ><i class="fa-solid fa-truck"></i> Controle de Frotas</a
-                    >
+            <a href="#" class="menu-item"><i class="fa-solid fa-circle-user"></i> <span>Meu Perfil</span></a>
+        </nav>
+    </aside>
 
-                    <a href="#" class="menu-item"
-                        ><i class="fa-solid fa-circle-user"></i> Meu Perfil</a
-                    >
-                </nav>
-            </aside>
+    <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars" id="toggle-icon"></i>
+    </button>
+    
+    <main class="main-content" id="main-content">
+        
+        <header class="main-header">
+            <div class="title-area">
+                <i class="fas fa-car" style="font-size: 50px; color: var(--primary-color); margin-right: 15px;"></i>
+                <div>
+                    <h1 class="main-title-line">Painel Administrativo</h1>
+                    <h1 class="title-highlight">Liberação de Transporte e Agendamento</h1>
+                </div>
+            </div>
+            <div class="user-profile"> 
+                <a href="../login/login.html" class="action-icon">
+                    <img src="./img/back.png" alt="Sair" class="icon-back">
+                </a>
+                <a href="../meu perfil/perfil.html" class="action-icon">
+                    <img src="./img/profile.png" alt="Meu Perfil" class="icon-profile">
+                </a>
+            </div>
+        </header>
 
-            <main class="main-content">
-                <header class="header">
-                    <div class="user-profile">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </div>
-                </header>
-
-                <section class="admin-panel">
-                    <h1 class="panel-title">
-                        <i class="fas fa-car"></i> PAINEL ADMINISTRATIVO:
-                        <span class="highlight"
-                            >Liberação de Transporte e Agendamento.</span
-                        >
-                    </h1>
-
-                    <div class="controls-bar">
-                        <div class="tabs">
-                            <button
-                                class="tab-button active"
-                                data-tab="pendente"
-                            >
-                                Pendentes
-                            </button>
-                            <button class="tab-button" data-tab="aprovado">
-                                Aprov/Bloq
-                            </button>
-                        </div>
-                        <div class="search-input-container">
-                            <i class="fas fa-search"></i>
-                            <input type="text" placeholder="Pesquisar" />
-                        </div>
-                    </div>
-
-                    <div class="data-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Número da SC</th>
-                                    <th>Local</th>
-                                    <th>Data</th>
-                                    <th>Hora</th>
-                                    <th>Tipo</th>
-                                    <th>Ações</th>
-                                    <th>Aprovar/Bloquear</th>
-                                </tr>
-                            </thead>
-                            <tbody id="data-rows">
-                                <tr>
-                                    <td>
-                                        <span class="status-dot blue"></span>
-                                        000001
-                                    </td>
-                                    <td>Santa Casa</td>
-                                    <td>19/09/2025</td>
-                                    <td>08h00</td>
-                                    <td>Exame</td>
-                                    <td></td>
-                                    <td class="actions-buttons">
-                                        <button
-                                            class="action-btn green"
-                                            data-action="liberar"
-                                        >
-                                            Liberar
-                                        </button>
-                                        <button
-                                            class="action-btn red"
-                                            data-action="bloquear"
-                                        >
-                                            Bloquear
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="status-dot blue"></span>
-                                        000002
-                                    </td>
-                                    <td>H. das Clínicas</td>
-                                    <td>20/09/2025</td>
-                                    <td>09h15</td>
-                                    <td>Consulta</td>
-                                    <td></td>
-                                    <td class="actions-buttons">
-                                        <button
-                                            class="action-btn green"
-                                            data-action="liberar"
-                                        >
-                                            Liberar
-                                        </button>
-                                        <button
-                                            class="action-btn red"
-                                            data-action="bloquear"
-                                        >
-                                            Bloquear
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="status-dot blue"></span>
-                                        000003
-                                    </td>
-                                    <td>H. das Clínicas</td>
-                                    <td>21/09/2025</td>
-                                    <td>10h00</td>
-                                    <td>Consulta</td>
-                                    <td></td>
-                                    <td class="actions-buttons">
-                                        <button
-                                            class="action-btn green"
-                                            data-action="liberar"
-                                        >
-                                            Liberar
-                                        </button>
-                                        <button
-                                            class="action-btn red"
-                                            data-action="bloquear"
-                                        >
-                                            Bloquear
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <p class="record-count">03 Registros</p>
-                    </div>
-
-                    <div class="status-legend">
-                        <div class="legend-item">
-                            <span class="status-dot blue"></span> Aguardando
-                        </div>
-                        <div class="legend-item">
-                            <span class="status-dot green"></span> Aprovado
-                        </div>
-                        <div class="legend-item">
-                            <span class="status-dot black"></span> Negado
-                        </div>
-                        <div class="legend-item">
-                            <span class="status-dot red"></span> Concluído
-                        </div>
-                    </div>
-                </section>
-            </main>
+        <div class="top-controls-row" style="justify-content: flex-start;">
+            <div class="control-row-outside">
+                <div class="tabs-group">
+                    <button class="tab-button active" data-tab="pendente">Pendentes</button>
+                    <button class="tab-button" data-tab="aprovado">Aprovados/Bloqueados</button>
+                </div>
+                
+                <div class="search-input-group-outside">
+                    <i class="fas fa-search search-icon-outside"></i>
+                    <input type="text" placeholder="Pesquisar SC ou Local" id="search-input"/>
+                </div>
+            </div>
         </div>
 
-        <script src="script.js"></script>
-    </body>
+        <div class="fleet-table-header">
+            <div class="table-header-row transport-grid">
+                <span class="header-col column-sc-number">SC</span>
+                <span class="header-col column-local">Local</span>
+                <span class="header-col column-data">Data/Hora</span>
+                <span class="header-col column-tipo">Tipo</span>
+                <span class="header-col column-status-text">Status</span>
+                <span class="header-col column-actions">Ações</span>
+            </div>
+        </div>
+
+        <div class="fleet-control-panel">
+            <div class="table-body" id="data-rows-container">
+                </div>
+        </div>
+        
+        <p class="record-count-outside" id="record-count">00 Registros</p>
+
+        <div class="status-legend">
+            <div class="legend-item"><span class="status-dot blue"></span> Aguardando</div>
+            <div class="legend-item"><span class="status-dot green"></span> Aprovado</div>
+            <div class="legend-item"><span class="status-dot black"></span> Negado</div>
+            <div class="legend-item"><span class="status-dot red"></span> Concluído</div>
+        </div>
+    </main>
+    
+    <div class="modal-overlay success-modal-overlay" id="status-modal">
+        <div class="modal-content success-modal-content">
+            <i class="fas fa-times success-close-button" id="modal-close"></i>
+            <div class="modal-icon-container" id="modal-icon-container"></div>
+            <h2 class="success-title" id="modal-text"></h2>
+        </div>
+    </div>
+
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-    // ============================
-    // LER COOKIES
-    // ============================
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(";").shift();
-        return null;
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menu-toggle");
+    const toggleIcon = document.getElementById("toggle-icon");
+    const mainContent = document.getElementById("main-content");
+    
+    // Variável para rastrear se a sidebar está travada (aberta por clique)
+    let isSidebarLocked = false; 
+    
+    // --- 1. Controle da Sidebar ---
+    function updateSidebarState(lock = null) {
+        
+        // Se 'lock' é booleano (clique), define o estado de travamento
+        if (lock !== null) {
+            isSidebarLocked = lock;
+        } 
+        
+        const shouldBeActive = isSidebarLocked || sidebar.matches(':hover') || menuToggle.matches(':hover');
+        
+        // Garante que a classe 'active' só seja aplicada/removida quando o estado for 'ativo'
+        sidebar.classList.toggle("active", shouldBeActive);
+        
+        // Ajusta a classe do main-content para diminuir a largura
+        mainContent.classList.toggle("shifted", shouldBeActive); 
+        
+        // Atualiza o ícone apenas se o estado de travamento mudar
+        toggleIcon.classList.remove("fa-bars", "fa-chevron-left");
+        toggleIcon.classList.add(isSidebarLocked ? "fa-chevron-left" : "fa-bars");
+        
+        // Adiciona/Remove classe para controle de estilo do botão se estiver travado
+        menuToggle.classList.toggle("locked", isSidebarLocked);
     }
-
-    const token = getCookie("jwt");
-    const driverId = getCookie("userId"); // motorista logado
-
-    if (!token) {
-        alert("Você precisa fazer login!");
-        window.location.href = "../login/login.html";
-        return;
+    
+    // Ação principal de clique: Trava ou destrava a sidebar
+    menuToggle.addEventListener("click", () => {
+        // Alterna o estado de travamento
+        const newLockState = !isSidebarLocked; 
+        updateSidebarState(newLockState); // Passa o novo estado de travamento
+    });
+    
+    // NOVO: Ativa a sidebar ao entrar o mouse na etiqueta ou na própria sidebar
+    menuToggle.addEventListener("mouseenter", () => {
+        if (!isSidebarLocked) {
+            sidebar.classList.add("active");
+            mainContent.classList.add("shifted");
+        }
+    });
+    
+    // NOVO: Desativa a sidebar ao sair o mouse da etiqueta E da sidebar, somente se não estiver travada
+    function handleMouseLeave() {
+        // O timeout é para dar tempo do mouse se mover do botão para a sidebar, ou vice-versa, sem fechar
+        setTimeout(() => {
+            if (!isSidebarLocked && !sidebar.matches(':hover') && !menuToggle.matches(':hover')) {
+                sidebar.classList.remove("active");
+                mainContent.classList.remove("shifted");
+            }
+        }, 50);
     }
-
+    
+    menuToggle.addEventListener("mouseleave", handleMouseLeave);
+    sidebar.addEventListener("mouseleave", handleMouseLeave);
+    
+    // NOVO: Adiciona um listener para manter a sidebar aberta ao entrar nela (e ajustar o main-content)
+    sidebar.addEventListener("mouseenter", () => {
+        if (!isSidebarLocked) {
+            sidebar.classList.add("active");
+            mainContent.classList.add("shifted");
+        }
+    });
+    
+    // --- 2. Dados, Filtros e Renderização da Tabela ---
     const tabButtons = document.querySelectorAll(".tab-button");
-    const dataRows = document.getElementById("data-rows");
-    const recordCount = document.querySelector(".record-count");
+    const dataRowsContainer = document.getElementById("data-rows-container");
+    const recordCount = document.getElementById("record-count");
+    const searchInput = document.getElementById("search-input");
+    
+    let currentTab = "pendente"; // Controla a aba ativa
+    
+    // Lista de dados ÚNICA (Simulando o banco de dados)
+    // Adicionando um item Aprovado para teste na aba 'aprovado'
+    let allRequests = [
+        { id: "000001", local: "Santa Casa", data: "19/09/2025", hora: "08h00", tipo: "Exame", status: "Aguardando", statusClass: "blue", motorista: null },
+        { id: "000002", local: "H. das Clínicas", data: "20/09/2025", hora: "09h15", tipo: "Consulta", status: "Aguardando", statusClass: "blue", motorista: null },
+        { id: "000003", local: "H. das Clínicas", data: "21/09/2025", hora: "10h00", tipo: "Consulta", status: "Aguardando", statusClass: "blue", motorista: null },
+        { id: "000004", local: "UPA", data: "18/09/2025", hora: "14h30", tipo: "Transferência", status: "Aprovado", statusClass: "green", motorista: "Motorista Z" },
+        { id: "000005", local: "Clínica X", data: "17/09/2025", hora: "11h00", tipo: "Exame", status: "Negado", statusClass: "black", motorista: null }
+    ];
 
-    // ============================
-    // BUSCAR LISTA DE PENDENTES
-    // ============================
-    async function loadPendingRequests() {
-        try {
-            const response = await fetch(
-                "http://localhost:5260/api/v1/TransportRequest/GetListPending",
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
+    function filterData(tab, query = "") {
+        let filtered = allRequests;
+
+        // Filtro de Pesquisa (por SC, Local ou Tipo)
+        if (query) {
+            const lowerCaseQuery = query.toLowerCase();
+            filtered = filtered.filter(item => 
+                item.id.includes(query) ||
+                item.local.toLowerCase().includes(lowerCaseQuery) ||
+                item.tipo.toLowerCase().includes(lowerCaseQuery)
             );
-
-            const list = await response.json();
-
-            const pendingData = list.map((item) => ({
-                id: item.id.toString().padStart(6, "0"),
-                realId: item.id,
-                local: `${item.originLocation} → ${item.destinationLocation}`,
-                data: formatDate(item.date),
-                hora: item.hour.substring(0, 5),
-                tipo: item.transportKind,
-                statusClass: "blue"
-            }));
-
-            renderTable(pendingData, "pendente");
-        } catch (err) {
-            console.error(err);
         }
-    }
 
-    // ============================
-    // BUSCAR LISTA DE APROVADOS/BLOQUEADOS
-    // ============================
-    async function loadNonPendingRequests() {
-        try {
-            const response = await fetch(
-                "http://localhost:5260/api/v1/TransportRequest/GetListNonPending",
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
-            );
-
-            const list = await response.json();
-
-            const data = list.map(item => ({
-                id: item.id.toString().padStart(6, "0"),
-                local: `${item.originLocation} → ${item.destinationLocation}`,
-                data: formatDate(item.date),
-                hora: item.hour.substring(0, 5),
-                tipo: item.transportKind,
-                statusClass: "green",
-                actions: "Aceito"
-            }));
-
-            renderTable(data, "aprovado");
-        } catch (err) {
-            console.error(err);
+        // Filtra por aba
+        if (tab === "pendente") {
+            return filtered.filter(item => item.status === "Aguardando");
+        } else if (tab === "aprovado") {
+            return filtered.filter(item => item.status !== "Aguardando");
         }
+        return filtered;
     }
 
-    // ============================
-    // FUNÇÃO FORMATAR DATA
-    // ============================
-    function formatDate(dateStr) {
-        return new Date(dateStr).toLocaleDateString("pt-BR");
-    }
-
-    // ============================
-    // RENDERIZAR TABELA
-    // ============================
     function renderTable(data, tab) {
-        dataRows.innerHTML = "";
+        dataRowsContainer.innerHTML = "";
+
+        if (data.length === 0) {
+            dataRowsContainer.innerHTML = '<div class="no-records">Nenhum registro encontrado nesta aba.</div>';
+        }
 
         data.forEach(item => {
-            const row = document.createElement("tr");
+            const row = document.createElement("div");
+            row.classList.add("table-row", "transport-grid");
 
-            row.innerHTML += `
-                <td><span class="status-dot ${item.statusClass}"></span> ${item.id}</td>
-                <td>${item.local}</td>
-                <td>${item.data}</td>
-                <td>${item.hora}</td>
-                <td>${item.tipo}</td>
-                <td>${item.actions ?? ""}</td>
-            `;
+            let statusDisplayText = item.status;
+            let actionsHtml = ''; 
 
-            if (tab === "pendente") {
-                row.innerHTML += `
-                    <td class="actions-buttons">
-                        <button class="action-btn green" data-id="${item.realId}" data-action="liberar">Liberar</button>
-                        <button class="action-btn red" data-action="bloquear">Bloquear</button>
-                    </td>
+            if (tab === 'pendente') {
+                actionsHtml = `
+                    <button class="action-btn green liberar-btn" data-id="${item.id}">Liberar</button>
+                    <button class="action-btn red bloquear-btn" data-id="${item.id}">Bloquear</button>
                 `;
-            } else {
-                row.innerHTML += `<td></td>`;
+            } else { // Aba Aprovados/Bloqueados
+                
+                // Lógica de Ações para Aprovados/Bloqueados:
+                if (item.status === 'Negado') {
+                    // Ícone de Bloqueado (Cadeado) para SCs Negadas
+                    actionsHtml = `<i class="fas fa-lock" title="Solicitação Bloqueada" style="font-size: 16px; color: var(--color-black-dot);"></i>`;
+                    statusDisplayText = item.status;
+                } else if (item.status === 'Aprovado') {
+                    // Ícone de Confere para SCs Aprovadas
+                    actionsHtml = `<i class="fas fa-check" title="Solicitação Liberada" style="font-size: 16px; color: var(--color-green-dot);"></i>`; 
+                    if (item.motorista) {
+                         statusDisplayText = `${item.status} (${item.motorista})`;
+                    }
+                } else {
+                    // Outros status (e.g., Concluído)
+                    actionsHtml = `<i class="fas fa-history" title="Histórico" style="font-size: 16px; color: var(--light-text-color);"></i>`; 
+                }
             }
-
-            dataRows.appendChild(row);
+            
+            row.innerHTML = `
+                <div class="col column-sc-number"><span class="status-dot ${item.statusClass}"></span> ${item.id}</div>
+                <div class="col column-local">${item.local}</div>
+                <div class="col column-data">${item.data} - ${item.hora}</div>
+                <div class="col column-tipo">${item.tipo}</div>
+                <div class="col column-status-text"><span>${statusDisplayText}</span></div>
+                <div class="col column-actions action-icons-group">${actionsHtml}</div>
+            `;
+            dataRowsContainer.appendChild(row);
         });
 
-        recordCount.textContent = `${String(data.length).padStart(2, "0")} Registros`;
+        recordCount.textContent = `${data.length.toString().padStart(2, "0")} Registros`;
     }
 
-    // ============================
-    // AÇÃO: LIBERAR (ACCEPT)
-    // ============================
-    dataRows.addEventListener("click", async (event) => {
-        if (!event.target.classList.contains("action-btn")) return;
+    // Função principal para recarregar a tabela atual
+    function reloadCurrentTab() {
+        const query = searchInput.value;
+        const data = filterData(currentTab, query);
+        renderTable(data, currentTab);
+    }
 
-        const action = event.target.dataset.action;
-        const id = event.target.dataset.id;
+    // Renderiza a tab inicial (Pendentes)
+    reloadCurrentTab();
 
-        if (action === "liberar") {
-            // BODY DA ROTA
-            const body = {
-                id: Number(id),
-                vehicleId: 2, // você pode depois tornar isso selecionável
-                driverUserId: 6
-            };
+    // Evento de clique nas abas
+    tabButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            tabButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
 
-            try {
-                const response = await fetch(
-                    "http://localhost:5260/api/v1/TransportRequest/Accept",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        },
-                        body: JSON.stringify(body)
-                    }
-                );
+            currentTab = button.getAttribute("data-tab");
+            reloadCurrentTab();
+        });
+    });
 
-                if (!response.ok) {
-                    alert("Erro ao liberar transporte!");
-                    return;
+    // Evento de pesquisa
+    searchInput.addEventListener("input", reloadCurrentTab);
+    
+    // --- 3. Controle do Modal de Motorista (Pop-up de Liberação) ---
+    // Insere o modal de motoristas no final do main-content
+    mainContent.insertAdjacentHTML('beforeend', `
+        <div class="motorista-modal-overlay" id="motorista-modal-overlay">
+            <div class="motorista-modal-content" id="motorista-modal-content">
+                <div class="modal-header-custom">
+                    <i class="fas fa-car"></i> SELECIONE O MOTORISTA
+                </div>
+                <ul class="motorista-list" id="motorista-list">
+                    <li data-motorista="Motorista A (Plantão)">Motorista A (Plantão)</li>
+                    <li data-motorista="Motorista B (Folga)">Motorista B (Folga)</li>
+                    <li data-motorista="Motorista C (Em campo)">Motorista C (Em campo)</li>
+                </ul>
+            </div>
+        </div>
+    `);
+
+    const motoristaModalOverlay = document.getElementById('motorista-modal-overlay');
+    const motoristaModalContent = document.getElementById('motorista-modal-content');
+    
+    function showMotoristaModal(targetElement, scNumber) {
+        const rect = targetElement.getBoundingClientRect();
+        
+        motoristaModalContent.setAttribute('data-sc-id', scNumber); 
+        
+        // Posicionamento: 10px à direita do botão e centralizado verticalmente com o botão
+        motoristaModalContent.style.top = `${rect.top + window.scrollY + (rect.height / 2)}px`;
+        motoristaModalContent.style.left = `${rect.left + rect.width + 10}px`;
+        motoristaModalOverlay.style.display = 'block'; 
+        motoristaModalContent.style.display = 'block';
+    }
+
+    function hideMotoristaModal() {
+        motoristaModalOverlay.style.display = 'none';
+        motoristaModalContent.style.display = 'none';
+    }
+
+    // Evento de clique na tabela (liberar e bloquear)
+    dataRowsContainer.addEventListener("click", event => {
+        if (event.target.classList.contains("liberar-btn")) {
+            const scNumber = event.target.getAttribute("data-id");
+            showMotoristaModal(event.target, scNumber);
+            event.stopPropagation();
+        }
+
+        if (event.target.classList.contains("bloquear-btn")) {
+            const scNumber = event.target.getAttribute("data-id");
+            
+            // Ação: Bloquear -> Muda status para Negado
+            const request = allRequests.find(r => r.id === scNumber);
+            if (request) {
+                request.status = "Negado";
+                request.statusClass = "black";
+                request.motorista = null;
+            }
+            
+            hideMotoristaModal();
+            showStatusModal("bloquear", scNumber);
+            reloadCurrentTab(); // Recarrega a tabela para remover o item de Pendentes
+        }
+    });
+
+    // Evento de clique no motorista
+    motoristaModalContent.addEventListener("click", event => {
+        if (event.target.tagName === 'LI') {
+            const motorista = event.target.getAttribute("data-motorista");
+            const scNumber = motoristaModalContent.getAttribute('data-sc-id');
+            if (motorista && scNumber) {
+                
+                // Ação: Liberar -> Muda status para Aprovado
+                const request = allRequests.find(r => r.id === scNumber);
+                if (request) {
+                    request.status = "Aprovado";
+                    request.statusClass = "green";
+                    request.motorista = motorista;
                 }
-
-                alert("Transporte liberado!");
-
-                // ATUALIZAR TABELAS
-                loadPendingRequests();
-                loadNonPendingRequests();
-
-            } catch (err) {
-                console.error(err);
-                alert("Erro na API.");
+                
+                hideMotoristaModal();
+                showStatusModal("liberar", scNumber, motorista);
+                reloadCurrentTab(); // Recarrega a tabela para remover o item de Pendentes
             }
         }
     });
 
-    // ============================
-    // TROCA DE ABAS
-    // ============================
-    tabButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            tabButtons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-
-            const tab = btn.dataset.tab;
-
-            if (tab === "pendente") loadPendingRequests();
-            if (tab === "aprovado") loadNonPendingRequests();
-        });
+    // Fechar modal de motorista ao clicar fora
+    motoristaModalOverlay.addEventListener("click", event => {
+        if (event.target === motoristaModalOverlay) {
+            hideMotoristaModal();
+        }
+    });
+    
+    // --- 4. Controle do Modal de Status (Sucesso/Erro) ---
+    const statusModal = document.getElementById("status-modal");
+    const modalIconContainer = document.getElementById("modal-icon-container");
+    const modalTextElement = document.getElementById("modal-text");
+    const modalCloseButton = document.getElementById("modal-close");
+    
+    modalCloseButton.addEventListener('click', () => {
+        statusModal.style.display = 'none';
     });
 
-    // ============================
-    // CARREGAR AO ENTRAR
-    // ============================
-    loadPendingRequests();
+    function showStatusModal(type, scNumber, driverName = null) {
+        
+        modalIconContainer.innerHTML = "";
+        statusModal.classList.remove("is-blocked");
+
+        let iconHtml = "";
+        let topLine = "";
+        let code = scNumber;
+        let bottomLine = "";
+
+        if (type === "liberar") {
+            iconHtml = '<i class="fas fa-check success-icon"></i>';
+            topLine = `Solicitação Nº`;
+            bottomLine = `liberada para o motorista ${driverName}!`;
+        } else if (type === "bloquear") {
+            statusModal.classList.add("is-blocked");
+            iconHtml = '<i class="fas fa-times success-icon" style="color: var(--status-quebrado);"></i>';
+            topLine = `Solicitação Nº`;
+            bottomLine = `foi BLOQUEADA com sucesso!`;
+        }
+
+        modalIconContainer.innerHTML = iconHtml;
+        modalTextElement.innerHTML = `${topLine} <span class="highlight-code">${code}</span><br>${bottomLine}`;
+
+        statusModal.style.display = "flex";
+
+        setTimeout(() => {
+            statusModal.style.display = "none";
+        }, 3000);
+    }
 });
 </script>
-
+</body>
 </html>
