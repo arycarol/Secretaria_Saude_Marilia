@@ -110,41 +110,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleIcon = document.getElementById("toggle-icon");
     const mainContent = document.getElementById("main-content");
     
-    // Variável para rastrear se a sidebar está travada (aberta por clique)
     let isSidebarLocked = false; 
     
-    // --- 1. Controle da Sidebar ---
     function updateSidebarState(lock = null) {
         
-        // Se 'lock' é booleano (clique), define o estado de travamento
         if (lock !== null) {
             isSidebarLocked = lock;
         } 
         
         const shouldBeActive = isSidebarLocked || sidebar.matches(':hover') || menuToggle.matches(':hover');
         
-        // Garante que a classe 'active' só seja aplicada/removida quando o estado for 'ativo'
         sidebar.classList.toggle("active", shouldBeActive);
         
-        // Ajusta a classe do main-content para diminuir a largura
         mainContent.classList.toggle("shifted", shouldBeActive); 
         
-        // Atualiza o ícone apenas se o estado de travamento mudar
         toggleIcon.classList.remove("fa-bars", "fa-chevron-left");
         toggleIcon.classList.add(isSidebarLocked ? "fa-chevron-left" : "fa-bars");
         
-        // Adiciona/Remove classe para controle de estilo do botão se estiver travado
         menuToggle.classList.toggle("locked", isSidebarLocked);
     }
     
-    // Ação principal de clique: Trava ou destrava a sidebar
     menuToggle.addEventListener("click", () => {
-        // Alterna o estado de travamento
         const newLockState = !isSidebarLocked; 
-        updateSidebarState(newLockState); // Passa o novo estado de travamento
+        updateSidebarState(newLockState);
     });
     
-    // NOVO: Ativa a sidebar ao entrar o mouse na etiqueta ou na própria sidebar
     menuToggle.addEventListener("mouseenter", () => {
         if (!isSidebarLocked) {
             sidebar.classList.add("active");
@@ -152,9 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     
-    // NOVO: Desativa a sidebar ao sair o mouse da etiqueta E da sidebar, somente se não estiver travada
     function handleMouseLeave() {
-        // O timeout é para dar tempo do mouse se mover do botão para a sidebar, ou vice-versa, sem fechar
         setTimeout(() => {
             if (!isSidebarLocked && !sidebar.matches(':hover') && !menuToggle.matches(':hover')) {
                 sidebar.classList.remove("active");
@@ -166,7 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
     menuToggle.addEventListener("mouseleave", handleMouseLeave);
     sidebar.addEventListener("mouseleave", handleMouseLeave);
     
-    // NOVO: Adiciona um listener para manter a sidebar aberta ao entrar nela (e ajustar o main-content)
     sidebar.addEventListener("mouseenter", () => {
         if (!isSidebarLocked) {
             sidebar.classList.add("active");
@@ -174,15 +161,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     
-    // --- 2. Dados, Filtros e Renderização da Tabela ---
     const tabButtons = document.querySelectorAll(".tab-button");
     const dataRowsContainer = document.getElementById("data-rows-container");
     const recordCount = document.getElementById("record-count");
     const searchInput = document.getElementById("search-input");
     
-    let currentTab = "pendente"; // Controla a aba ativa
+    let currentTab = "pendente"; 
     
-    // Lista de dados ÚNICA (Simulando o banco de dados)
     let allRequests = [
         { id: "000001", local: "Santa Casa", data: "19/09/2025", hora: "08h00", tipo: "Exame", status: "Aguardando", statusClass: "blue", motorista: null },
         { id: "000002", local: "H. das Clínicas", data: "20/09/2025", hora: "09h15", tipo: "Consulta", status: "Aguardando", statusClass: "blue", motorista: null },
@@ -194,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function filterData(tab, query = "") {
         let filtered = allRequests;
 
-        // Filtro de Pesquisa (por SC, Local ou Tipo)
         if (query) {
             const lowerCaseQuery = query.toLowerCase();
             filtered = filtered.filter(item => 
@@ -204,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // Filtra por aba
         if (tab === "pendente") {
             return filtered.filter(item => item.status === "Aguardando");
         } else if (tab === "aprovado") {
@@ -224,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("div");
             row.classList.add("table-row", "transport-grid");
 
-            // O status agora será exibido somente na coluna de SC/ID quando não houver botões de ação
             let actionsHtml = ''; 
             let scColContent = `<span class="status-dot ${item.statusClass}"></span> ${item.id}`;
             let statusTextInSC = '';
@@ -234,15 +216,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button class="action-btn green liberar-btn" data-id="${item.id}">Liberar</button>
                     <button class="action-btn red bloquear-btn" data-id="${item.id}">Bloquear</button>
                 `;
-            } else { // Aba Aprovados/Bloqueados
+            } else { 
                 
-                // Lógica de Ações para Aprovados/Bloqueados:
                 if (item.status === 'Negado') {
-                    // Ícone de Bloqueado (Cadeado) para SCs Negadas
                     actionsHtml = `<i class="fas fa-lock" title="Solicitação Bloqueada" style="font-size: 16px; color: var(--color-black-dot);"></i>`;
                     statusTextInSC = item.status;
                 } else if (item.status === 'Aprovado') {
-                    // Ícone de Confere para SCs Aprovadas
                     actionsHtml = `<i class="fas fa-check" title="Solicitação Liberada" style="font-size: 16px; color: var(--color-green-dot);"></i>`; 
                     if (item.motorista) {
                          statusTextInSC = `${item.status} (${item.motorista})`;
@@ -250,12 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
                          statusTextInSC = item.status;
                     }
                 } else {
-                    // Outros status (e.g., Concluído)
                     actionsHtml = `<i class="fas fa-history" title="Histórico" style="font-size: 16px; color: var(--light-text-color);"></i>`; 
                     statusTextInSC = item.status;
                 }
                 
-                // Adiciona o status/motorista ao lado do SC na coluna de SC quando não é 'Pendentes'
                 scColContent = `<span class="status-dot ${item.statusClass}"></span> ${item.id} <span class="status-detail">(${statusTextInSC})</span>`;
             }
             
@@ -272,17 +249,14 @@ document.addEventListener("DOMContentLoaded", () => {
         recordCount.textContent = `${data.length.toString().padStart(2, "0")} Registros`;
     }
 
-    // Função principal para recarregar a tabela atual
     function reloadCurrentTab() {
         const query = searchInput.value;
         const data = filterData(currentTab, query);
         renderTable(data, currentTab);
     }
 
-    // Renderiza a tab inicial (Pendentes)
     reloadCurrentTab();
 
-    // Evento de clique nas abas
     tabButtons.forEach(button => {
         button.addEventListener("click", () => {
             tabButtons.forEach(btn => btn.classList.remove("active"));
@@ -293,11 +267,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Evento de pesquisa
     searchInput.addEventListener("input", reloadCurrentTab);
     
-    // --- 3. Controle do Modal de Motorista (Pop-up de Liberação) ---
-    // Insere o modal de motoristas no final do main-content
     mainContent.insertAdjacentHTML('beforeend', `
         <div class="motorista-modal-overlay" id="motorista-modal-overlay">
             <div class="motorista-modal-content" id="motorista-modal-content">
@@ -321,7 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         motoristaModalContent.setAttribute('data-sc-id', scNumber); 
         
-        // Posicionamento: 10px à direita do botão e centralizado verticalmente com o botão
         motoristaModalContent.style.top = `${rect.top + window.scrollY + (rect.height / 2)}px`;
         motoristaModalContent.style.left = `${rect.left + rect.width + 10}px`;
         motoristaModalOverlay.style.display = 'block'; 
@@ -333,7 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
         motoristaModalContent.style.display = 'none';
     }
 
-    // Evento de clique na tabela (liberar e bloquear)
     dataRowsContainer.addEventListener("click", event => {
         if (event.target.classList.contains("liberar-btn")) {
             const scNumber = event.target.getAttribute("data-id");
@@ -344,7 +313,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target.classList.contains("bloquear-btn")) {
             const scNumber = event.target.getAttribute("data-id");
             
-            // Ação: Bloquear -> Muda status para Negado
             const request = allRequests.find(r => r.id === scNumber);
             if (request) {
                 request.status = "Negado";
@@ -354,18 +322,16 @@ document.addEventListener("DOMContentLoaded", () => {
             
             hideMotoristaModal();
             showStatusModal("bloquear", scNumber);
-            reloadCurrentTab(); // Recarrega a tabela para remover o item de Pendentes
+            reloadCurrentTab();
         }
     });
 
-    // Evento de clique no motorista
     motoristaModalContent.addEventListener("click", event => {
         if (event.target.tagName === 'LI') {
             const motorista = event.target.getAttribute("data-motorista");
             const scNumber = motoristaModalContent.getAttribute('data-sc-id');
             if (motorista && scNumber) {
                 
-                // Ação: Liberar -> Muda status para Aprovado
                 const request = allRequests.find(r => r.id === scNumber);
                 if (request) {
                     request.status = "Aprovado";
@@ -375,19 +341,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 hideMotoristaModal();
                 showStatusModal("liberar", scNumber, motorista);
-                reloadCurrentTab(); // Recarrega a tabela para remover o item de Pendentes
+                reloadCurrentTab();
             }
         }
     });
 
-    // Fechar modal de motorista ao clicar fora
     motoristaModalOverlay.addEventListener("click", event => {
         if (event.target === motoristaModalOverlay) {
             hideMotoristaModal();
         }
     });
     
-    // --- 4. Controle do Modal de Status (Sucesso/Erro) ---
     const statusModal = document.getElementById("status-modal");
     const modalIconContainer = document.getElementById("modal-icon-container");
     const modalTextElement = document.getElementById("modal-text");

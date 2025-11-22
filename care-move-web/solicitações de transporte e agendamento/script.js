@@ -24,6 +24,7 @@ if (!token || !userId) {
     window.location.href = "../login/login.html"; 
 }
 
+
 function openSuccessModal() {
     document.getElementById('success-modal-overlay').style.display = 'flex';
 }
@@ -111,7 +112,7 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
 
     } catch (error) {
         console.error("Erro:", error);
-        alert("Falha ao conectar com a API.");
+        alert("Falha ao conectar com a API. Verifique se o Back-end está rodando e o CORS configurado.");
     }
 });
 
@@ -154,7 +155,7 @@ function preencherTabela(lista) {
                 <td>${item.date}</td>
                 <td>${item.hour.substring(0,5)}</td>
                 <td>${item.transportKind}</td>
-                <td title="${item.transportStatus}"><span class="bolinha-figma ${statusClass}"></span></td>
+                <td><span class="bolinha-figma ${statusClass}" title="${item.transportStatus}"></span></td>
             </tr>
         `;
     });
