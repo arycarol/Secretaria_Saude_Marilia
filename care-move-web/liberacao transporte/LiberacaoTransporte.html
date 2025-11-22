@@ -74,7 +74,6 @@
                 <span class="header-col column-local">Local</span>
                 <span class="header-col column-data">Data/Hora</span>
                 <span class="header-col column-tipo">Tipo</span>
-                <span class="header-col column-status-text">Status</span>
                 <span class="header-col column-actions">Ações</span>
             </div>
         </div>
@@ -184,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentTab = "pendente"; // Controla a aba ativa
     
     // Lista de dados ÚNICA (Simulando o banco de dados)
-    // Adicionando um item Aprovado para teste na aba 'aprovado'
     let allRequests = [
         { id: "000001", local: "Santa Casa", data: "19/09/2025", hora: "08h00", tipo: "Exame", status: "Aguardando", statusClass: "blue", motorista: null },
         { id: "000002", local: "H. das Clínicas", data: "20/09/2025", hora: "09h15", tipo: "Consulta", status: "Aguardando", statusClass: "blue", motorista: null },
@@ -226,8 +224,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("div");
             row.classList.add("table-row", "transport-grid");
 
-            let statusDisplayText = item.status;
+            // O status agora será exibido somente na coluna de SC/ID quando não houver botões de ação
             let actionsHtml = ''; 
+            let scColContent = `<span class="status-dot ${item.statusClass}"></span> ${item.id}`;
+            let statusTextInSC = '';
 
             if (tab === 'pendente') {
                 actionsHtml = `
@@ -240,25 +240,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (item.status === 'Negado') {
                     // Ícone de Bloqueado (Cadeado) para SCs Negadas
                     actionsHtml = `<i class="fas fa-lock" title="Solicitação Bloqueada" style="font-size: 16px; color: var(--color-black-dot);"></i>`;
-                    statusDisplayText = item.status;
+                    statusTextInSC = item.status;
                 } else if (item.status === 'Aprovado') {
                     // Ícone de Confere para SCs Aprovadas
                     actionsHtml = `<i class="fas fa-check" title="Solicitação Liberada" style="font-size: 16px; color: var(--color-green-dot);"></i>`; 
                     if (item.motorista) {
-                         statusDisplayText = `${item.status} (${item.motorista})`;
+                         statusTextInSC = `${item.status} (${item.motorista})`;
+                    } else {
+                         statusTextInSC = item.status;
                     }
                 } else {
                     // Outros status (e.g., Concluído)
                     actionsHtml = `<i class="fas fa-history" title="Histórico" style="font-size: 16px; color: var(--light-text-color);"></i>`; 
+                    statusTextInSC = item.status;
                 }
+                
+                // Adiciona o status/motorista ao lado do SC na coluna de SC quando não é 'Pendentes'
+                scColContent = `<span class="status-dot ${item.statusClass}"></span> ${item.id} <span class="status-detail">(${statusTextInSC})</span>`;
             }
             
             row.innerHTML = `
-                <div class="col column-sc-number"><span class="status-dot ${item.statusClass}"></span> ${item.id}</div>
+                <div class="col column-sc-number">${scColContent}</div>
                 <div class="col column-local">${item.local}</div>
                 <div class="col column-data">${item.data} - ${item.hora}</div>
                 <div class="col column-tipo">${item.tipo}</div>
-                <div class="col column-status-text"><span>${statusDisplayText}</span></div>
                 <div class="col column-actions action-icons-group">${actionsHtml}</div>
             `;
             dataRowsContainer.appendChild(row);
