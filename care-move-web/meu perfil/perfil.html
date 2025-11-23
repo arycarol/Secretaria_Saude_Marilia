@@ -10,8 +10,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
+
 <body>
     <div id="app" class="app-container">
+
+        <!-- SIDEBAR DINÂMICA POR TIPO DE USUÁRIO -->
         <div
             :class="{ 'sidebar': true, 'active': isSidebarActive }"
             @mouseover="isSidebarActive = true"
@@ -24,28 +27,60 @@
             <p class="section-title">Funcionalidades</p>
 
             <div class="menu">
-                <a href="../painel adm/index.html">
-                    <i class="fas fa-users"></i>
-                    <span>Gerenciamento de Usuários</span>
-                </a>
 
-                <a href="../liberacao transporte/LiberacaoTransporte.html">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Liberação de Transporte e Agendamento</span>
-                </a>
+                <!-- ADMINISTRADOR -->
+                <template v-if="userType === 'Administrador' || userType === 'Admin'">
+                    <a href="../painel adm/index.html">
+                        <i class="fas fa-users"></i>
+                        <span>Gerenciamento de Usuários</span>
+                    </a>
 
-                <a href="../frota/frota.html" class="menu-item-with-arrow">
-                    <i class="fas fa-truck"></i>
-                    <span>Controle de Frotas</span>
-                    <img src="./img/seta.png" alt="Seta" class="arrow-icon">
-                </a>
+                    <a href="../liberacao transporte/LiberacaoTransporte.html">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Liberação de Transporte e Agendamento</span>
+                    </a>
 
-                <a href="../meu perfil/perfil.html" class="active">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Meu Perfil</span>
-                </a>
+                    <a href="../controle de frota/frota.html" class="menu-item-with-arrow">
+                        <i class="fas fa-truck"></i>
+                        <span>Controle de Frotas</span>
+                        <img src="./img/seta.png" alt="Seta" class="arrow-icon">
+                    </a>
+
+                    <a href="../meu perfil/perfil.html" class="active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </template>
+
+                <!-- MOTORISTA -->
+                <template v-if="userType === 'Motorista'">
+                    <a href="../painel motorista/painel_motorista.html">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Solicitações Disponíveis</span>
+                    </a>
+
+                    <a href="../meu perfil/perfil.html" class="active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </template>
+
+                <!-- PACIENTE -->
+                <template v-if="userType === 'Paciente'">
+                    <a href="../solicitações de transporte e agendamento/index.html">
+                        <i class="fas fa-ambulance"></i>
+                        <span>Solicitar Transporte</span>
+                    </a>
+
+                    <a href="../meu perfil/perfil.html" class="active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </template>
+
             </div>
         </div>
+
         <button 
             :class="{ 'menu-toggle': true, 'active': isSidebarActive }"
             @mouseover="isSidebarActive = true"
@@ -53,9 +88,9 @@
         >
             <i :class="isSidebarActive ? 'fas fa-chevron-left' : 'fas fa-bars'"></i>
         </button>
-        
+
         <div class="logout-button">
-            <a href="#">
+            <a href="#" id="logout-btn">
                 <img src="./img/logout.png" alt="Sair">
             </a>
         </div>
@@ -71,8 +106,10 @@
                 </a>
             </div>
         </section>
+
         <div class="container">
             <main :class="{ 'content': true, 'shifted': isSidebarActive }">
+
                 <header class="welcome">
                     <div class="avatar">
                         <img src="./img/IconLog.png" alt="Avatar">
@@ -89,6 +126,7 @@
                     <h3>Formulário de Edição</h3>
                     <form>
                         <div class="form-grid">
+
                             <div class="input-box">
                                 <i class="fa fa-user"></i>
                                 <input type="text" placeholder="Nome">
@@ -115,6 +153,7 @@
                                 <input type="password" id="input-senha" placeholder="Nova Senha">
                                 <i class="fa fa-eye toggle" id="toggle-senha"></i>
                             </div>
+
                             <div class="input-box">
                                 <i class="fa fa-lock"></i>
                                 <input type="password" placeholder="Confirmar senha">
@@ -125,57 +164,98 @@
                                 <button type="button" class="cancel">Cancelar</button>
                                 <button type="submit" class="reset">Redefinir</button>
                             </div>
-                        </div>
 
+                        </div>
                     </form>
                 </section>
+
             </main>
         </div>
     </div>
 
+<!-- SCRIPT COMPLETO -->
 <script>
-    const app = Vue.createApp({
-        data() {
-            return {
-                isSidebarActive: false,
-            };
+
+// --------------------- FUNÇÃO PARA PEGAR COOKIE ---------------------
+function getCookie(name) {
+    const cookies = document.cookie.split(";");
+
+    for (let c of cookies) {
+        const [cookieName, cookieValue] = c.trim().split("=");
+        if (cookieName === name) return cookieValue;
+    }
+    return null;
+}
+
+// --------------------- APP VUE (SIDEBAR DINÂMICA) ---------------------
+const app = Vue.createApp({
+    data() {
+        return {
+            isSidebarActive: false,
+            userType: "Administrador" // valor temporário
+        };
+    },
+
+    mounted() {
+        const jwt = getCookie("jwt");
+        const userCategory = getCookie("userCategory");
+
+        if (!jwt || !userCategory) {
+            alert("Você precisa estar logado para acessar esta página.");
+            window.location.href = "../login/login.html";
+            return;
         }
+
+        this.userType = userCategory;
+        console.log("TIPO DE USUÁRIO:", this.userType);
+    }
+});
+
+app.mount("#app");
+
+// --------------------- VISUALIZAR SENHA ---------------------
+const toggleSenha = document.getElementById('toggle-senha');
+const inputSenha = document.getElementById('input-senha');
+
+if (toggleSenha && inputSenha) {
+    toggleSenha.addEventListener('click', function() {
+        const type = inputSenha.getAttribute('type') === 'password' ? 'text' : 'password';
+        inputSenha.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
     });
+}
 
-    app.mount("#app");
+// --------------------- MÁSCARA DE TELEFONE ---------------------
+const inputTelefone = document.getElementById('input-telefone');
 
-    const toggleSenha = document.getElementById('toggle-senha');
-    const inputSenha = document.getElementById('input-senha');
+if (inputTelefone) {
+    inputTelefone.addEventListener('input', function (e) {
+        const value = e.target.value.replace(/\D/g, "");
+        let formattedValue = '';
 
-    if (toggleSenha && inputSenha) {
-        toggleSenha.addEventListener('click', function() {
-            const type = inputSenha.getAttribute('type') === 'password' ? 'text' : 'password';
-            inputSenha.setAttribute('type', type);
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
-        });
-    }
+        if (value.length > 0) {
+            formattedValue = '(' + value.substring(0, 2);
+        }
+        if (value.length > 2) {
+            formattedValue += ') ' + value.substring(2, 7);
+        }
+        if (value.length > 7) {
+            formattedValue += '-' + value.substring(7, 11);
+        }
+        e.target.value = formattedValue;
+    });
+}
 
-    const inputTelefone = document.getElementById('input-telefone');
-
-    if (inputTelefone) {
-        inputTelefone.addEventListener('input', function (e) {
-            const value = e.target.value.replace(/\D/g, "");
-            let formattedValue = '';
-
-            if (value.length > 0) {
-                formattedValue = '(' + value.substring(0, 2);
-            }
-            if (value.length > 2) {
-                formattedValue += ') ' + value.substring(2, 7);
-            }
-            if (value.length > 7) {
-                formattedValue += '-' + value.substring(7, 11);
-            }
-            e.target.value = formattedValue;
-        });
-    }
+// --------------------- LOGOUT ---------------------
+document.getElementById("logout-btn").addEventListener("click", () => {
+    document.cookie = "jwt=; path=/; max-age=0";
+    document.cookie = "userCategory=; path=/; max-age=0";
+    document.cookie = "userId=; path=/; max-age=0";
+    window.location.href = "../login/login.html";
+});
 
 </script>
+
 </body>
 </html>

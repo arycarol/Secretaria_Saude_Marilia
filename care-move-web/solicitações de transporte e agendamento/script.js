@@ -19,53 +19,52 @@ function getUserId() {
 const token = getToken();
 const userId = getUserId();
 
+// =====================================
+//   VERIFICA LOGIN
+// =====================================
 if (!token || !userId) {
     alert("Você precisa estar logado para acessar esta página.");
     window.location.href = "../login/login.html"; 
 }
 
-
+// =====================================
+//   MODAL DE SUCESSO
+// =====================================
 function openSuccessModal() {
-    document.getElementById('success-modal-overlay').style.display = 'flex';
+    document.getElementById("success-modal-overlay").style.display = "flex";
 }
 
 function closeSuccessModal() {
-    document.getElementById('success-modal-overlay').style.display = 'none';
+    document.getElementById("success-modal-overlay").style.display = "none";
 }
 
+// =====================================
+//   MENU LATERAL (SEM MEXER)
+// =====================================
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("sidebar-figma");
     const toggleButton = document.getElementById("menu-toggle-button");
     const pageContentWrapper = document.getElementById("page-content-wrapper"); 
-    const toggleIcon = toggleButton.querySelector('i');
+    const toggleIcon = toggleButton.querySelector("i");
     
     function setSidebarState(isActive) {
-        sidebar.classList.toggle('active', isActive);
-        toggleButton.classList.toggle('active', isActive);
-        pageContentWrapper.classList.toggle('shifted', isActive); 
+        sidebar.classList.toggle("active", isActive);
+        toggleButton.classList.toggle("active", isActive);
+        pageContentWrapper.classList.toggle("shifted", isActive); 
         
-        if (isActive) {
-            toggleIcon.classList.remove('fa-bars');
-            toggleIcon.classList.add('fa-chevron-left');
-        } else {
-            toggleIcon.classList.remove('fa-chevron-left');
-            toggleIcon.classList.add('fa-bars');
-        }
+        toggleIcon.classList.toggle("fa-chevron-left", isActive);
+        toggleIcon.classList.toggle("fa-bars", !isActive);
     }
-    
-    toggleButton.addEventListener("mouseenter", () => {
-        setSidebarState(true);
-    });
-    
-    const handleMouseLeave = () => {
-        setSidebarState(false);
-    };
 
-    toggleButton.addEventListener("mouseleave", handleMouseLeave);
-    sidebar.addEventListener("mouseleave", handleMouseLeave);
+    toggleButton.addEventListener("mouseenter", () => setSidebarState(true));
+    toggleButton.addEventListener("mouseleave", () => setSidebarState(false));
     sidebar.addEventListener("mouseenter", () => setSidebarState(true));
+    sidebar.addEventListener("mouseleave", () => setSidebarState(false));
 });
 
+// =====================================
+//   ENVIAR SOLICITAÇÃO
+// =====================================
 document.querySelector(".btn-enviar-figma").addEventListener("click", async (event) => {
     event.preventDefault();
 
@@ -81,7 +80,7 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
     }
 
     const requestBody = {
-        userId: userId,
+        userId: parseInt(userId),
         date: data,
         hour: hora,
         transportKind: atendimento,
@@ -112,10 +111,13 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
 
     } catch (error) {
         console.error("Erro:", error);
-        alert("Falha ao conectar com a API. Verifique se o Back-end está rodando e o CORS configurado.");
+        alert("Falha ao conectar com a API.");
     }
 });
 
+// =====================================
+//   CARREGAR SOLICITAÇÕES
+// =====================================
 async function carregarSolicitacoes() {
     try {
         const response = await fetch(`http://localhost:5260/api/v1/TransportRequest/GetListByUserId/${userId}`, {
@@ -138,15 +140,28 @@ async function carregarSolicitacoes() {
     }
 }
 
+// =====================================
+//   PREENCHER TABELA
+// =====================================
 function preencherTabela(lista) {
     const tabela = document.querySelector(".tabela-historico-figma tbody");
     tabela.innerHTML = "";
 
+    const statusMap = {
+        "Aguardando": "aguardando",
+        "Aceito": "aprovado",
+        "Aprovado": "aprovado",
+        "Negado": "negado",
+        "Concluido": "concluido",
+        "Concluído": "concluido"
+    };
+
     const listaOrdenada = lista.sort((a, b) => b.id - a.id);
 
     listaOrdenada.forEach(item => {
-        const statusClass = item.transportStatus.toLowerCase().replace(/[áã]/g, 'a').replace(/ú/g, 'u').replace(/ /g, '');
-        
+
+        const statusClass = statusMap[item.transportStatus] || "aguardando";
+
         tabela.innerHTML += `
             <tr>
                 <td>${String(item.id).padStart(6, "0")}</td>
@@ -161,10 +176,14 @@ function preencherTabela(lista) {
     });
 }
 
+// =====================================
+//   LOGOUT
+// =====================================
 document.querySelector(".logout-icon-figma").addEventListener("click", () => {
     document.cookie = "jwt=; path=/; max-age=0";
     document.cookie = "userId=; path=/; max-age=0";
     window.location.href = "../login/login.html";
 });
 
+// Inicializa carregamento
 carregarSolicitacoes();

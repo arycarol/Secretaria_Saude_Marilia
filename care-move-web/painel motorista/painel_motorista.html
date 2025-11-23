@@ -135,11 +135,10 @@ function getCookie(name) {
   }
   return null;
 }
+const token = getCookie("jwt");  // <<< ME DIGA SE O NOME É OUTRO
+const driverUserId = getCookie("userId");
 
-const token = null;
-const driverUserId = null;
-
-if (!token || !driverUserId) {
+if (!token) {
   alert("Sessão expirada. Faça login novamente.");
   window.location.href = "../login/login.html";
 }
@@ -195,9 +194,9 @@ async function carregarAssignments() {
 
   } catch (err) {
       console.error(err);
+      solicitacoesContainer.innerHTML = `<p class="mensagem-vazia">Erro ao carregar solicitações.</p>`;
+      aceitasContainer.innerHTML = `<p class="mensagem-vazia">Erro ao carregar aceitas.</p>`;
   }
-  solicitacoesContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma solicitação (API desativada).</p>`;
-  aceitasContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma solicitação aceita (API desativada).</p>`;
 }
 
 async function carregarAgenda() {
@@ -232,9 +231,8 @@ async function carregarAgenda() {
 
   } catch (err) {
       console.error(err);
+      agendaContainer.innerHTML = `<p class="mensagem-vazia">Erro ao carregar agenda.</p>`;
   }
-
-  agendaContainer.innerHTML = `<p class="mensagem-vazia">Nenhuma agenda (API desativada).</p>`;
 }
 
 async function carregarPaciente(id) {
