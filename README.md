@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="caremove.png" alt="CareMove - Telas do Sistema" style="width: 70%; border-radius: 8px;">
+    <img width="600" height="600" alt="Image" src="https://github.com/user-attachments/assets/9020a72d-9ddf-467b-9c82-4465bf5d459f" />
 </div>
 
 <div align="center">
-    <img src="CareMoveScreens.png" alt="CareMove - Telas do Sistema" style="width: 80%; border-radius: 20px;">
+    <img width="1000" height="2055" alt="Image" src="https://github.com/user-attachments/assets/4c325d73-cf2e-4d85-8aa5-5bd68340cfa5" />
 </div>
 
 ## ✨ Sobre o Projeto
