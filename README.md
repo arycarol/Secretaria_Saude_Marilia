@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-    <img src="" alt="CareMove - Telas do Sistema" style="width: 80%; border-radius: 20px;">
+    <img src="CareMoveScreens.png" alt="CareMove - Telas do Sistema" style="width: 80%; border-radius: 20px;">
 </div>
 
 ## ✨ Sobre o Projeto
