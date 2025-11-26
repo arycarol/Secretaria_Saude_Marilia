@@ -100,7 +100,6 @@ createApp({
 
                 const data = await res.json();
 
-                // 🔁 Mapeamento correto dos campos API → Front
                 this.vehicles = data.map(v => ({
                     id: v.id,
                     placa: v.licensePlate,

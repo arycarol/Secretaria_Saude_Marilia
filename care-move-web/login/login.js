@@ -26,7 +26,6 @@ cpf.addEventListener('input', (e) => {
   e.target.value = valor;
 });
 
-// 👁 Mostrar/Ocultar senha
 const toggleIcon = document.querySelector('.input-group .show');
 const senhaInput = document.getElementById('senha');
 
@@ -36,7 +35,7 @@ toggleIcon.addEventListener('click', () => {
     toggleIcon.classList.toggle('fa-eye-slash');
 });
 
-// LOGIN
+
 document.querySelector(".btn").addEventListener("click", async (event) => {
     event.preventDefault();
 
@@ -62,7 +61,6 @@ document.querySelector(".btn").addEventListener("click", async (event) => {
             return;
         }
 
-        // AGORA O RETORNO É JSON:
         const result = await response.json();
         console.log("RETORNO LOGIN:", result);
 
@@ -70,20 +68,14 @@ document.querySelector(".btn").addEventListener("click", async (event) => {
         const userCategory = result.userCategory;
         const userId = result.userId;
 
-        // ================================
-        // SALVAR COOKIES SEPARADOS
-        // ================================
         document.cookie = `jwt=${token}; path=/; max-age=86400; samesite=strict`;
         document.cookie = `userCategory=${userCategory}; path=/; max-age=86400; samesite=strict`;
         document.cookie = `userId=${userId}; path=/; max-age=86400; samesite=strict`;
 
-        // ================================
-        // REDIRECIONAMENTO POR CATEGORIA
-        // ================================
         if (userCategory === "Administrador" || userCategory === "Admin") {
             window.location.href = "../painel adm/index.html";
-        } 
-        
+        }
+
         else if (userCategory === "Paciente") {
             window.location.href = "../solicitações de transporte e agendamento/index.html";
         }

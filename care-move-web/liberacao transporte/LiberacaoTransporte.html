@@ -143,9 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isSidebarLocked) { sidebar.classList.add("active"); mainContent.classList.add("shifted"); }
     });
 
-    // --------------------------
-    // COOKIE / AUTENTICAÇÃO
-    // --------------------------
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -154,41 +151,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const token = getCookie("jwt");
-    const driverId = getCookie("userId"); // motorista logado (pode ser usado no Accept)
+    const driverId = getCookie("userId");
 
     if (!token) {
-        // sem token: redireciona ao login
         alert("Você precisa fazer login!");
         window.location.href = "../login/login.html";
         return;
     }
 
-    // --------------------------
-    // ELEMENTOS DE TABELA / CONTROLE
-    // --------------------------
     const tabButtons = document.querySelectorAll(".tab-button");
     const dataRowsContainer = document.getElementById("data-rows-container");
     const recordCount = document.getElementById("record-count");
     const searchInput = document.getElementById("search-input");
 
-    let currentTab = "pendente"; 
+    let currentTab = "pendente";
 
-    // listas carregadas da API
-    let pendingList = [];      // itens com transportStatus = Aguardando
-    let nonPendingList = [];   // itens com transportStatus != Aguardando
+    let pendingList = [];
+    let nonPendingList = [];
 
-    // fallback local (pra não deixar UI quebrada se a API falhar)
     const allRequestsFallback = [
         { id: "000001", local: "Santa Casa", data: "19/09/2025", hora: "08:00", tipo: "Exame", status: "Aguardando", statusClass: "blue", motorista: null },
         { id: "000004", local: "UPA", data: "18/09/2025", hora: "14:30", tipo: "Transferência", status: "Aceito", statusClass: "green", motorista: "Motorista Z" },
         { id: "000005", local: "Clínica X", data: "17/09/2025", hora: "11:00", tipo: "Exame", status: "Negado", statusClass: "black", motorista: null }
     ];
 
-    // --------------------------
-    // UTIL: FORMATA DATA E HORA
-    // --------------------------
     function formatDate(dateStr) {
-        // aceita "2025-11-23" ou ISO completo
         if (!dateStr) return "";
         const d = new Date(dateStr);
         if (isNaN(d)) return dateStr;
@@ -200,23 +187,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return hourStr.substring(0,5);
     }
 
-    // --------------------------
-    // MAPEAMENTO DE STATUS (API -> UI)
-    // --------------------------
     function mapStatus(apiStatus) {
-        // apiStatus: "Aguardando", "Aceito", "Negado", "Concluido" (etc)
         const s = (apiStatus || "").toLowerCase();
         if (s === "aguardando") return { status: "Aguardando", class: "blue" };
         if (s === "aceito" || s === "aceito".toLowerCase()) return { status: "Aprovado", class: "green" };
         if (s === "negado") return { status: "Negado", class: "black" };
         if (s === "concluido" || s === "concluído") return { status: "Concluído", class: "red" };
-        // fallback
         return { status: apiStatus || "Indefinido", class: "red" };
     }
 
-    // --------------------------
-    // CARREGAR PENDENTES (API)
-    // --------------------------
     async function loadPendingRequests() {
         try {
             const res = await fetch("http://localhost:5260/api/v1/TransportRequest/GetListPending", {
@@ -243,16 +222,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
             console.error("loadPendingRequests error:", err);
-            // cair no fallback para manter a UI funcional
             pendingList = allRequestsFallback.filter(r => r.status === "Aguardando");
         } finally {
             if (currentTab === "pendente") reloadCurrentTab();
         }
     }
 
-    // --------------------------
-    // CARREGAR NÃO PENDENTES (API)
-    // --------------------------
     async function loadNonPendingRequests() {
         try {
             const res = await fetch("http://localhost:5260/api/v1/TransportRequest/GetListNonPending", {
@@ -287,9 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --------------------------
-    // FILTRAGEM
-    // --------------------------
     function filterData(tab, query = "") {
         const q = (query || "").toLowerCase();
         const source = tab === "pendente" ? pendingList : nonPendingList;
@@ -301,9 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    // --------------------------
-    // RENDER TABLE (manter layout original)
-    // --------------------------
     function renderTable(data, tab) {
         dataRowsContainer.innerHTML = "";
 
@@ -317,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("div");
             row.classList.add("table-row", "transport-grid");
 
-            let actionsHtml = ''; 
+            let actionsHtml = '';
             let scColContent = `<span class="status-dot ${item.statusClass}"></span> ${item.id}`;
             let statusTextInSC = '';
 
@@ -326,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button class="action-btn green liberar-btn" data-id="${item.realId}">Liberar</button>
                     <button class="action-btn red bloquear-btn" data-id="${item.realId}">Bloquear</button>
                 `;
-            } else { 
+            } else {
                 if (item.status === 'Negado') {
                     actionsHtml = `<i class="fas fa-lock" title="Solicitação Bloqueada" style="font-size: 16px; color: var(--color-black-dot);"></i>`;
                     statusTextInSC = item.status;
@@ -358,28 +327,20 @@ document.addEventListener("DOMContentLoaded", () => {
         recordCount.textContent = `${data.length.toString().padStart(2, "0")} Registros`;
     }
 
-    // --------------------------
-    // RELOAD ATUAL (considera busca)
-    // --------------------------
     function reloadCurrentTab() {
         const query = searchInput.value;
         const data = filterData(currentTab, query);
         renderTable(data, currentTab);
     }
 
-    // inicial render (usará fallback enquanto faz a primeira busca)
     reloadCurrentTab();
 
-    // --------------------------
-    // TABS
-    // --------------------------
     tabButtons.forEach(button => {
         button.addEventListener("click", () => {
             tabButtons.forEach(btn => btn.classList.remove("active"));
             button.classList.add("active");
             currentTab = button.getAttribute("data-tab");
             reloadCurrentTab();
-            // se aba mudar e lista estiver vazia, tenta recarregar
             if (currentTab === "pendente" && pendingList.length === 0) loadPendingRequests();
             if (currentTab === "aprovado" && nonPendingList.length === 0) loadNonPendingRequests();
         });
@@ -387,9 +348,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput.addEventListener("input", reloadCurrentTab);
 
-    // --------------------------
-    // INSERIR MODAL MOTORISTA (mesma aparência)
-    // --------------------------
     mainContent.insertAdjacentHTML('beforeend', `
         <div class="motorista-modal-overlay" id="motorista-modal-overlay" style="display:none;">
             <div class="motorista-modal-content" id="motorista-modal-content" style="display:none; position:absolute;">
@@ -411,7 +369,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function showMotoristaModal(targetElement, scNumber) {
         const rect = targetElement.getBoundingClientRect();
         motoristaModalContent.setAttribute('data-sc-id', scNumber); 
-        // posiciona próximo ao botão — mas evita sair da viewport
         const top = Math.max(10, rect.top + window.scrollY + (rect.height / 2));
         const left = rect.left + rect.width + 10;
         motoristaModalContent.style.top = `${top}px`;
@@ -425,11 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
         motoristaModalContent.style.display = 'none';
     }
 
-    // --------------------------
-    // EVENTOS: CLIQUE NA TABELA (LIBERAR / BLOQUEAR)
-    // --------------------------
     dataRowsContainer.addEventListener("click", async (event) => {
-        // abrir modal de motorista
         if (event.target.classList.contains("liberar-btn")) {
             const scNumber = event.target.getAttribute("data-id");
             showMotoristaModal(event.target, scNumber);
@@ -437,11 +390,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // bloquear (negar)
         if (event.target.classList.contains("bloquear-btn")) {
             const scNumber = Number(event.target.getAttribute("data-id"));
             try {
-                // chama endpoint de negar — ajuste o body conforme sua API, aqui assumo { id }
                 const res = await fetch("http://localhost:5260/api/v1/TransportRequest/Deny", {
                     method: "POST",
                     headers: {
@@ -454,7 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error("Erro ao negar:", res.status);
                     showStatusModal("bloquear", scNumber);
                 } else {
-                    // recarrega listas
                     await loadPendingRequests();
                     await loadNonPendingRequests();
                     showStatusModal("bloquear", scNumber);
@@ -467,19 +417,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --------------------------
-    // SELEÇÃO DE MOTORISTA (ACEITAR)
-    // --------------------------
     motoristaModalContent.addEventListener("click", async (event) => {
         if (event.target.tagName !== 'LI') return;
         const motorista = event.target.getAttribute("data-motorista");
         const scNumber = Number(motoristaModalContent.getAttribute('data-sc-id'));
         if (!scNumber) { hideMotoristaModal(); return; }
 
-        // montar body para Accept — ajustar se sua API precisar de outros campos
         const body = {
             id: scNumber,
-            vehicleId: 2, // default (pode tornar selecionável depois)
+            vehicleId: 2,
             driverUserId: 6
         };
 
@@ -513,14 +459,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target === motoristaModalOverlay) hideMotoristaModal();
     });
 
-    // --------------------------
-    // MODAL DE STATUS (confirmations)
-    // --------------------------
+
     const statusModal = document.getElementById("status-modal");
     const modalIconContainer = document.getElementById("modal-icon-container");
     const modalTextElement = document.getElementById("modal-text");
     const modalCloseButton = document.getElementById("modal-close");
-    
+
     modalCloseButton.addEventListener('click', () => {
         statusModal.style.display = 'none';
     });
@@ -559,20 +503,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3000);
     }
 
-    // --------------------------
-    // INICIALIZAÇÃO: carregar listas
-    // --------------------------
-    // Carrega ambas as listas e atualiza a aba atual
     (async function init() {
         await Promise.all([loadPendingRequests(), loadNonPendingRequests()]);
         reloadCurrentTab();
     })();
 
-    // --------------------------
-    // Segurança: clique fora dos modais fecha
-    // --------------------------
     document.addEventListener("click", (e) => {
-        // se clicar fora do motorista modal, fecha
         if (motoristaModalOverlay.style.display === 'block' && !motoristaModalContent.contains(e.target)) {
             hideMotoristaModal();
         }

@@ -19,17 +19,11 @@ function getUserId() {
 const token = getToken();
 const userId = getUserId();
 
-// =====================================
-//   VERIFICA LOGIN
-// =====================================
 if (!token || !userId) {
     alert("Você precisa estar logado para acessar esta página.");
     window.location.href = "../login/login.html"; 
 }
 
-// =====================================
-//   MODAL DE SUCESSO
-// =====================================
 function openSuccessModal() {
     document.getElementById("success-modal-overlay").style.display = "flex";
 }
@@ -38,9 +32,6 @@ function closeSuccessModal() {
     document.getElementById("success-modal-overlay").style.display = "none";
 }
 
-// =====================================
-//   MENU LATERAL (SEM MEXER)
-// =====================================
 document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("sidebar-figma");
     const toggleButton = document.getElementById("menu-toggle-button");
@@ -62,9 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.addEventListener("mouseleave", () => setSidebarState(false));
 });
 
-// =====================================
-//   ENVIAR SOLICITAÇÃO
-// =====================================
 document.querySelector(".btn-enviar-figma").addEventListener("click", async (event) => {
     event.preventDefault();
 
@@ -115,9 +103,6 @@ document.querySelector(".btn-enviar-figma").addEventListener("click", async (eve
     }
 });
 
-// =====================================
-//   CARREGAR SOLICITAÇÕES
-// =====================================
 async function carregarSolicitacoes() {
     try {
         const response = await fetch(`http://localhost:5260/api/v1/TransportRequest/GetListByUserId/${userId}`, {
@@ -140,9 +125,6 @@ async function carregarSolicitacoes() {
     }
 }
 
-// =====================================
-//   PREENCHER TABELA
-// =====================================
 function preencherTabela(lista) {
     const tabela = document.querySelector(".tabela-historico-figma tbody");
     tabela.innerHTML = "";
@@ -176,14 +158,10 @@ function preencherTabela(lista) {
     });
 }
 
-// =====================================
-//   LOGOUT
-// =====================================
 document.querySelector(".logout-icon-figma").addEventListener("click", () => {
     document.cookie = "jwt=; path=/; max-age=0";
     document.cookie = "userId=; path=/; max-age=0";
     window.location.href = "../login/login.html";
 });
 
-// Inicializa carregamento
 carregarSolicitacoes();

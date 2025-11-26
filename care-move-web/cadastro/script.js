@@ -36,14 +36,11 @@ cpf.addEventListener('input', (e) => {
   e.target.value = valor;
 });
 
-
-
 document.getElementById("cadastro").addEventListener("click", cadastrarUser);
 
 function cadastrarUser(event) {
     event.preventDefault();
 
-    // Captura dos campos
     const nome = document.querySelector('input[placeholder="Nome Completo"]').value;
     const email = document.querySelector('input[placeholder="E-mail"]').value;
     const cpf = document.getElementById("cpf").value.replace(/\D/g, '');
@@ -52,7 +49,6 @@ function cadastrarUser(event) {
     const senha = document.querySelectorAll('input[type="password"]')[0].value;
     const confirmar = document.querySelectorAll('input[type="password"]')[1].value;
 
-    // Validações
     if (!nome || !email || !cpf || !telefone || !dataNasc || !senha) {
         alert("Preencha todos os campos!");
         return;
@@ -63,11 +59,8 @@ function cadastrarUser(event) {
         return;
     }
 
-    // Quebrar data
-    //const data = new Date(dataNasc);
     const birthDate = dataNasc;
 
-    // OBJETO FINAL EXATO DO BACKEND
     const usuario = {
         name: nome,
         cpf: cpf,
@@ -75,13 +68,12 @@ function cadastrarUser(event) {
         telephone: telefone,
         birthDate: birthDate,
         password: senha,
-        userCategory: "Paciente",   // você decide o padrão
-        vehicleId: null               // se não tiver veículo, manda 0
+        userCategory: "Paciente",
+        vehicleId: null
     };
 
     console.log("JSON enviado:", usuario);
 
-    // POST para API
     fetch("http://localhost:5260/api/v1/user", {
         method: "POST",
         headers: {
@@ -107,6 +99,3 @@ function cadastrarUser(event) {
         alert("Erro ao cadastrar: " + error.message);
     });
 }
-
-
-

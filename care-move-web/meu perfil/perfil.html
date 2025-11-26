@@ -14,7 +14,6 @@
 <body>
     <div id="app" class="app-container">
 
-        <!-- SIDEBAR DINÂMICA POR TIPO DE USUÁRIO -->
         <div
             :class="{ 'sidebar': true, 'active': isSidebarActive }"
             @mouseover="isSidebarActive = true"
@@ -28,7 +27,6 @@
 
             <div class="menu">
 
-                <!-- ADMINISTRADOR -->
                 <template v-if="userType === 'Administrador' || userType === 'Admin'">
                     <a href="../painel adm/index.html">
                         <i class="fas fa-users"></i>
@@ -52,7 +50,6 @@
                     </a>
                 </template>
 
-                <!-- MOTORISTA -->
                 <template v-if="userType === 'Motorista'">
                     <a href="../painel motorista/painel_motorista.html">
                         <i class="fas fa-calendar-check"></i>
@@ -172,11 +169,8 @@
             </main>
         </div>
     </div>
-
-<!-- SCRIPT COMPLETO -->
 <script>
 
-// --------------------- FUNÇÃO PARA PEGAR COOKIE ---------------------
 function getCookie(name) {
     const cookies = document.cookie.split(";");
 
@@ -187,12 +181,11 @@ function getCookie(name) {
     return null;
 }
 
-// --------------------- APP VUE (SIDEBAR DINÂMICA) ---------------------
 const app = Vue.createApp({
     data() {
         return {
             isSidebarActive: false,
-            userType: "Administrador" // valor temporário
+            userType: "Administrador"
         };
     },
 
@@ -213,7 +206,6 @@ const app = Vue.createApp({
 
 app.mount("#app");
 
-// --------------------- VISUALIZAR SENHA ---------------------
 const toggleSenha = document.getElementById('toggle-senha');
 const inputSenha = document.getElementById('input-senha');
 
@@ -226,7 +218,6 @@ if (toggleSenha && inputSenha) {
     });
 }
 
-// --------------------- MÁSCARA DE TELEFONE ---------------------
 const inputTelefone = document.getElementById('input-telefone');
 
 if (inputTelefone) {
@@ -247,7 +238,6 @@ if (inputTelefone) {
     });
 }
 
-// --------------------- LOGOUT ---------------------
 document.getElementById("logout-btn").addEventListener("click", () => {
     document.cookie = "jwt=; path=/; max-age=0";
     document.cookie = "userCategory=; path=/; max-age=0";
